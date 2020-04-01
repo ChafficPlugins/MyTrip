@@ -121,7 +121,7 @@ public class Items implements Listener{
 					  }
 				  }
 			  }
-			  if(this.plugin.getConfig().getBoolean("mytrip.Toggle.speziale")) {
+			  if(this.plugin.getConfig().getBoolean("mytrip.Toggle.sugarcane")) {
 				  if(p.hasPermission("mytrip.speziale")) {
 					  if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						  if(p.getInventory().getItemInMainHand().equals(Main.sugarcaned)) {
@@ -133,7 +133,7 @@ public class Items implements Listener{
 					          p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);
 
 					          p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);
-					          p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);
+					          p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);
 					          p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);
 
 					          p.sendMessage(prefix2 + ChatColor.DARK_RED + "Du hast dir Heroin gespritzt.");
@@ -151,7 +151,7 @@ public class Items implements Listener{
 					  }
 				  }
 			  }
-			  if(this.plugin.getConfig().getBoolean("mytrip.Toggle.mushroom")) {
+			  if(this.plugin.getConfig().getBoolean("mytrip.Toggle.red_mushroom")) {
 				  if(p.hasPermission("mytrip.mushroom")) {
 					  if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						  if(p.getInventory().getItemInMainHand().equals(Main.mushroomd)) {
