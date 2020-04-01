@@ -1,0 +1,159 @@
+package de.chaffic.MyTrip;
+
+import java.util.logging.Logger;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+
+public class KillerCommands
+  implements CommandExecutor
+{
+	
+	private Main plugin;
+	
+	 public KillerCommands(Main plugin)
+	  {
+	    setPlugin(plugin);
+	  }
+	  
+	  public Main getPlugin()
+	  {
+	    return this.plugin;
+	  }
+	  
+	  public void setPlugin(Main plugin)
+	  {
+	    this.plugin = plugin;
+	  }
+	  
+  Logger logger = Logger.getLogger("Minecraft");
+  public final String prefix = ChatColor.RED + "====" + ChatColor.BLACK + "[" + ChatColor.DARK_RED + "Version: 3.0.1 (Alpha)" + ChatColor.BLACK + "]" + ChatColor.RED + "====";
+  
+  final String dash = ChatColor.GRAY + "- ";
+  public final static String prefix2 = ChatColor.BLACK + "[" + ChatColor.DARK_RED + "MT" + ChatColor.BLACK + "] " + ChatColor.RESET;
+  final String dash1 = ChatColor.GOLD + "- " + ChatColor.GRAY;
+  final String perm = ChatColor.RED + "You don't have the right permission";
+  
+  
+  public boolean onCommand(CommandSender sender, Command command, String Commandlabel, String[] args)
+  {
+    if (command.getName().equalsIgnoreCase("mytrip"))
+    {
+      if (args.length == 0)
+      {
+        if ((sender instanceof Player))
+        {
+          Player p = (Player)sender;
+          if (p.hasPermission("mytrip.main"))
+          {
+            p.sendMessage(ChatColor.RED + "Use the the sub commands listed below:");
+            p.sendMessage(ChatColor.GRAY + "- " + ChatColor.WHITE + "Ex. " + ChatColor.RED + "/" + ChatColor.WHITE + "mytrip help");
+            p.sendMessage(ChatColor.GRAY + "- " + ChatColor.WHITE + "Ex. " + ChatColor.RED + "/" + ChatColor.WHITE + "mytrip remove");
+            p.sendMessage(ChatColor.GRAY + "- " + ChatColor.WHITE + "Ex. " + ChatColor.RED + "/" + ChatColor.WHITE + "mytrip reload");
+          }
+          else
+          {
+            p.sendMessage(this.perm);
+          }
+        }
+        else
+        {
+          sender.sendMessage(ChatColor.RED + "Use the the sub commands listed below:");
+          sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.WHITE + "Ex. " + ChatColor.RED + "/" + ChatColor.WHITE + "mytrip help");
+          sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.WHITE + "Ex. " + ChatColor.RED + "/" + ChatColor.WHITE + "mytrip remove");
+          sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.WHITE + "Ex. " + ChatColor.RED + "/" + ChatColor.WHITE + "mytrip reload");
+        }
+      }
+      else if (args[0].equalsIgnoreCase("remove"))
+      {
+        if ((sender instanceof Player))
+        {
+          Player p = (Player)sender;
+          if (!p.getActivePotionEffects().isEmpty())
+          {
+            if (p.hasPermission("mytrip.remove"))
+            {
+              for (PotionEffect effect : p.getActivePotionEffects()) {
+                p.removePotionEffect(effect.getType());
+              }
+              p.sendMessage(prefix2 + ChatColor.AQUA + "Sobered Up!");
+            }
+            else
+            {
+              p.sendMessage(this.perm);
+            }
+          }
+          else {
+            p.sendMessage(ChatColor.MAGIC + "|||" + ChatColor.RESET + "you need drugs" + ChatColor.MAGIC + "|||");
+          }
+        }
+        else
+        {
+          sender.sendMessage("Only players may use this command.");
+        }
+      }
+      else if (args[0].equalsIgnoreCase("help")) {
+        if ((sender instanceof Player))
+        {
+          Player p = (Player)sender;
+          if (p.hasPermission("mytrip.help"))
+          {
+            sender.sendMessage(this.prefix);
+            sender.sendMessage(this.dash + ChatColor.GREEN + "Wheat " + ChatColor.WHITE + "(Weed)");
+            sender.sendMessage(this.dash + ChatColor.GREEN + "Sugar " + ChatColor.WHITE + "(Kokain)");
+            sender.sendMessage(this.dash + ChatColor.GREEN + "Paper " + ChatColor.WHITE + "(LSD)");
+          }
+          else
+          {
+            p.sendMessage(this.perm);
+          }
+        }
+        else
+        {
+          sender.sendMessage(this.prefix);
+          sender.sendMessage(this.dash + ChatColor.GREEN + "Wheat " + ChatColor.WHITE + "(Weed)");
+          sender.sendMessage(this.dash + ChatColor.GREEN + "Sugar " + ChatColor.WHITE + "(Kokain)");
+          sender.sendMessage(this.dash + ChatColor.GREEN + "Paper " + ChatColor.WHITE + "(LSD)");
+        }
+      }    else if (args[0].equalsIgnoreCase("reload")) {
+          try
+          {
+            if ((sender instanceof Player))
+            {
+              Player p = (Player)sender;
+              if (p.hasPermission("mytrip.reload"))
+              {
+                p.sendMessage(ChatColor.GREEN + "Reloading config...");
+                this.plugin.reloadConfig();
+                p.sendMessage(ChatColor.GREEN + "Reloaded Config");
+              }
+              else
+              {
+                p.sendMessage(this.perm);
+              }
+            }
+            else
+            {
+             this.plugin.reloadConfig();
+            }
+          }
+          catch (Exception e)
+          {
+        	  if(sender instanceof Player) {
+        		  Player p = (Player) sender;
+        		  p.sendMessage(ChatColor.DARK_RED + "ERROR!");
+        		  p.sendMessage(ChatColor.BOLD + "Check the Console for the stack trace.");
+        	  }
+            sender.sendMessage(ChatColor.RED + "Error: " + ChatColor.WHITE + "Config failed to load.");
+            sender.sendMessage(ChatColor.GREEN + "If this keeps happening tell me on Spigot");
+            sender.sendMessage(ChatColor.GREEN + "DON'T FORGET TO BRING THIS ERROR!");
+            e.printStackTrace();
+          }
+        }
+    }
+    return true;
+  }
+}
