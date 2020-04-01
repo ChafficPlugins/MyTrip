@@ -50,7 +50,7 @@ public class Items implements Listener{
 		        			
 					        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);  
 					        
-					        p.sendMessage(this.prefix2 + ChatColor.DARK_RED + "Du hast Kokain gezogen!");
+					        p.sendMessage(this.prefix2 + ChatColor.DARK_RED + "You sniffed cocaine!");
 					        if (amount > 1)
 					        {
 					        	itemStack.setAmount(amount - 1);
@@ -77,7 +77,7 @@ public class Items implements Listener{
         			          p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);
         			          p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);
         			          
-        			          p.sendMessage(prefix2 + ChatColor.DARK_RED + "Du hast Weed geraucht");
+        			          p.sendMessage(prefix2 + ChatColor.DARK_RED + "You smoked weed!");
         			          if (amount > 1)
         			          {
         			            itemStack.setAmount(amount - 1);
@@ -106,7 +106,7 @@ public class Items implements Listener{
 	        	                p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, this.plugin.getConfig().getInt("mytrip.Effect.confusion.length"), 1), true);
 	        	                p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, this.plugin.getConfig().getInt("mytrip.Effect.confusion.length"), 1), true);
 	        	                
-	        	                p.sendMessage(this.prefix2 + ChatColor.DARK_RED + "Du hast LSD genommen.");
+	        	                p.sendMessage(this.prefix2 + ChatColor.DARK_RED + "You took LSD.");
 	        	                if (amount > 1)
 	        	                {
 	        	                  itemStack.setAmount(amount - 1);
@@ -136,7 +136,7 @@ public class Items implements Listener{
 					          p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);
 					          p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);
 
-					          p.sendMessage(prefix2 + ChatColor.DARK_RED + "Du hast dir Heroin gespritzt.");
+					          p.sendMessage(prefix2 + ChatColor.DARK_RED + "You injected heroin.");
 					          if (amount > 1)
 					          {
 					            itemStack.setAmount(amount - 1);
@@ -163,7 +163,7 @@ public class Items implements Listener{
 					          p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, this.plugin.getConfig().getInt("mytrip.Effect.confusion.length"), 1), true);
 					          p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, this.plugin.getConfig().getInt("mytrip.Effect.length"), 1), true);
 
-					          p.sendMessage(prefix2 + ChatColor.DARK_RED + "Du hast Pilze gegessen.");
+					          p.sendMessage(prefix2 + ChatColor.DARK_RED + "You ate mushrooms.");
 					          if (amount > 1)
 					          {
 					            itemStack.setAmount(amount - 1);
