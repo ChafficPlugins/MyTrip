@@ -6,3 +6,5 @@ Terms of Use:
   You may not sell the plugin again!
   You may not "crack" the plugin!
   In case of non-compliance follow legal steps! Each download/passing on, thus also user-relevant data, are stored
+  
+Alpha and beta versions are not recomended because of high risc of bugs.
