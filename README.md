@@ -14,8 +14,6 @@ You may not "crack" the plugin!
 In case of non-compliance follow legal steps!
 Each download/passing on, thus also user-relevant data, are stored
 by downloading, you are accepting the terms of use.
-To make me work faster you can donate here.
-Or use patreon.
 
 To make me work faster you can donate here: https://paypal.me/justfelixx?locale.x=de_DE
 Or use patreon: https://www.patreon.com/Chaffic
