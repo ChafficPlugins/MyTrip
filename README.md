@@ -1,3 +1,5 @@
+DEVELOPMENT IS CURRENTLY PAUSED
+
 MyTrip lets you dive into the fascinating world of drugs. And all this in Minecraft, perfectly designed for a RolePlay server.
 MyTrip doesn't support your language??
 Translate it now! https://dev.bukkit.org/linkout?remoteUrl=https%253a%252f%252fcrowdin.com%252fproject%252fmytrip
