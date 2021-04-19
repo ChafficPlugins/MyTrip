@@ -2,7 +2,7 @@
 
 # MyTrip
 
-MyTrip is a Spigot plugin that adds drugs to the world of Minecraft. It is developed by ChafficPlugins since 04/01/2020 and is open-source since 04/16/2021.
+MyTrip is a Spigot plugin that adds drugs to the world of Minecraft. It is developed by ChafficPlugins since 04/01/2020 and is open-source since 04/19/2021.
 
 # Summary
 
