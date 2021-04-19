@@ -1,0 +1,11 @@
+name: ${project.artifactId}
+version: ${project.version}
+author:  ${project.name}
+prefix: MyTrip
+main: de.chaffic.MyTrip.Main
+softdepend: [CrucialAPI]
+api-version: 1.13
+commands:
+  mytrip:
+    description: For Drugs
+    aliases: [mt]
