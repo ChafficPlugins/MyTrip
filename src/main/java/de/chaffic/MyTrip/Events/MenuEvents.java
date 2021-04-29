@@ -69,7 +69,7 @@ public class MenuEvents implements Listener {
                 Inventory inventory = p.getOpenInventory().getTopInventory();
                 if(inventory.getItem(15) != null && inventory.getItem(15).getType() != Material.AIR){
                     e.setCancelled(true);
-                    MyDrug drug = (MyDrug) CItem.getCrucialItemByNameIgnoreRegistration(name.split(" - ")[0]);
+                    MyDrug drug = MyDrug.getByName(name.split(" - ")[0]);
                     p.playSound(p.getLocation(), Sound.BLOCK_LEVER_CLICK, 10.0F, 29.0F);
                     ArrayList<String> crafting = new ArrayList<>();
                     crafting.add(getItem(inventory.getItem(1)));

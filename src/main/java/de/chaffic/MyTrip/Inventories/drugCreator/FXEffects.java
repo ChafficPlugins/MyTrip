@@ -31,7 +31,7 @@ public class FXEffects implements InventoryProvider {
 
     @Override
     public void init(Player player, InventoryContents inventoryContents) {
-        myDrug = (MyDrug) CItem.getCrucialItemByNameIgnoreRegistration(inventoryContents.inventory().getTitle().split(" - ")[0]);
+        myDrug = MyDrug.getByName(inventoryContents.inventory().getTitle().split(" - ")[0]);
 
         inventoryContents.fill(ClickableItem.empty(Stack.setStack(Material.GRAY_STAINED_GLASS_PANE, "")));
         inventoryContents.set(0, 3, ClickableItem.empty(Stack.setStack(Material.RED_DYE, "BloodFX")));
@@ -80,7 +80,7 @@ public class FXEffects implements InventoryProvider {
                 myDrug.setAddict(5);
                 myDrug.setDuration(100);
                 myDrug.setOverdose(5);
-                CItem.getCrucialItemByNameIgnoreRegistration(myDrug.getName()).register();
+                MyDrug.getByName(myDrug.getName()).register();
                 plugin.fc.saveItems();
             }
         }));

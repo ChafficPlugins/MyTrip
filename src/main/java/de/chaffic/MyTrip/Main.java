@@ -5,7 +5,6 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import com.google.gson.reflect.TypeToken;
@@ -18,8 +17,6 @@ import io.github.chafficui.CrucialAPI.Crucial;
 import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -79,7 +76,7 @@ public class Main extends JavaPlugin {
                 logger.severe("This is NOT a bug. Do NOT report this!");
                 Bukkit.getPluginManager().disablePlugin(this);
             } else {
-                String APIVERSION = "1.1";
+                String APIVERSION = "1.2";
                 if(Bukkit.getPluginManager().getPlugin("CrucialAPI").getDescription().getVersion().equals("0.1.1")) {
                     logger.severe("Please download Crucial API v" + APIVERSION + " from https://www.spigotmc.org/resources/crucialapi.86380/history!");
                     Bukkit.getPluginManager().disablePlugin(this);
@@ -183,18 +180,17 @@ public class Main extends JavaPlugin {
 
     private void update() {
         new UpdateCheckerAPI(this, 76816).getVersion(version -> {
-            String va = version;
             String v2 = getDescription().getVersion();
             char[] onver = new char[3];
             char[] ofver = new char[3];
 
-            onver[0] = va.charAt(0);
+            onver[0] = version.charAt(0);
             ofver[0] = v2.charAt(0);
             if(ofver[0] > onver[0]) {
                 logger.info(fine + "Plugin is up to date.");
             } else {
                 try {
-                    onver[1] = va.charAt(2);
+                    onver[1] = version.charAt(2);
                 } catch(Exception e) {
                     onver[1] = 0;
                 }
@@ -207,7 +203,7 @@ public class Main extends JavaPlugin {
                     logger.info(fine + "Plugin is up to date.");
                 } else {
                     try {
-                        onver[2] = va.charAt(4);
+                        onver[2] = version.charAt(4);
                     } catch(Exception e) {
                         onver[2] = 0;
                     }
@@ -233,95 +229,11 @@ public class Main extends JavaPlugin {
         });
     }
 
-    public String[] fixIngredients(String ing1, String ing2, String ing3){
-        if (!ing1.contains(","))
-            ing1 = "AIR, " + ing1 + ", AIR";
-        if (!ing2.contains(","))
-            ing2 = "AIR, " + ing2 + ", AIR";
-        if (!ing3.contains(","))
-            ing3 = "AIR, " + ing3 + ", AIR";
-        String[] row1 = ing1.split(", ");
-        String[] row2 = ing2.split(", ");
-        String[] row3 = ing3.split(", ");
-
-        return new String[]{row1[0],row1[1],row1[2],row2[0],row2[1],row2[2],row3[0],row3[1],row3[2]};
-    }
-
     private void createItems() {
-        File json = new File(getDataFolder() + "/do not edit/drugs.json");
-        if(!json.exists()){
-            System.out.println("Translating...");
-            FileConfiguration drugscfg = Files.setupYaml(getDataFolder(), "do not edit/", "drugs.yml");
-            for(int i = 1; drugscfg.getInt(i + ".drugnumber") == i; i++) {
-
-                String ing1 = drugscfg.getString(i + ".crafting.row1");
-                String ing2 = drugscfg.getString(i + ".crafting.row2");
-                String ing3 = drugscfg.getString(i + ".crafting.row3");
-
-                boolean bloody = drugscfg.getBoolean(i + ".effects.bloody");
-                int effectdelay = drugscfg.getInt(i + ".consume.effectdelay");
-                int duration = drugscfg.getInt(i + ".consume.duration");
-                int overdose = drugscfg.getInt(i + ".consume.overdose");
-                int addictionpercentage = drugscfg.getInt(i + ".consume.addictionpercentage");
-
-                String material = drugscfg.getString(i + ".information.material");
-                String name = drugscfg.getString(i + ".information.Displayname");
-
-
-                ArrayList<String[]> effects = new ArrayList<>();
-                for(int o = 1; drugscfg.getString(i + ".effects." + o) != null; o++) {
-                    effects.add(drugscfg.getString(i + ".effects." + o).split(", "));
-                }
-
-                CItem.addCrucialItem(MyDrug.drugBuilder().material(material).name(name).crafting(fixIngredients(ing1, ing2, ing3))
-                        .effects(effects).isBloody(bloody).effectDelay(effectdelay).duration(duration).overdose(overdose)
-                        .addict(addictionpercentage).build());
-                logger.info("Successfully created " + name);
-            }
-
-            String ing1 = drugscfg.getString("drugset.row1");
-            String ing2 = drugscfg.getString("drugset.row2");
-            String ing3 = drugscfg.getString("drugset.row3");
-            String l = drugscfg.getString("drugset.lore");
-            String name = getWord("drug set");
-            String m =  "HEAD:JWQuantum";
-            CItem.addCrucialItem(CrucialItem.builder().material(m).name(name).lore(Arrays.asList(l))
-                    .crafting(fixIngredients(ing1, ing2, ing3)).type("DRUG TOOL").build());
-
-            ing1 = drugscfg.getString("drugtest.row1");
-            ing2 = drugscfg.getString("drugtest.row2");
-            ing3 = drugscfg.getString("drugtest.row3");
-            String l3 = drugscfg.getString("durgtest.lore");
-            String name3 = getWord("drug test");
-            String m3 = "STICK";
-            CItem.addCrucialItem(CrucialItem.builder().material(m3).name(name3).lore(Arrays.asList(l3))
-                    .crafting(fixIngredients(ing1, ing2, ing3)).type("DRUG TOOL").build());
-
-            String material = drugscfg.getString("antitoxin.material");
-            Material m22 = Material.getMaterial(material);
-            ing1 = drugscfg.getString("antitoxin.row1");
-            ing2 = drugscfg.getString("antitoxin.row2");
-            ing3 = drugscfg.getString("antitoxin.row3");
-            String l2 = drugscfg.getString("antitoxin.lore");
-            String name2 =getWord("anti toxin");
-            if(!m22.isEdible()) {
-                material = "HONEY_BOTTLE";
-                getLogger().severe("[IC] Error 001: " + "Material (" + material + ") of " + name2 + " is not edible. Choosing default (" + material + ") instead.");
-            }
-            CItem.addCrucialItem(CrucialItem.builder().material(material).name(name2).lore(Arrays.asList(l2))
-                    .crafting(fixIngredients(ing1, ing2, ing3)).type("DRUG TOOL").build());
-
-
-            for (CrucialItem cItem:CItem.getCrucialItems()) {
-                cItem.register();
-            }
-            fc.saveItems();
-        } else {
-            CItem.addCrucialItems(Json.fromJson(getDataFolder().getPath() + "/do not edit/drugs.json", new TypeToken<ArrayList<MyDrug>>(){}.getType()));
-            CItem.addCrucialItems(Json.fromJson(getDataFolder().getPath() + "/do not edit/tools.json", new TypeToken<ArrayList<CrucialItem>>(){}.getType()));
-            for (CrucialItem item:CItem.getCrucialItems()) {
-                item.register();
-            }
+        CItem.addCrucialItems(Json.fromJson(getDataFolder().getPath() + "/do not edit/drugs.json", new TypeToken<ArrayList<MyDrug>>(){}.getType()));
+        CItem.addCrucialItems(Json.fromJson(getDataFolder().getPath() + "/do not edit/tools.json", new TypeToken<ArrayList<CrucialItem>>(){}.getType()));
+        for (CrucialItem item:CrucialItem.getCrucialItems()) {
+            item.register();
         }
     }
 

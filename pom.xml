@@ -57,7 +57,7 @@
         <dependency>
             <groupId>io.github.chafficui</groupId>
             <artifactId>CrucialAPI</artifactId>
-            <version>1.1</version>
+            <version>1.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

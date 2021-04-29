@@ -21,7 +21,7 @@ public class DrugShow implements InventoryProvider {
 
 
     public SmartInventory createDrugShow(MyDrug drug){
-        SmartInventory drugShow = SmartInventory.builder()
+        return SmartInventory.builder()
                 .id("drugShow" + drug.getName())
                 .provider(new DrugShow())
                 .size(6, 9)
@@ -29,12 +29,11 @@ public class DrugShow implements InventoryProvider {
                 .closeable(true)
                 .manager(plugin.GUIAPI)
                 .build();
-        return drugShow;
     }
 
     @Override
     public void init(Player player, InventoryContents contents) {
-        MyDrug myDrug = (MyDrug) CItem.getCrucialItemByName(contents.inventory().getTitle());
+        MyDrug myDrug = MyDrug.getByName(contents.inventory().getTitle());
 
         contents.fill(ClickableItem.empty(Stack.setStack(Material.GRAY_STAINED_GLASS_PANE, "")));
 

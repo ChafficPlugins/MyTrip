@@ -8,6 +8,7 @@ import de.chaffic.MyTrip.API.Objects.MyDrug;
 import io.github.chafficui.CrucialAPI.API.CItem;
 import io.github.chafficui.CrucialAPI.API.Effects;
 import io.github.chafficui.CrucialAPI.API.Interface;
+import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Skull;
@@ -100,8 +101,8 @@ public class OtherEvents implements Listener{
         if((stack.getType() == Material.PLAYER_HEAD || stack.getType() == Material.PLAYER_WALL_HEAD)){
             SkullMeta meta = (SkullMeta) stack.getItemMeta();
             if(meta.getOwner() != null && meta.getOwner().equals((CItem.getCrucialItemByName(plugin.getWord("drug set")).getMaterial()))) {
-                MyDrug myDrug = (MyDrug) CItem.getCrucialItemByName(plugin.getWord("drug set"));
-                meta = (SkullMeta) myDrug.get().getItemMeta();
+                CrucialItem item = CItem.getCrucialItemByName(plugin.getWord("drug set"));
+                meta = (SkullMeta) item.get().getItemMeta();
                 stack.setItemMeta(meta);
             }
         }

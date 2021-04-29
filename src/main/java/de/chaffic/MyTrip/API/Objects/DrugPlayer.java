@@ -1,23 +1,26 @@
 package de.chaffic.MyTrip.API.Objects;
 
+import io.github.chafficui.CrucialAPI.Interfaces.CrucialPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.UUID;
 
-public class DrugPlayer {
-    public UUID player;
+public class DrugPlayer extends CrucialPlayer {
     ArrayList<Addiction> addictions = new ArrayList<>();
     public double dose;
 
+    public DrugPlayer(java.util.UUID uuid) {
+        super(uuid);
+    }
+
     public DrugPlayer(Player player) {
-        this.player = player.getUniqueId();
+        super(player);
     }
 
     public Addiction isAddicted(MyDrug drug){
         for (Addiction addiction:addictions) {
-            if (addiction.getId().equals(drug.getId())) {
+            if (addiction.getId().equals(drug.getKey())) {
                 return addiction;
             }
         }
@@ -33,10 +36,6 @@ public class DrugPlayer {
         return null;
     }
 
-    /**
-     * @param drug the consumed drug
-     * @return isOverdose
-     */
     public boolean consume(MyDrug drug){
         if(isAddicted(drug) != null){
             System.out.println("already addicted!");
@@ -44,7 +43,7 @@ public class DrugPlayer {
         } else {
             if((new Random().nextInt(100)) <= drug.getAddict()){
                 System.out.println("newly addicted!");
-                addictions.add(new Addiction(drug, 1, player));
+                addictions.add(new Addiction(drug, 1, getUUID()));
             }
             System.out.println("not addicted!");
         }
@@ -58,7 +57,7 @@ public class DrugPlayer {
     }
 
     public void remove(MyDrug drug){
-        addictions.removeIf(addiction -> addiction.getId().equals(drug.getId()));
+        addictions.removeIf(addiction -> addiction.getId().equals(drug.getKey()));
     }
 
     public void clear(){

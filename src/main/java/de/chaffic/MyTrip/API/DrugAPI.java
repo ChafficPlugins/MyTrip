@@ -24,7 +24,7 @@ public class DrugAPI {
 
     public static DrugPlayer getPlayerData(UUID uuid){
         for (DrugPlayer playerData:playerDatas){
-            if(playerData.player.equals(uuid)){
+            if(playerData.getUUID().equals(uuid)){
                 return playerData;
             }
         }
@@ -33,7 +33,7 @@ public class DrugAPI {
 
     public static void deleteDrug(MyDrug drug, Player p){
         if(CrucialItem.getByKey(drug.get()) != null) {
-            CItem.deleteItem(drug);
+            drug.delete();
             p.sendMessage(prefix + drug.getName() + " was deleted.");
             return;
         }
@@ -74,9 +74,7 @@ public class DrugAPI {
                 Effects.setBlood(p, 100, DURATION);
             }
 
-            Bukkit.getScheduler().runTaskLater(plugin, () ->{
-                Effects.removeBlood(p);
-            },DURATION);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> Effects.removeBlood(p),DURATION);
             getPlayerData(p.getUniqueId()).subDose(myDrug);
         },EFFECT_DELAY);
     }

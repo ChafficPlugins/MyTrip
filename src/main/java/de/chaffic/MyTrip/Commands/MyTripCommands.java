@@ -8,6 +8,7 @@ import io.github.chafficui.CrucialAPI.API.Effects;
 import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -71,7 +72,7 @@ public class MyTripCommands implements CommandExecutor{
                     if(sender.hasPermission(master)) {
                         try {
                             if(args.length == 2) {
-                                CrucialItem item = CItem.getCrucialItemByName(args[1].replace("_", " "));
+                                MyDrug item = MyDrug.getByName(args[1].replace("_", " "));
                                 if(item != null){
                                     ((Player) sender).getInventory().addItem(item.get());
                                     sender.sendMessage(prefix + ChatColor.RESET + plugin.getWord("You received") + " " + item.getName());
@@ -126,9 +127,9 @@ public class MyTripCommands implements CommandExecutor{
                     if(sender instanceof Player) {
                         Player p = (Player) sender;
                         if(args.length == 2) {
-                            MyDrug myDrug = (MyDrug) CItem.getCrucialItemByName(args[1]);
+                            MyDrug myDrug = MyDrug.getByName(args[1]);
                             if(myDrug == null){
-                                CItem.addCrucialItem(MyDrug.drugBuilder().name(args[1]).build());
+                                new MyDrug(args[1], Material.DIRT, "MYTRIP_DRUG");
                             } else{
                                 p.sendMessage(prefix + ChatColor.YELLOW + "There is already a drug with this name");
                                 return false;
@@ -144,19 +145,6 @@ public class MyTripCommands implements CommandExecutor{
                     } else {
                         //console
                         sender.sendMessage(prefix + ChatColor.RED + plugin.getWord("only players"));
-                    }
-                } else {
-                    sender.sendMessage(prefix + noPermissions);
-                }
-            } else if(args[0].equalsIgnoreCase("edit")) {
-                if(sender.hasPermission(master)) {
-                    if(args.length == 2) {
-                        Player p = (Player) sender;
-                        Inventory inv = Bukkit.createInventory(p, 9, plugin.getWord("Edit"));
-                        p.openInventory(inv);
-                        p.playSound(p.getLocation(), Sound.BLOCK_LEVER_CLICK, 10, 29);
-                    } else {
-                        sender.sendMessage(prefix + ChatColor.YELLOW + "/mt edit <drugid>");
                     }
                 } else {
                     sender.sendMessage(prefix + noPermissions);

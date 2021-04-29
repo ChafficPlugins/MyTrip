@@ -39,7 +39,7 @@ public class DrugEvents implements Listener {
             CrucialItem cItem = CrucialItem.getByKey(stack);
             if(cItem instanceof MyDrug && cItem.isRegistered()){
                 e.setCancelled(true);
-                if(p.hasPermission("mytrip." + cItem.getName()) || p.hasPermission(master) || !permissionsOn){
+                if(p.hasPermission("mytrip.use." + cItem.getName()) || p.hasPermission("mytrip.use.*") || p.hasPermission(master) || !permissionsOn){
                     if(((MyDrug) cItem).isBloody()){
                         Effects.setBlood(p, 10);
                     }
@@ -77,29 +77,6 @@ public class DrugEvents implements Listener {
                     p.sendMessage(prefix + noPermissions);
                     e.setCancelled(true);
                 }
-            }
-        }
-    }
-
-    //crafting menu //fine //TODO add not drug set warning
-    @EventHandler
-    public void onDrugset(PrepareItemCraftEvent e) {
-        String drugset = plugin.getWord("drug set");
-        for(HumanEntity he:e.getViewers()) {
-            if(e.getRecipe() != null){
-                ItemStack result = e.getRecipe().getResult();
-                /*
-                if(he.getTargetBlock(null, 5).getType() == Material.PLAYER_WALL_HEAD || he.getTargetBlock(null, 5).getType() == Material.PLAYER_HEAD) {
-                    Skull meta = (Skull) he.getTargetBlock(null, 5).getState();
-                    if(meta.hasOwner() && meta.getOwner().equals(CItem.getCrucialItemByName(plugin.getWord("drug set")).getMaterial())){
-                        if(result.getItemMeta() == null || CItem.getCrucialItemByName(result.getItemMeta().getDisplayName()) instanceof MyDrug){
-                            e.getInventory().setItem(0, new ItemStack(Material.AIR));
-                        }
-                    }
-                } else if(e.getRecipe().getResult().getItemMeta() != null && CItem.getCrucialItemByName(e.getRecipe().getResult().getItemMeta().getDisplayName()) instanceof MyDrug){
-                    e.getInventory().setItem(0, new ItemStack(Material.AIR));
-                }
-                */
             }
         }
     }

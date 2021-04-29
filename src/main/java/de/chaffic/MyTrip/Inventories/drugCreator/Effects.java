@@ -33,7 +33,7 @@ public class Effects implements InventoryProvider {
 
     @Override
     public void init(Player player, InventoryContents contents) {
-        myDrug = (MyDrug) CItem.getCrucialItemByNameIgnoreRegistration(contents.inventory().getTitle().split(" - ")[0]);
+        myDrug = MyDrug.getByName(contents.inventory().getTitle().split(" - ")[0]);
 
         contents.fill(ClickableItem.empty(Stack.setStack(Material.GRAY_STAINED_GLASS_PANE, "")));
 

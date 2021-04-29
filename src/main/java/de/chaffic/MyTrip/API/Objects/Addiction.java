@@ -19,7 +19,7 @@ public class Addiction {
     UUID uuid;
 
     public Addiction(MyDrug drug, int intensity, UUID uuid) {
-        this.drug = drug.getId();
+        this.drug = drug.getKey();
         this.intensity = intensity;
         this.uuid = uuid;
         loop();
@@ -29,13 +29,10 @@ public class Addiction {
         return  drug;
     }
 
-    public boolean alterIntensity(int alter){
+    public void alterIntensity(int alter){
         if(intensity+alter < 9){
             intensity += alter;
         }
-        if(intensity < 1)
-            return false;
-        return true;
     }
 
     public BukkitTask loop(){

@@ -18,7 +18,9 @@ import de.chaffic.MyTrip.Main;
 
 
 public class FileAPI {
-
+    public static String drugSetKey;
+    public static String drugTestKey;
+    public static String antiToxinKey;
     private static final Main plugin = Main.getPlugin(Main.class);
 
 
@@ -77,7 +79,7 @@ public class FileAPI {
     public void saveItems(){
 
         ArrayList<MyDrug> drugs = new ArrayList<>();
-        for (CrucialItem cItem: CItem.getRegisteredCrucialItems()) {
+        for (CrucialItem cItem:CrucialItem.getRegisteredCrucialItems()) {
             if(cItem instanceof MyDrug){
                 drugs.add((MyDrug) cItem);
             }
@@ -87,7 +89,7 @@ public class FileAPI {
         }
 
         ArrayList<CrucialItem> tools = new ArrayList<>();
-        for (CrucialItem cItem: CItem.getRegisteredCrucialItems()) {
+        for (CrucialItem cItem:CrucialItem.getRegisteredCrucialItems()) {
             if(cItem.getType().equals("DRUG TOOL")){
                 tools.add(cItem);
             }
