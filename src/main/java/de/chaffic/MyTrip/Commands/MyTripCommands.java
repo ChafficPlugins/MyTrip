@@ -24,7 +24,6 @@ public class MyTripCommands implements CommandExecutor{
     private static final String prefix = ChatColor.WHITE + "[" + ChatColor.DARK_RED + "MyTrip" + ChatColor.WHITE + "] " + ChatColor.RESET;
     private static final Main plugin = Main.getPlugin(Main.class);
     private final String noPermissions = ChatColor.RED + plugin.getWord("no permissions");
-    private final boolean permissionsOn = plugin.getConfig().getBoolean("settings.permissions");
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         //mytrip commands
@@ -95,7 +94,7 @@ public class MyTripCommands implements CommandExecutor{
             } else if(args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
                 //Lists all drugs
                 if(sender instanceof Player) {
-                    if(sender.hasPermission(master) || sender.hasPermission("mytrip.list") || !permissionsOn) {
+                    if(sender.hasPermission(master) || sender.hasPermission("mytrip.list")) {
                         Player p = (Player) sender;
                         List.drugsInv.open(p);
                     } else {
