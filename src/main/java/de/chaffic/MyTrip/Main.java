@@ -76,13 +76,13 @@ public class Main extends JavaPlugin {
                 logger.severe("This is NOT a bug. Do NOT report this!");
                 Bukkit.getPluginManager().disablePlugin(this);
             } else {
-                String APIVERSION = "1.2";
+                String CAPIVERSION = "1.2";
                 if(Bukkit.getPluginManager().getPlugin("CrucialAPI").getDescription().getVersion().equals("0.1.1")) {
-                    logger.severe("Please download Crucial API v" + APIVERSION + " from https://www.spigotmc.org/resources/crucialapi.86380/history!");
+                    logger.severe("Please download Crucial API v" + CAPIVERSION + " from https://www.spigotmc.org/resources/crucialapi.86380/history!");
                     Bukkit.getPluginManager().disablePlugin(this);
                     return;
                 } else {
-                    Crucial.getVersion(APIVERSION, this);
+                    Crucial.getVersion(CAPIVERSION, this);
                 }
                 fc = new FileAPI();
                 GUIAPI = new InventoryManager(this);
