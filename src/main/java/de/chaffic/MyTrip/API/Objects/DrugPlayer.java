@@ -38,14 +38,11 @@ public class DrugPlayer extends CrucialPlayer {
 
     public boolean consume(MyDrug drug){
         if(isAddicted(drug) != null){
-            System.out.println("already addicted!");
             isAddicted(drug).consumed();
         } else {
             if((new Random().nextInt(100)) <= drug.getAddict()){
-                System.out.println("newly addicted!");
                 addictions.add(new Addiction(drug, 1, getUUID()));
             }
-            System.out.println("not addicted!");
         }
         dose += 1d/((double)drug.getOverdose());
         System.out.println("new dose: " + dose);

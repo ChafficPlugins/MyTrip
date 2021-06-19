@@ -42,7 +42,7 @@ public class OtherEvents implements Listener{
         ItemStack stack = e.getCurrentItem();
 
         //anti toxin and perms check
-        if(stack.getType() != Material.AIR && ((stack.getItemMeta().getDisplayName().equals(plugin.getWord("anti toxin")) && !p.hasPermission("mytrip.craft.antitoxin")
+        if(stack.getType() != Material.AIR && ((ChatColor.stripColor(stack.getItemMeta().getDisplayName()).equals(plugin.getWord("anti toxin")) && !p.hasPermission("mytrip.craft.antitoxin")
                 && !p.hasPermission(master) && permissionsOn) || (stack.getItemMeta().getDisplayName().equals(plugin.getWord("drug set")) && !p.hasPermission("mytrip.craft.drugset")
                 && !p.hasPermission(master) && permissionsOn))) {
             p.sendMessage(prefix + noPermissions);
@@ -56,7 +56,7 @@ public class OtherEvents implements Listener{
         ItemStack stack = e.getPlayer().getInventory().getItemInMainHand();
 
         if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if(stack.getType() != Material.AIR && stack.getItemMeta().getDisplayName().equals(plugin.getWord("drug test"))) {
+            if(stack.getType() != Material.AIR && ChatColor.stripColor(stack.getItemMeta().getDisplayName()).equals(plugin.getWord("drug test"))) {
                 e.setCancelled(true);
             }
         }
@@ -103,6 +103,7 @@ public class OtherEvents implements Listener{
             if(meta.getOwner() != null && meta.getOwner().equals((CItem.getCrucialItemByName(plugin.getWord("drug set")).getMaterial()))) {
                 CrucialItem item = CItem.getCrucialItemByName(plugin.getWord("drug set"));
                 meta = (SkullMeta) item.get().getItemMeta();
+                meta.setOwner(item.getMaterial());
                 stack.setItemMeta(meta);
             }
         }

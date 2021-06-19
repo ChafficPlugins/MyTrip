@@ -12,11 +12,13 @@ import de.chaffic.MyTrip.API.*;
 import de.chaffic.MyTrip.API.GUIs.*;
 import de.chaffic.MyTrip.API.Objects.DrugPlayer;
 import de.chaffic.MyTrip.API.Objects.MyDrug;
+import io.github.chafficui.CrucialAPI.io.Json;
 import io.github.chafficui.CrucialAPI.API.*;
 import io.github.chafficui.CrucialAPI.Crucial;
 import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.plugin.IllegalPluginAccessException;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,18 +38,18 @@ public class Main extends JavaPlugin {
     public InventoryManager GUIAPI;
 
     /** Private. */
-    private PluginDescriptionFile pdf = getDescription();
-    private File f1 = new File("plugins/MyTrip/do not edit/");
-    private Logger logger = Logger.getLogger("MyTrip");
-    private String v = pdf.getVersion();
-    private LanguageAPI languageAPI;
+    private final PluginDescriptionFile pdf = getDescription();
+    private final File f1 = new File("plugins/MyTrip/do not edit/");
+    private final Logger logger = Logger.getLogger("MyTrip");
+    private final String v = pdf.getVersion();
+    private final String CAPIVERSION = "1.2.1";
 
     @Override
     public void onLoad() {
         if (getServer().getPluginManager().getPlugin("CrucialAPI") == null) {
             try {
                 this.logger.info("Downloading CrucialAPI");
-                URL website = new URL("https://github.com/Chafficui/CrucialAPI/releases/download/v0.1.2/CrucialAPI-v0.1.2.jar");
+                URL website = new URL("https://github.com/Chafficui/CrucialAPI/releases/download/v" + CAPIVERSION + "/CrucialAPI-v" + CAPIVERSION + ".jar");
                 ReadableByteChannel rbc = Channels.newChannel(website.openStream());
                 FileOutputStream fos = new FileOutputStream("plugins/CrucialAPI.jar");
                 fos.getChannel().transferFrom(rbc, 0L, Long.MAX_VALUE);
@@ -71,12 +73,11 @@ public class Main extends JavaPlugin {
                 Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().getPlugin("CrucialAPI"));
                 logger.info(ChatColor.GREEN + "Successfully connected to CrucialAPI.");
             }
-            if (!Server.checkVersion(new String[]{"1.16", "1.15"})) {
+            if (!Server.checkVersion(new String[]{"1.17", "1.16", "1.15"})) {
                 logger.severe("Error 003: Wrong server version. Please use a supported version.");
                 logger.severe("This is NOT a bug. Do NOT report this!");
                 Bukkit.getPluginManager().disablePlugin(this);
             } else {
-                String CAPIVERSION = "1.2";
                 if(Bukkit.getPluginManager().getPlugin("CrucialAPI").getDescription().getVersion().equals("0.1.1")) {
                     logger.severe("Please download Crucial API v" + CAPIVERSION + " from https://www.spigotmc.org/resources/crucialapi.86380/history!");
                     Bukkit.getPluginManager().disablePlugin(this);
@@ -126,32 +127,34 @@ public class Main extends JavaPlugin {
     }
 
     private void enableConfigs() {
-        logger.info("Loading config files");
+        try {
+            logger.info("Loading config files");
 
-        //load Configs
-        fc.setup();
-        fc.getLanguage().options().header("Current language presets: GERMAN,ENGLISH,FRENCH,SPANISH,\n" +
-                                          "LITHUANIAN,ARABIC,BRAZILIAN,RUSSIAN,DUTCH,POLISH(unfinished),KOREAN(unfinished), ITALIAN.");
-        //print Changelog
-        String v2 = "version";
-        if(!pdf.getVersion().equals(getConfig().getString(v2))) {
-            logger.info(fine + "Successfully updated to v" + pdf.getVersion());
-            //edit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            logger.info(ChatColor.DARK_PURPLE + "--- Changelog ---");
-            logger.info(ChatColor.WHITE + "[+] Introduced a new addiction system");
-            logger.info(ChatColor.WHITE + "[+] Added an early alpha of drug editing");
-            logger.info(ChatColor.WHITE + "[+] removed drug qualities");
-            logger.info(ChatColor.WHITE + "[+] fixed async task bugs");
-            //logger.info(ChatColor.WHITE + "[+] ");
-            getConfig().set(v2, v);
-        }
+            //load Configs
+            fc.setup();
+            fc.getLanguage().options().header("Current language presets: GERMAN,ENGLISH,FRENCH,SPANISH,\n" +
+                    "LITHUANIAN,ARABIC,BRAZILIAN,RUSSIAN,DUTCH,POLISH(unfinished),KOREAN(unfinished), ITALIAN.");
+            //print Changelog
+            String v2 = "version";
+            if(!pdf.getVersion().equals(getConfig().getString(v2))) {
+                logger.info(fine + "Successfully updated to v" + pdf.getVersion());
+                //edit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                logger.info(ChatColor.DARK_PURPLE + "--- Changelog ---");
+                logger.info(ChatColor.WHITE + "[+] Introduced a new addiction system");
+                logger.info(ChatColor.WHITE + "[+] Added an early alpha of drug editing");
+                logger.info(ChatColor.WHITE + "[+] removed drug qualities");
+                logger.info(ChatColor.WHITE + "[+] fixed async task bugs");
+                //logger.info(ChatColor.WHITE + "[+] ");
+                getConfig().set(v2, v);
+            }
 
-        enableConfig();
-        languageAPI = new LanguageAPI();
-        languageAPI.setLang(getConfig().getString("settings.language"), logger);
-        saveConfig();
+            enableConfig();
+            LanguageAPI languageAPI = new LanguageAPI();
+            languageAPI.setLang(getConfig().getString("settings.language"), logger);
+            saveConfig();
 
-        logger.info(fine + "Config files loaded.");
+            logger.info(fine + "Config files loaded.");
+        } catch (IllegalStateException ignored){}
     }
 
     private void enableConfig() {
@@ -247,9 +250,13 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        System.out.println(Json.toJson(DrugAPI.playerDatas));
-        Json.saveFile(Json.toJson(DrugAPI.playerDatas), getDataFolder().getPath() + "/do not edit/playerdata.json");
-        Bukkit.getScheduler().cancelTasks(this);
+        File json = new File(getDataFolder() + "/do not edit/playerdata.json");
+        if(json.exists()) {
+            Json.saveFile(Json.toJson(DrugAPI.playerDatas), getDataFolder().getPath() + "/do not edit/playerdata.json");
+        }
+        try {
+            Bukkit.getScheduler().cancelTasks(this);
+        } catch (IllegalPluginAccessException ignored){}
         logger.info(fine + "Disabled MyTrip");
     }
 }

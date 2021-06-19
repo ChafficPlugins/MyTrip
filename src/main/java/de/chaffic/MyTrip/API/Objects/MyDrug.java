@@ -9,8 +9,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class MyDrug extends CrucialItem {
-    private ArrayList<String[]> effects;
-    private ArrayList<String> commands;
+    private ArrayList<String[]> effects = new ArrayList<>();
+    private ArrayList<String> commands = new ArrayList<>();
     private int duration;
     private int effectDelay;
     private int overdose;
@@ -38,23 +38,13 @@ public class MyDrug extends CrucialItem {
     public ItemStack get() {
         ItemStack stack = super.get();
         ItemMeta meta = stack.getItemMeta();
-        if(isRegistered){
+        if(isRegistered()){
             meta.setDisplayName(ChatColor.WHITE + meta.getDisplayName());
         } else {
             meta.setDisplayName(ChatColor.RED + meta.getDisplayName());
         }
         stack.setItemMeta(meta);
         return stack;
-    }
-
-    public void setMaterial(Material material){
-        this.material = material.name();
-        this.isHead = false;
-    }
-
-    public void setMaterial(String head){
-        this.material = head;
-        this.isHead = true;
     }
 
     public ArrayList<String> getCommands() {

@@ -7,9 +7,8 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 
 import de.chaffic.MyTrip.API.Objects.MyDrug;
-import io.github.chafficui.CrucialAPI.API.CItem;
 import io.github.chafficui.CrucialAPI.API.Files;
-import io.github.chafficui.CrucialAPI.API.Json;
+import io.github.chafficui.CrucialAPI.io.Json;
 import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -33,6 +32,17 @@ public class FileAPI {
         languagecfg = Files.setupYaml(plugin.getDataFolder(), "language.yml");
         languagefile = new File(plugin.getDataFolder(), "language.yml");
 
+        File playerdata = new File(plugin.getDataFolder(), "/do not edit/playerdata.json");
+        new File(plugin.getDataFolder(), "/do not edit/").mkdirs();
+        try {
+            playerdata.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            plugin.getLogger().severe("Could not create playerdata.json");
+            Bukkit.getPluginManager().disablePlugin(plugin);
+            return;
+        }
+
         downloadItems();
     }
 
@@ -44,9 +54,11 @@ public class FileAPI {
                 FileOutputStream fos = new FileOutputStream(plugin.getDataFolder().getPath() + "/do not edit/drugs.json");
                 fos.getChannel().transferFrom(rbc, 0L, Long.MAX_VALUE);
             } catch (IOException e) {
+                e.printStackTrace();
                 plugin.getLogger().severe("Could not download drugs.json!");
                 plugin.getLogger().warning("Please download it from https://drive.google.com/uc?export=download&id=1xNsgp5-zC7MBM0R66oVeJC8d6Iey_lyI and drag&drop it into /MyTrip/do not edit/");
                 Bukkit.getPluginManager().disablePlugin(plugin);
+                return;
             }
         }
         if(!new File(plugin.getDataFolder(), "/do not edit/tools.json").exists()) {
@@ -56,6 +68,7 @@ public class FileAPI {
                 FileOutputStream fos = new FileOutputStream(plugin.getDataFolder().getPath() + "/do not edit/tools.json");
                 fos.getChannel().transferFrom(rbc, 0L, Long.MAX_VALUE);
             } catch (IOException e) {
+                e.printStackTrace();
                 plugin.getLogger().severe("Could not download tools.json!");
                 plugin.getLogger().warning("Please download it from https://drive.google.com/uc?export=download&id=1ALn6_l2jWmtBnQceaZYQ60h-J_a2NkOx and drag&drop it into /MyTrip/do not edit/");
                 Bukkit.getPluginManager().disablePlugin(plugin);
@@ -79,8 +92,8 @@ public class FileAPI {
     public void saveItems(){
 
         ArrayList<MyDrug> drugs = new ArrayList<>();
-        for (CrucialItem cItem:CrucialItem.getRegisteredCrucialItems()) {
-            if(cItem instanceof MyDrug){
+        for (CrucialItem cItem:CrucialItem.getCrucialItems()) {
+            if(cItem.isRegistered() && cItem instanceof MyDrug){
                 drugs.add((MyDrug) cItem);
             }
         }
@@ -89,8 +102,8 @@ public class FileAPI {
         }
 
         ArrayList<CrucialItem> tools = new ArrayList<>();
-        for (CrucialItem cItem:CrucialItem.getRegisteredCrucialItems()) {
-            if(cItem.getType().equals("DRUG TOOL")){
+        for (CrucialItem cItem:CrucialItem.getCrucialItems()) {
+            if(cItem.isRegistered() && cItem.getType().equals("DRUG TOOL")){
                 tools.add(cItem);
             }
         }

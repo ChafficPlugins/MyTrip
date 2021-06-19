@@ -3,6 +3,7 @@ package de.chaffic.MyTrip.Events;
 import de.chaffic.MyTrip.API.DrugAPI;
 import io.github.chafficui.CrucialAPI.API.Effects;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -30,7 +31,7 @@ public class HighEvents implements Listener {
         if(p.getInventory().getItemInMainHand().getItemMeta() != null) {
             p.getInventory().getItemInMainHand().getItemMeta().getDisplayName();
             ItemStack stack = p.getInventory().getItemInMainHand();
-            if (stack.getItemMeta().getDisplayName().equals(plugin.getWord("drug test"))) {
+            if (ChatColor.stripColor(stack.getItemMeta().getDisplayName()).equals(plugin.getWord("drug test"))) {
                 stack.setAmount(stack.getAmount());
                 p.getInventory().setItemInMainHand(stack);
                 if ((e.getRightClicked().getType().equals(EntityType.PLAYER))) {
@@ -50,7 +51,7 @@ public class HighEvents implements Listener {
     public void onAntiToxin(PlayerItemConsumeEvent e) {
         Player p = e.getPlayer();
         ItemStack item = e.getItem();
-        String name = item.getItemMeta().getDisplayName();
+        String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 
         if(name.equals(plugin.getWord("anti toxin"))) {
             String master = "mytrip.*";

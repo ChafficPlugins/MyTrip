@@ -46,7 +46,8 @@ public class Addiction {
                         for (PotionEffect effect : getEffects()) {
                             player.addPotionEffect(effect);
                         }
-                        Interface.showText(player, OtherEvents.plugin.getWord("addiction"), OtherEvents.plugin.getWord("consume") + CrucialItem.getByKey(drug).getName());
+                        Interface.showText(player, OtherEvents.plugin.getWord("addiction"),
+                                OtherEvents.plugin.getWord("consume") + CrucialItem.getByKey(drug).getName());
                     } else
                         this.cancel();
                 } else {

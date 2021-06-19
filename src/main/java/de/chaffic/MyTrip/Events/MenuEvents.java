@@ -82,7 +82,7 @@ public class MenuEvents implements Listener {
                     crafting.add(getItem(inventory.getItem(20)));
                     crafting.add(getItem(inventory.getItem(21)));
                     drug.setCrafting(crafting.toArray(new String[0]));
-                    drug.setMaterial(getItem(inventory.getItem(15)));
+                    drug.setMaterial(inventory.getItem(15).getType());
                     Effects effects = new Effects();
                     p.closeInventory();
                     effects.getEffectinv(drug).open(p);

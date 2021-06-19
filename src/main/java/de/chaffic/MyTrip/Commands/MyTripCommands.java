@@ -71,11 +71,19 @@ public class MyTripCommands implements CommandExecutor{
                     if(sender.hasPermission(master)) {
                         try {
                             if(args.length == 2) {
-                                MyDrug item = MyDrug.getByName(args[1].replace("_", " "));
-                                if(item != null){
-                                    ((Player) sender).getInventory().addItem(item.get());
-                                    sender.sendMessage(prefix + ChatColor.RESET + plugin.getWord("You received") + " " + item.getName());
+                                MyDrug drug = MyDrug.getByName(args[1].replace("_", " "));
+                                if(drug != null){
+                                    ((Player) sender).getInventory().addItem(drug.get());
+                                    sender.sendMessage(prefix + ChatColor.RESET + plugin.getWord("You received") + " " + drug.getName());
                                     return true;
+                                } else {
+                                    for(CrucialItem item:CrucialItem.getCrucialItems()){
+                                        if(item.getType().equals("DRUG TOOL") && item.getName().equals(args[1].replace("_", " "))){
+                                            ((Player) sender).getInventory().addItem(item.get());
+                                            sender.sendMessage(prefix + ChatColor.RESET + plugin.getWord("You received") + " " + item.getName());
+                                            return true;
+                                        }
+                                    }
                                 }
                                 sender.sendMessage(prefix + ChatColor.RED + args[1] + plugin.getWord("not exist"));
                             } else {
@@ -128,7 +136,7 @@ public class MyTripCommands implements CommandExecutor{
                         if(args.length == 2) {
                             MyDrug myDrug = MyDrug.getByName(args[1]);
                             if(myDrug == null){
-                                new MyDrug(args[1], Material.DIRT, "MYTRIP_DRUG");
+                                CItem.addCrucialItem(new MyDrug(args[1], Material.DIRT, "MYTRIP_DRUG"));
                             } else{
                                 p.sendMessage(prefix + ChatColor.YELLOW + "There is already a drug with this name");
                                 return false;

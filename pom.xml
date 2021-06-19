@@ -51,13 +51,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <version>1.17-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.github.chafficui</groupId>
             <artifactId>CrucialAPI</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.2.1</version>
         </dependency>
     </dependencies>
 </project>

@@ -31,8 +31,8 @@ public class List implements InventoryProvider {
 
         inventoryContents.fill(ClickableItem.empty(Stack.setStack(Material.GRAY_STAINED_GLASS_PANE, "")));
 
-        for (CrucialItem cItem : CrucialItem.getRegisteredCrucialItems()) {
-            if(cItem instanceof MyDrug){
+        for (CrucialItem cItem : CrucialItem.getCrucialItems()) {
+            if(cItem.isRegistered() && cItem instanceof MyDrug){
                 MyDrug drug = (MyDrug) cItem;
 
                 inventoryContents.set(q, o, ClickableItem.of(drug.get(), e -> {

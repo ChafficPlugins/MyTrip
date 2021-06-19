@@ -103,6 +103,7 @@ public class Effects implements InventoryProvider {
     private void addEffect(int row, int column, Material material, String effect, InventoryContents contents){
         contents.set(row, column, ClickableItem.of(Stack.setStack(material, effect), e -> {
             if (e.isLeftClick()) {
+                System.out.println(effect);
                 Player player = (Player) e.getWhoClicked();
                 e.getInventory().clear(e.getSlot());
                 player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 10, 29);
