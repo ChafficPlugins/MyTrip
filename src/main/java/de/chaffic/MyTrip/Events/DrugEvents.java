@@ -5,13 +5,11 @@ import de.chaffic.MyTrip.API.Objects.MyDrug;
 import io.github.chafficui.CrucialAPI.API.Effects;
 import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
 import org.bukkit.*;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 

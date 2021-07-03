@@ -12,6 +12,8 @@ import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Skull;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,6 +21,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
@@ -35,15 +38,43 @@ public class OtherEvents implements Listener{
     private final String master = "mytrip.*";
     private final String noPermissions = ChatColor.RED + plugin.getWord("no permissions");
 
-    //Anti toxin and Drug set crafting
+    @EventHandler
+    public void onPrepareCraft(PrepareItemCraftEvent e){
+        String drugset = plugin.getWord("drug set");
+        for(HumanEntity humanEntity:e.getViewers()){
+            if(e.getRecipe() != null){
+                CrucialItem item = CrucialItem.getByKey(e.getRecipe().getResult());
+                Material crafter = humanEntity.getTargetBlock(null, 5).getType();
+
+                if(crafter == Material.PLAYER_WALL_HEAD || crafter == Material.PLAYER_HEAD){
+                    Skull skull = (Skull) humanEntity.getTargetBlock(null, 5).getState();
+                    if(skull.hasOwner() && skull.getOwner().equals(CItem.getCrucialItemByName(plugin.getWord("drug set")))){
+                        if(!(item instanceof MyDrug)){
+                            e.getInventory().setItem(0, new ItemStack(Material.AIR));
+                        }
+                    }
+                } else if(item instanceof MyDrug){
+                    e.getInventory().setItem(0, new ItemStack(Material.AIR));
+                }
+            }
+        }
+    }
+
+    //Anti toxin, drug test and Drug set crafting
     @EventHandler
     public void onItemCraft(CraftItemEvent e) {
         Player p = (Player)e.getWhoClicked();
         ItemStack stack = e.getCurrentItem();
 
-        //anti toxin and perms check
-        if(stack.getType() != Material.AIR && ((ChatColor.stripColor(stack.getItemMeta().getDisplayName()).equals(plugin.getWord("anti toxin")) && !p.hasPermission("mytrip.craft.antitoxin")
-                && !p.hasPermission(master) && permissionsOn) || (stack.getItemMeta().getDisplayName().equals(plugin.getWord("drug set")) && !p.hasPermission("mytrip.craft.drugset")
+        if(stack.getType() != Material.AIR &&
+                ((CrucialItem.getByKey(stack).getName().equals(plugin.getWord("anti toxin")) &&
+                !p.hasPermission("mytrip.craft.antitoxin")
+                && !p.hasPermission(master) && permissionsOn) ||
+                (CrucialItem.getByKey(stack).getName().equals(plugin.getWord("drug set"))
+                && !p.hasPermission("mytrip.craft.drugset")
+                && !p.hasPermission(master) && permissionsOn) ||
+                (CrucialItem.getByKey(stack).getName().equals(plugin.getWord("drug test"))
+                && !p.hasPermission("mytrip.craft.drugtest")
                 && !p.hasPermission(master) && permissionsOn))) {
             p.sendMessage(prefix + noPermissions);
             e.setCancelled(true);

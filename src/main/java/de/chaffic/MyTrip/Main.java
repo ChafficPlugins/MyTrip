@@ -141,9 +141,13 @@ public class Main extends JavaPlugin {
                 //edit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 logger.info(ChatColor.DARK_PURPLE + "--- Changelog ---");
                 logger.info(ChatColor.WHITE + "[+] Introduced a new addiction system");
-                logger.info(ChatColor.WHITE + "[+] Added an early alpha of drug editing");
-                logger.info(ChatColor.WHITE + "[+] removed drug qualities");
-                logger.info(ChatColor.WHITE + "[+] fixed async task bugs");
+                logger.info(ChatColor.WHITE + "[+] Introduced a new Overdose system");
+                logger.info(ChatColor.WHITE + "[+] added Drug edit");
+                logger.info(ChatColor.WHITE + "[+] 1.17 support");
+                logger.info(ChatColor.WHITE + "[+] fixed drugs craftable in crafting table bug");
+                logger.info(ChatColor.WHITE + "[+] fixed drugs not craftable bug");
+                logger.info(ChatColor.WHITE + "[+] fixed many bugs");
+                logger.info(ChatColor.WHITE + "[-] removed drug quality system");
                 //logger.info(ChatColor.WHITE + "[+] ");
                 getConfig().set(v2, v);
             }
@@ -236,7 +240,9 @@ public class Main extends JavaPlugin {
         CItem.addCrucialItems(Json.fromJson(getDataFolder().getPath() + "/do not edit/drugs.json", new TypeToken<ArrayList<MyDrug>>(){}.getType()));
         CItem.addCrucialItems(Json.fromJson(getDataFolder().getPath() + "/do not edit/tools.json", new TypeToken<ArrayList<CrucialItem>>(){}.getType()));
         for (CrucialItem item:CrucialItem.getCrucialItems()) {
-            item.register();
+            if(item.isRegistered()){
+                item.reload();
+            }
         }
     }
 
