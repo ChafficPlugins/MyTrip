@@ -13,7 +13,7 @@ MyTrip is a Spigot plugin that adds drugs to the world of Minecraft. It is devel
 1. Create a Fork
 2. Load the repository into your IDE
 3. Open a Pull-Request
-4. Allow edits form maintainers
+4. Allow edits from maintainers
 5. Done! Create pull request and await a review by one of the maintainers
 
 # Dependencies
@@ -22,7 +22,7 @@ This project requires Java 8+.
 All dependencies are managed automatically by Maven.
 
 * Spigot
-  * Version: 1.16.1-R0.1-SNAPSHOT
+  * Version: 1.17.1-R0.1-SNAPSHOT
 * CrucialAPI
   * Version: 1.1
   * [GitHub](https://github.com/Chafficui/CrucialAPI)
