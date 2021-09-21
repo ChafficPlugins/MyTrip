@@ -6,6 +6,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 
+import de.chaffic.MyTrip.API.Objects.DrugTool;
 import de.chaffic.MyTrip.API.Objects.MyDrug;
 import io.github.chafficui.CrucialAPI.API.Files;
 import io.github.chafficui.CrucialAPI.io.Json;
@@ -97,18 +98,11 @@ public class FileAPI {
                 drugs.add((MyDrug) cItem);
             }
         }
-        if(drugs.get(0) != null){
+        if(!drugs.isEmpty()){
             Json.saveFile(Json.toJson(drugs), plugin.getDataFolder().getPath() + "/do not edit/drugs.json");
         }
-
-        ArrayList<CrucialItem> tools = new ArrayList<>();
-        for (CrucialItem cItem:CrucialItem.getCrucialItems()) {
-            if(cItem.isRegistered() && cItem.getType().equals("DRUG TOOL")){
-                tools.add(cItem);
-            }
-        }
-        if(tools.get(0) != null){
-            Json.saveFile(Json.toJson(tools), plugin.getDataFolder().getPath() + "/do not edit/tools.json");
+        if(Main.tools.length != 0){
+            Json.saveFile(Json.toJson(Main.tools), plugin.getDataFolder().getPath() + "/do not edit/tools.json");
         }
     }
 }

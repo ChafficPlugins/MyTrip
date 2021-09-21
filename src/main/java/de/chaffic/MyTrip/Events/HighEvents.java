@@ -1,7 +1,9 @@
 package de.chaffic.MyTrip.Events;
 
 import de.chaffic.MyTrip.API.DrugAPI;
+import de.chaffic.MyTrip.API.Objects.DrugTool;
 import io.github.chafficui.CrucialAPI.API.Effects;
+import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -31,7 +33,7 @@ public class HighEvents implements Listener {
         if(p.getInventory().getItemInMainHand().getItemMeta() != null) {
             p.getInventory().getItemInMainHand().getItemMeta().getDisplayName();
             ItemStack stack = p.getInventory().getItemInMainHand();
-            if (ChatColor.stripColor(stack.getItemMeta().getDisplayName()).equals(plugin.getWord("drug test"))) {
+            if (DrugTool.getByKey(stack) != null && DrugTool.getKey(stack).equals("drug_test.STICK.DRUG_TOOL")) {
                 stack.setAmount(stack.getAmount());
                 p.getInventory().setItemInMainHand(stack);
                 if ((e.getRightClicked().getType().equals(EntityType.PLAYER))) {
@@ -51,9 +53,8 @@ public class HighEvents implements Listener {
     public void onAntiToxin(PlayerItemConsumeEvent e) {
         Player p = e.getPlayer();
         ItemStack item = e.getItem();
-        String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 
-        if(name.equals(plugin.getWord("anti toxin"))) {
+        if(DrugTool.getByKey(item) != null && DrugTool.getKey(item).equals("anti_toxin.HONEY_BOTTLE.DRUG_TOOL")) {
             String master = "mytrip.*";
             if(p.hasPermission("mytrip.use.antitoxin") || p.hasPermission(master) || !permissionsOn) {
                 for(PotionEffect effect : p.getActivePotionEffects()) {

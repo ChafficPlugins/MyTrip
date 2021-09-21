@@ -11,11 +11,14 @@ import com.google.gson.reflect.TypeToken;
 import de.chaffic.MyTrip.API.*;
 import de.chaffic.MyTrip.API.GUIs.*;
 import de.chaffic.MyTrip.API.Objects.DrugPlayer;
+import de.chaffic.MyTrip.API.Objects.DrugTool;
 import de.chaffic.MyTrip.API.Objects.MyDrug;
-import io.github.chafficui.CrucialAPI.io.Json;
-import io.github.chafficui.CrucialAPI.API.*;
+import io.github.chafficui.CrucialAPI.API.Server;
+import io.github.chafficui.CrucialAPI.API.Stats;
+import io.github.chafficui.CrucialAPI.API.Updater;
 import io.github.chafficui.CrucialAPI.Crucial;
 import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
+import io.github.chafficui.CrucialAPI.io.Json;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.IllegalPluginAccessException;
@@ -36,6 +39,7 @@ public class Main extends JavaPlugin {
     public ChatColor fine = ChatColor.GREEN;
     public FileAPI fc;
     public InventoryManager GUIAPI;
+    public static DrugTool[] tools = new DrugTool[3];
 
     /** Private. */
     private final PluginDescriptionFile pdf = getDescription();
@@ -94,7 +98,13 @@ public class Main extends JavaPlugin {
                 enableConfigs();
                 enableMetrics();
                 update();
-                createItems();
+                try {
+                    createItems();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    getPluginLoader().disablePlugin(this);
+                    return;
+                }
                 GUIAPI.init();
                 getCommand("mytrip").setExecutor(new MyTripCommands());
                 getServer().getPluginManager().registerEvents(new DrugEvents(), this);
@@ -142,12 +152,13 @@ public class Main extends JavaPlugin {
                 logger.info(ChatColor.DARK_PURPLE + "--- Changelog ---");
                 logger.info(ChatColor.WHITE + "[+] Introduced a new addiction system");
                 logger.info(ChatColor.WHITE + "[+] Introduced a new Overdose system");
-                logger.info(ChatColor.WHITE + "[+] added Drug edit");
+                logger.info(ChatColor.WHITE + "[+] Added Drug edit");
+                logger.info(ChatColor.WHITE + "[+] Improved spanish translation");
                 logger.info(ChatColor.WHITE + "[+] 1.17 support");
-                logger.info(ChatColor.WHITE + "[+] fixed drugs craftable in crafting table bug");
-                logger.info(ChatColor.WHITE + "[+] fixed drugs not craftable bug");
-                logger.info(ChatColor.WHITE + "[+] fixed many bugs");
-                logger.info(ChatColor.WHITE + "[-] removed drug quality system");
+                logger.info(ChatColor.WHITE + "[+] Fixed drugs craftable in crafting table bug");
+                logger.info(ChatColor.WHITE + "[+] Fixed drugs not craftable bug");
+                logger.info(ChatColor.WHITE + "[+] Fixed many bugs");
+                logger.info(ChatColor.WHITE + "[-] Removed drug quality system");
                 //logger.info(ChatColor.WHITE + "[+] ");
                 getConfig().set(v2, v);
             }
@@ -236,9 +247,36 @@ public class Main extends JavaPlugin {
         });
     }
 
-    private void createItems() {
-        CItem.addCrucialItems(Json.fromJson(getDataFolder().getPath() + "/do not edit/drugs.json", new TypeToken<ArrayList<MyDrug>>(){}.getType()));
-        CItem.addCrucialItems(Json.fromJson(getDataFolder().getPath() + "/do not edit/tools.json", new TypeToken<ArrayList<CrucialItem>>(){}.getType()));
+    private void createItems() throws Exception {
+        CrucialItem.getCrucialItems().addAll(Json.fromJson(getDataFolder().getPath() + "/do not edit/drugs.json", new TypeToken<ArrayList<MyDrug>>(){}.getType()));
+
+        ArrayList<DrugTool> drugTools = Json.fromJson(getDataFolder().getPath() + "/do not edit/tools.json", new TypeToken<ArrayList<DrugTool>>(){}.getType());
+        for (DrugTool item:drugTools){
+            System.out.println(item.getKey());
+            switch (item.getKey()){
+                case "drug_set.HEAD:dohyunpark.DRUG_TOOL":
+                    item.setName(getWord("drug set"));
+                    tools[0] = item;
+                    break;
+                case "drug_test.STICK.DRUG_TOOL":
+                    item.setName(getWord("drug test"));
+                    tools[1] = item;
+                    break;
+                case "anti_toxin.HONEY_BOTTLE.DRUG_TOOL":
+                    item.setName(getWord("anti toxin"));
+                    tools[2] = item;
+                    break;
+                default:
+                    throw new Exception("Unknown Drug Tool!");
+            }
+        }
+
+        for(DrugTool tool:tools){
+            if(tool.isRegistered()){
+                tool.reload();
+            }
+        }
+
         for (CrucialItem item:CrucialItem.getCrucialItems()) {
             if(item.isRegistered()){
                 item.reload();
