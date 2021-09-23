@@ -1,44 +1,34 @@
 package de.chaffic.MyTrip.API.Objects;
 
 import de.chaffic.MyTrip.Main;
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
+import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+
+import java.util.UUID;
 
 public class DrugTool extends CrucialItem {
-    private final String id;
-    public DrugTool(String name, String head, String key){
-        super(name, head, "DRUG_TOOL");
-        this.id = key;
+    public DrugTool(String name, String head) {
+        super("drug_tool");
+        this.isHead = true;
+        this.name = name;
+        this.material = head;
     }
 
-    public DrugTool(String name, Material material, String key){
-        super(name, material, "DRUG_TOOL");
-        this.id = key;
+    public DrugTool(String name, Material material) {
+        super("drug_tool");
+        this.isHead = false;
+        this.name = name;
+        this.material = material.name();
     }
 
     @Override
-    public String getId(){
+    public UUID getId() {
         return this.id;
     }
 
     @Override
-    public String getKey(){
-        return this.id;
-    }
-
-    public static String getKey(ItemStack stack){
-        String provKey = CrucialItem.getKey(stack);
-        if(provKey.contains("DRUG_TOOL")){
-            if(provKey.contains("drug_set")){
-                return "drug_set.HEAD:dohyunpark.DRUG_TOOL";
-            } else if(provKey.contains("drug_test")){
-                return "drug_test.STICK.DRUG_TOOL";
-            } else if(provKey.contains("anti_toxin")){
-                return "anti_toxin.HONEY_BOTTLE.DRUG_TOOL";
-            }
-        }
-        return "";
+    public String getKey() {
+        return super.getKey();
     }
 
     public static DrugTool getByKey(String key){

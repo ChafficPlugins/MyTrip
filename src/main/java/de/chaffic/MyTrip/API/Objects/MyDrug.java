@@ -1,14 +1,35 @@
 package de.chaffic.MyTrip.API.Objects;
 
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
+import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MyDrug extends CrucialItem {
+    private static final Set<MyDrug> unregisteredDrugs = new HashSet<>();
+
+    public MyDrug(String name, String head) {
+        super("drug");
+        this.isHead = true;
+        this.name = name;
+        this.material = head;
+        unregisteredDrugs.add(this);
+    }
+
+    public MyDrug(String name, Material material) {
+        super("drug");
+        this.isHead = false;
+        this.name = name;
+        this.material = material.name();
+        unregisteredDrugs.add(this);
+    }
+
     private ArrayList<String[]> effects = new ArrayList<>();
     private ArrayList<String> commands = new ArrayList<>();
     private int duration;
@@ -18,27 +39,33 @@ public class MyDrug extends CrucialItem {
     private String particle;
     private int addict;
 
-    public MyDrug(String name, String head, String type) {
-        super(name, head, type);
+    public static MyDrug getUnregisteredDrugByKey(String key) {
+        for (MyDrug drug : unregisteredDrugs) {
+            if (drug.getKey().equals(key)) {
+                return drug;
+            }
+        }
+        return null;
     }
 
-    public MyDrug(String name, Material material, String type) {
-        super(name, material, type);
+    public static void clearUnregisteredDrugs() {
+        unregisteredDrugs.clear();
     }
 
-    public static MyDrug getByName(String name){
-        for (CrucialItem item:CrucialItem.getCrucialItems()){
-            if(item instanceof MyDrug && item.getName().equals(name)){
+    public static MyDrug getByName(String name) {
+        for (CrucialItem item : CrucialItem.CRUCIAL_ITEMS) {
+            if (item instanceof MyDrug && item.getName().equals(name)) {
                 return (MyDrug) item;
             }
         }
         return null;
     }
 
-    public ItemStack get() {
-        ItemStack stack = super.get();
+    @Override
+    public ItemStack getItemStack() {
+        ItemStack stack = super.getItemStack();
         ItemMeta meta = stack.getItemMeta();
-        if(isRegistered()){
+        if (isRegistered()) {
             meta.setDisplayName(ChatColor.WHITE + meta.getDisplayName());
         } else {
             meta.setDisplayName(ChatColor.RED + meta.getDisplayName());
@@ -137,14 +164,20 @@ public class MyDrug extends CrucialItem {
         this.addict = addict;
     }
 
-    public void alterAddict(int alter){
-        if(addict+alter < 99 && addict+alter > 0){
+    public void alterAddict(int alter) {
+        if (addict + alter < 99 && addict + alter > 0) {
             this.addict += alter;
         }
     }
 
     @Override
-    public void delete(){
+    public void register() throws CrucialException {
+        super.register();
+        unregisteredDrugs.remove(this);
+    }
+
+    @Override
+    public void delete() {
         super.delete();
     }
 }

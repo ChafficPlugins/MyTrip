@@ -2,8 +2,8 @@ package de.chaffic.MyTrip.API.Objects;
 
 import de.chaffic.MyTrip.API.DrugAPI;
 import de.chaffic.MyTrip.Events.OtherEvents;
-import io.github.chafficui.CrucialAPI.API.Interface;
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
+import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialAPI.Utils.player.effects.Interface;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -48,8 +48,9 @@ public class Addiction {
                         }
                         Interface.showText(player, OtherEvents.plugin.getWord("addiction"),
                                 OtherEvents.plugin.getWord("consume") + CrucialItem.getByKey(drug).getName());
-                    } else
+                    } else {
                         this.cancel();
+                    }
                 } else {
                     loop();
                     this.cancel();

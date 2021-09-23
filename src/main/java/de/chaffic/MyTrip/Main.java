@@ -1,23 +1,23 @@
 package de.chaffic.MyTrip;
 
-import java.io.*;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
 import com.google.gson.reflect.TypeToken;
-import de.chaffic.MyTrip.API.*;
-import de.chaffic.MyTrip.API.GUIs.*;
+import de.chaffic.MyTrip.API.DrugAPI;
+import de.chaffic.MyTrip.API.FileAPI;
+import de.chaffic.MyTrip.API.GUIs.InventoryManager;
+import de.chaffic.MyTrip.API.LanguageAPI;
 import de.chaffic.MyTrip.API.Objects.DrugPlayer;
 import de.chaffic.MyTrip.API.Objects.DrugTool;
+import de.chaffic.MyTrip.API.Objects.Key;
 import de.chaffic.MyTrip.API.Objects.MyDrug;
-import io.github.chafficui.CrucialAPI.API.Server;
-import io.github.chafficui.CrucialAPI.API.Stats;
-import io.github.chafficui.CrucialAPI.API.Updater;
-import io.github.chafficui.CrucialAPI.Crucial;
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
+import de.chaffic.MyTrip.API.UpdateCheckerAPI;
+import de.chaffic.MyTrip.Commands.CommandHandler;
+import de.chaffic.MyTrip.Events.DrugEvents;
+import de.chaffic.MyTrip.Events.HighEvents;
+import de.chaffic.MyTrip.Events.MenuEvents;
+import de.chaffic.MyTrip.Events.OtherEvents;
+import io.github.chafficui.CrucialAPI.Utils.Server;
+import io.github.chafficui.CrucialAPI.Utils.Stats;
+import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
 import io.github.chafficui.CrucialAPI.io.Json;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,11 +26,15 @@ import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import de.chaffic.MyTrip.Commands.MyTripCommands;
-import de.chaffic.MyTrip.Events.DrugEvents;
-import de.chaffic.MyTrip.Events.HighEvents;
-import de.chaffic.MyTrip.Events.MenuEvents;
-import de.chaffic.MyTrip.Events.OtherEvents;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
 
@@ -46,13 +50,13 @@ public class Main extends JavaPlugin {
     private final File f1 = new File("plugins/MyTrip/do not edit/");
     private final Logger logger = Logger.getLogger("MyTrip");
     private final String v = pdf.getVersion();
-    private final String CAPIVERSION = "1.2.1";
 
     @Override
     public void onLoad() {
         if (getServer().getPluginManager().getPlugin("CrucialAPI") == null) {
             try {
                 this.logger.info("Downloading CrucialAPI");
+                String CAPIVERSION = "2.0";
                 URL website = new URL("https://github.com/Chafficui/CrucialAPI/releases/download/v" + CAPIVERSION + "/CrucialAPI-v" + CAPIVERSION + ".jar");
                 ReadableByteChannel rbc = Channels.newChannel(website.openStream());
                 FileOutputStream fos = new FileOutputStream("plugins/CrucialAPI.jar");
@@ -73,22 +77,15 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         if(getServer().getPluginManager().getPlugin("CrucialAPI") != null) {
-            if(!getServer().getPluginManager().getPlugin("CrucialAPI").isEnabled()) {
+            if (!getServer().getPluginManager().getPlugin("CrucialAPI").isEnabled()) {
                 Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().getPlugin("CrucialAPI"));
                 logger.info(ChatColor.GREEN + "Successfully connected to CrucialAPI.");
             }
-            if (!Server.checkVersion(new String[]{"1.17", "1.16", "1.15"})) {
+            if (!Server.checkCompatibility(new String[]{"1.17", "1.16", "1.15"})) {
                 logger.severe("Error 003: Wrong server version. Please use a supported version.");
                 logger.severe("This is NOT a bug. Do NOT report this!");
                 Bukkit.getPluginManager().disablePlugin(this);
             } else {
-                if(Bukkit.getPluginManager().getPlugin("CrucialAPI").getDescription().getVersion().equals("0.1.1")) {
-                    logger.severe("Please download Crucial API v" + CAPIVERSION + " from https://www.spigotmc.org/resources/crucialapi.86380/history!");
-                    Bukkit.getPluginManager().disablePlugin(this);
-                    return;
-                } else {
-                    Crucial.getVersion(CAPIVERSION, this);
-                }
                 fc = new FileAPI();
                 GUIAPI = new InventoryManager(this);
 
@@ -96,7 +93,11 @@ public class Main extends JavaPlugin {
                 createFolder(f1);
 
                 enableConfigs();
-                enableMetrics();
+                try {
+                    enableMetrics();
+                } catch (CrucialException e) {
+                    e.printStackTrace();
+                }
                 update();
                 try {
                     createItems();
@@ -106,7 +107,7 @@ public class Main extends JavaPlugin {
                     return;
                 }
                 GUIAPI.init();
-                getCommand("mytrip").setExecutor(new MyTripCommands());
+                getCommand("mytrip").setExecutor(new CommandHandler());
                 getServer().getPluginManager().registerEvents(new DrugEvents(), this);
                 getServer().getPluginManager().registerEvents(new OtherEvents(), this);
                 getServer().getPluginManager().registerEvents(new MenuEvents(), this);
@@ -118,8 +119,7 @@ public class Main extends JavaPlugin {
                     }.getType());
                 }
                 logger.info(ChatColor.DARK_GREEN + pdf.getName() + " is activated (Version: " + v + ") made by "
-                        + ChatColor.AQUA + pdf.getAuthors() + ChatColor.DARK_GREEN + " a " + ChatColor.BOLD + ChatColor.RED + "Crucial "
-                        + ChatColor.WHITE + "Games " + ChatColor.RESET + ChatColor.DARK_GREEN + "Project!");
+                        + ChatColor.AQUA + pdf.getAuthors());
                 if (v.contains("alpha")) {
                     logger.severe("Alpha versions are NOT recommended. Please report all bugs!");
                 }
@@ -159,6 +159,7 @@ public class Main extends JavaPlugin {
                 logger.info(ChatColor.WHITE + "[+] Fixed drugs not craftable bug");
                 logger.info(ChatColor.WHITE + "[+] Fixed many bugs");
                 logger.info(ChatColor.WHITE + "[-] Removed drug quality system");
+                logger.info(ChatColor.WHITE + "[-] Autoupdater is not supported for this version");
                 //logger.info(ChatColor.WHITE + "[+] ");
                 getConfig().set(v2, v);
             }
@@ -190,10 +191,11 @@ public class Main extends JavaPlugin {
         }
     }
 
-    private void enableMetrics() {
+    private void enableMetrics() throws CrucialException {
         int pluginId = 7038;
-        Stats.addChart(pluginId, this, "autoupdater", getConfig().getString("settings.updater"));
-        Stats.addChart(pluginId, this, "updatealerts", getConfig().getString("settings.upalertsdater"));
+        Stats.setMetrics(this, pluginId);
+        Stats.addPieChart("autoupdater", getConfig().getString("settings.updater"));
+        Stats.addPieChart("updatealerts", getConfig().getString("settings.upalertsdater"));
     }
 
     private void update() {
@@ -234,13 +236,6 @@ public class Main extends JavaPlugin {
                         logger.info(fine + "Plugin is up to date.");
                     } else {
                         logger.warning("There is a new update available.");
-                        if(getConfig().getBoolean("settings.updater")) {
-                            logger.info(ChatColor.YELLOW + "Downloading latest file.");
-                            int ID = 76816;
-                            Updater.update(this, ID, getFile());
-                        } else {
-                            logger.warning("Automated updates are turned off");
-                        }
                     }
                 }
             }
@@ -248,39 +243,34 @@ public class Main extends JavaPlugin {
     }
 
     private void createItems() throws Exception {
-        CrucialItem.getCrucialItems().addAll(Json.fromJson(getDataFolder().getPath() + "/do not edit/drugs.json", new TypeToken<ArrayList<MyDrug>>(){}.getType()));
+        List<MyDrug> myDrugs = Json.fromJson(getDataFolder().getPath() + "/do not edit/drugs.json", new TypeToken<ArrayList<MyDrug>>() {
+        }.getType());
 
         ArrayList<DrugTool> drugTools = Json.fromJson(getDataFolder().getPath() + "/do not edit/tools.json", new TypeToken<ArrayList<DrugTool>>(){}.getType());
-        for (DrugTool item:drugTools){
-            System.out.println(item.getKey());
-            switch (item.getKey()){
-                case "drug_set.HEAD:dohyunpark.DRUG_TOOL":
-                    item.setName(getWord("drug set"));
-                    tools[0] = item;
-                    break;
-                case "drug_test.STICK.DRUG_TOOL":
-                    item.setName(getWord("drug test"));
-                    tools[1] = item;
-                    break;
-                case "anti_toxin.HONEY_BOTTLE.DRUG_TOOL":
-                    item.setName(getWord("anti toxin"));
-                    tools[2] = item;
-                    break;
-                default:
-                    throw new Exception("Unknown Drug Tool!");
+        for (DrugTool item:drugTools) {
+            String key = item.getKey();
+            if (key.equals(Key.DRUGSET.key())) {
+                item.setName(getWord("drug set"));
+                tools[0] = item;
+            } else if (key.equals(Key.DRUTEST.key())) {
+                item.setName(getWord("drug test"));
+                tools[1] = item;
+            } else if (key.equals(Key.ANTITOXIN.key())) {
+                item.setName(getWord("anti toxin"));
+                tools[2] = item;
+            } else {
+                throw new Exception("Unknown Drug Tool!");
             }
         }
 
-        for(DrugTool tool:tools){
-            if(tool.isRegistered()){
-                tool.reload();
-            }
+        for (DrugTool tool : tools) {
+            tool.unregister();
+            tool.register();
         }
 
-        for (CrucialItem item:CrucialItem.getCrucialItems()) {
-            if(item.isRegistered()){
-                item.reload();
-            }
+        for (MyDrug item : myDrugs) {
+            item.unregister();
+            item.register();
         }
     }
 
@@ -298,6 +288,7 @@ public class Main extends JavaPlugin {
         if(json.exists()) {
             Json.saveFile(Json.toJson(DrugAPI.playerDatas), getDataFolder().getPath() + "/do not edit/playerdata.json");
         }
+        fc.saveItems();
         try {
             Bukkit.getScheduler().cancelTasks(this);
         } catch (IllegalPluginAccessException ignored){}

@@ -22,7 +22,7 @@ This project requires Java 8+.
 All dependencies are managed automatically by Maven.
 
 * Spigot
-  * Version: 1.16.1-R0.1-SNAPSHOT
-* CrucialAPI
-  * Version: 1.1
+  * Version: 1.17.1-R0.1-SNAPSHOT
+* BSLib
+  * Version: 1.0-R0.1-SNAPSHOT
   * [GitHub](https://github.com/Chafficui/CrucialAPI)

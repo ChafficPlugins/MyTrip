@@ -1,20 +1,20 @@
 package de.chaffic.MyTrip.API;
 
-import java.io.*;
+import de.chaffic.MyTrip.API.Objects.MyDrug;
+import de.chaffic.MyTrip.Main;
+import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialAPI.io.Json;
+import io.github.chafficui.CrucialAPI.io.Yaml;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
-
-import de.chaffic.MyTrip.API.Objects.DrugTool;
-import de.chaffic.MyTrip.API.Objects.MyDrug;
-import io.github.chafficui.CrucialAPI.API.Files;
-import io.github.chafficui.CrucialAPI.io.Json;
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-
-import de.chaffic.MyTrip.Main;
 
 
 public class FileAPI {
@@ -30,7 +30,7 @@ public class FileAPI {
     //------
 
     public void setup() {
-        languagecfg = Files.setupYaml(plugin.getDataFolder(), "language.yml");
+        languagecfg = Yaml.loadFile(plugin.getDataFolder(), "language.yml");
         languagefile = new File(plugin.getDataFolder(), "language.yml");
 
         File playerdata = new File(plugin.getDataFolder(), "/do not edit/playerdata.json");
@@ -91,10 +91,9 @@ public class FileAPI {
 
 
     public void saveItems(){
-
         ArrayList<MyDrug> drugs = new ArrayList<>();
-        for (CrucialItem cItem:CrucialItem.getCrucialItems()) {
-            if(cItem.isRegistered() && cItem instanceof MyDrug){
+        for (CrucialItem cItem : CrucialItem.CRUCIAL_ITEMS) {
+            if (cItem.isRegistered() && cItem instanceof MyDrug) {
                 drugs.add((MyDrug) cItem);
             }
         }

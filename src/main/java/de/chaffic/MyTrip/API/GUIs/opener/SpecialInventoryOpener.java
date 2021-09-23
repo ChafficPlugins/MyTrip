@@ -1,8 +1,8 @@
 package de.chaffic.MyTrip.API.GUIs.opener;
 
 import com.google.common.collect.ImmutableList;
-import de.chaffic.MyTrip.API.GUIs.SmartInventory;
 import de.chaffic.MyTrip.API.GUIs.InventoryManager;
+import de.chaffic.MyTrip.API.GUIs.SmartInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;

@@ -1,14 +1,15 @@
 package de.chaffic.MyTrip.Events;
 
-import java.util.UUID;
-
 import de.chaffic.MyTrip.API.DrugAPI;
 import de.chaffic.MyTrip.API.Objects.DrugPlayer;
 import de.chaffic.MyTrip.API.Objects.DrugTool;
+import de.chaffic.MyTrip.API.Objects.Key;
 import de.chaffic.MyTrip.API.Objects.MyDrug;
-import io.github.chafficui.CrucialAPI.API.Effects;
-import io.github.chafficui.CrucialAPI.API.Interface;
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
+import de.chaffic.MyTrip.API.UpdateCheckerAPI;
+import de.chaffic.MyTrip.Main;
+import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialAPI.Utils.player.effects.Interface;
+import io.github.chafficui.CrucialAPI.Utils.player.effects.VisualEffects;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Skull;
@@ -24,10 +25,10 @@ import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-
-import de.chaffic.MyTrip.Main;
-import de.chaffic.MyTrip.API.UpdateCheckerAPI;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+
+import java.util.UUID;
 
 public class OtherEvents implements Listener{
 
@@ -40,18 +41,18 @@ public class OtherEvents implements Listener{
     @EventHandler
     public void onPrepareCraft(PrepareItemCraftEvent e){
         for(HumanEntity humanEntity:e.getViewers()){
-            if(e.getRecipe() != null){
-                CrucialItem item = CrucialItem.getByKey(e.getRecipe().getResult());
-                Material crafter = humanEntity.getTargetBlock(null, 5).getType();
+            if(e.getRecipe() != null) {
+                CrucialItem item = CrucialItem.getByStack(e.getRecipe().getResult());
+                Material craftingTable = humanEntity.getTargetBlock(null, 5).getType();
 
-                if(crafter == Material.PLAYER_WALL_HEAD || crafter == Material.PLAYER_HEAD){
+                if (craftingTable == Material.PLAYER_WALL_HEAD || craftingTable == Material.PLAYER_HEAD) {
                     Skull skull = (Skull) humanEntity.getTargetBlock(null, 5).getState();
-                    if(skull.hasOwner() && skull.getOwner().equals(DrugTool.getByKey("drug_set.HEAD:dohyunpark.DRUG_TOOL").getMaterial())){
-                        if(!(item instanceof MyDrug)){
+                    if (skull.hasOwner() && skull.getOwner().equals(DrugTool.getByKey(Key.DRUGSET.key()).getMaterial())) {
+                        if (!(item instanceof MyDrug)) {
                             e.getInventory().setItem(0, new ItemStack(Material.AIR));
                         }
                     }
-                } else if(item instanceof MyDrug){
+                } else if (item instanceof MyDrug) {
                     e.getInventory().setItem(0, new ItemStack(Material.AIR));
                 }
             }
@@ -65,15 +66,15 @@ public class OtherEvents implements Listener{
         ItemStack stack = e.getCurrentItem();
 
         if(stack.getType() != Material.AIR &&
-                ((CrucialItem.getByKey(stack) != null && DrugTool.getKey(stack).equals("anti_toxin.HONEY_BOTTLE.DRUG_TOOL") &&
-                !p.hasPermission("mytrip.craft.antitoxin")
-                && !p.hasPermission(master) && permissionsOn) ||
-                (CrucialItem.getByKey(stack) != null && DrugTool.getKey(stack).equals("drug_set.HEAD:dohyunpark.DRUG_TOOL")
-                && !p.hasPermission("mytrip.craft.drugset")
-                && !p.hasPermission(master) && permissionsOn) ||
-                (CrucialItem.getByKey(stack) != null && DrugTool.getKey(stack).equals("drug_test.STICK.DRUG_TOOL")
-                && !p.hasPermission("mytrip.craft.drugtest")
-                && !p.hasPermission(master) && permissionsOn))) {
+                ((CrucialItem.getByStack(stack) != null && DrugTool.getKey(stack).equals(Key.ANTITOXIN.key()) &&
+                        !p.hasPermission("mytrip.craft.antitoxin")
+                        && !p.hasPermission(master) && permissionsOn) ||
+                        (CrucialItem.getByStack(stack) != null && DrugTool.getKey(stack).equals(Key.DRUGSET.key())
+                                && !p.hasPermission("mytrip.craft.drugset")
+                                && !p.hasPermission(master) && permissionsOn) ||
+                        (CrucialItem.getByStack(stack) != null && DrugTool.getKey(stack).equals(Key.DRUTEST.key())
+                                && !p.hasPermission("mytrip.craft.drugtest")
+                                && !p.hasPermission(master) && permissionsOn))) {
             p.sendMessage(prefix + noPermissions);
             e.setCancelled(true);
         }
@@ -85,7 +86,7 @@ public class OtherEvents implements Listener{
         ItemStack stack = e.getPlayer().getInventory().getItemInMainHand();
 
         if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if(CrucialItem.getByKey(stack) != null && DrugTool.getKey(stack).equals("drug_set.HEAD:dohyunpark.DRUG_TOOL")) {
+            if (CrucialItem.getByStack(stack) != null && DrugTool.getKey(stack).equals(Key.DRUTEST.key())) {
                 e.setCancelled(true);
             }
         }
@@ -109,8 +110,8 @@ public class OtherEvents implements Listener{
             if(e.getClickedBlock() != null && (e.getClickedBlock().getType() == Material.PLAYER_HEAD ||
                     e.getClickedBlock().getType() == Material.PLAYER_WALL_HEAD)){
                 Skull meta = (Skull) e.getClickedBlock().getState();
-                if(meta.getOwner() != null && meta.getOwner().equals(DrugTool.getByKey("drug_set.HEAD:dohyunpark.DRUG_TOOL").getMaterial())){
-                    if(p.hasPermission("mytrip.use.drugset") || p.hasPermission(master) || !permissionsOn) {
+                if (meta.getOwner() != null && meta.getOwner().equals(DrugTool.getByKey(Key.DRUGSET.key()).getMaterial())) {
+                    if (p.hasPermission("mytrip.use.drugset") || p.hasPermission(master) || !permissionsOn) {
                         p.openWorkbench(null, true);
                         e.setCancelled(true);
                     } else {
@@ -127,12 +128,13 @@ public class OtherEvents implements Listener{
     public void onDrugSetPickup(EntityPickupItemEvent e){
         ItemStack stack = e.getItem().getItemStack();
 
-        if((stack.getType() == Material.PLAYER_HEAD || stack.getType() == Material.PLAYER_WALL_HEAD)){
+        if((stack.getType() == Material.PLAYER_HEAD || stack.getType() == Material.PLAYER_WALL_HEAD)) {
             SkullMeta meta = (SkullMeta) stack.getItemMeta();
-            if(meta.hasOwner() && meta.getOwner().equals(DrugTool.getByKey("drug_set.HEAD:dohyunpark.DRUG_TOOL").getMaterial())) {
-                CrucialItem item = DrugTool.getByKey("drug_set.HEAD:dohyunpark.DRUG_TOOL");
-                meta = (SkullMeta) item.get().getItemMeta();
-                meta.setOwner(item.getMaterial());
+            if (meta.hasOwner() && meta.getOwner().equals(DrugTool.getByKey(Key.DRUGSET.key()).getMaterial())) {
+                CrucialItem drugSet = DrugTool.getByKey(Key.DRUGSET.key());
+                ItemMeta drugSetMeta = drugSet.getItemStack().getItemMeta();
+                meta.setDisplayName(drugSetMeta.getDisplayName());
+                meta.setLore(drugSetMeta.getLore());
                 stack.setItemMeta(meta);
             }
         }
@@ -142,7 +144,7 @@ public class OtherEvents implements Listener{
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        Effects.removeBlood(p);
+        VisualEffects.removeBlood(p);
         UUID UUID = p.getUniqueId();
         try {
             if(DrugAPI.getPlayerData(UUID) == null){

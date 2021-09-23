@@ -1,7 +1,7 @@
 package de.chaffic.MyTrip.API.GUIs.content;
 
-import de.chaffic.MyTrip.API.GUIs.SmartInventory;
 import de.chaffic.MyTrip.API.GUIs.ClickableItem;
+import de.chaffic.MyTrip.API.GUIs.SmartInventory;
 
 import java.util.HashSet;
 import java.util.Optional;

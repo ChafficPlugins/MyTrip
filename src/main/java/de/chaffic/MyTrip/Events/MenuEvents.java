@@ -1,8 +1,8 @@
 package de.chaffic.MyTrip.Events;
 
-import de.chaffic.MyTrip.Inventories.drugCreator.Effects;
 import de.chaffic.MyTrip.API.Objects.MyDrug;
-import io.github.chafficui.CrucialAPI.API.CItem;
+import de.chaffic.MyTrip.Inventories.drugCreator.Effects;
+import de.chaffic.MyTrip.Main;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -13,8 +13,6 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import de.chaffic.MyTrip.Main;
 
 import java.util.ArrayList;
 
@@ -31,7 +29,7 @@ public class MenuEvents implements Listener {
         ItemStack stack = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
         ItemMeta meta;
         //configure material
-        if(name.contains(" - ") && name.split(" - ")[1].equals(plugin.getWord("InvCreation 1"))) {
+        if (name.contains(" - ") && name.split(" - ")[0].equals(plugin.getWord("InvCreation 1"))) {
             stack.setType(Material.GRAY_STAINED_GLASS_PANE);
             inv.setItem(0, stack);
             inv.setItem(4, stack);
@@ -63,13 +61,13 @@ public class MenuEvents implements Listener {
         Player p = (Player)e.getWhoClicked();
         String name = e.getView().getTitle();
 
-        if(name.contains(" - ") && name.split(" - ")[1].equals(plugin.getWord("InvCreation 1"))) {
+        if (name.contains(" - ") && name.split(" - ")[0].equals(plugin.getWord("InvCreation 1"))) {
             ItemStack stack = e.getCurrentItem();
-            if(stack != null && stack.getType() == Material.GREEN_STAINED_GLASS_PANE) {
+            if (stack != null && stack.getType() == Material.GREEN_STAINED_GLASS_PANE) {
                 Inventory inventory = p.getOpenInventory().getTopInventory();
-                if(inventory.getItem(15) != null && inventory.getItem(15).getType() != Material.AIR){
+                if (inventory.getItem(15) != null && inventory.getItem(15).getType() != Material.AIR) {
                     e.setCancelled(true);
-                    MyDrug drug = MyDrug.getByName(name.split(" - ")[0]);
+                    MyDrug drug = MyDrug.getUnregisteredDrugByKey(name.split(" - ")[1]);
                     p.playSound(p.getLocation(), Sound.BLOCK_LEVER_CLICK, 10.0F, 29.0F);
                     ArrayList<String> crafting = new ArrayList<>();
                     crafting.add(getItem(inventory.getItem(1)));
@@ -81,8 +79,8 @@ public class MenuEvents implements Listener {
                     crafting.add(getItem(inventory.getItem(19)));
                     crafting.add(getItem(inventory.getItem(20)));
                     crafting.add(getItem(inventory.getItem(21)));
-                    drug.setCrafting(crafting.toArray(new String[0]));
-                    drug.setMaterial(inventory.getItem(15).getType());
+                    drug.setRecipe(crafting.toArray(new String[0]));
+                    drug.setMaterial(inventory.getItem(15).getType().name());
                     Effects effects = new Effects();
                     p.closeInventory();
                     effects.getEffectinv(drug).open(p);

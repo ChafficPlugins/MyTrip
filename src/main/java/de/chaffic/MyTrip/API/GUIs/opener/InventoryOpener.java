@@ -1,7 +1,7 @@
 package de.chaffic.MyTrip.API.GUIs.opener;
 
-import de.chaffic.MyTrip.API.GUIs.SmartInventory;
 import de.chaffic.MyTrip.API.GUIs.ClickableItem;
+import de.chaffic.MyTrip.API.GUIs.SmartInventory;
 import de.chaffic.MyTrip.API.GUIs.content.InventoryContents;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;

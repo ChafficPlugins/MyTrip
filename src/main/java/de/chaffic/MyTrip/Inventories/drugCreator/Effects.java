@@ -1,11 +1,12 @@
 package de.chaffic.MyTrip.Inventories.drugCreator;
 
-import de.chaffic.MyTrip.Main;
+import de.chaffic.MyTrip.API.GUIs.ClickableItem;
+import de.chaffic.MyTrip.API.GUIs.SmartInventory;
+import de.chaffic.MyTrip.API.GUIs.content.InventoryContents;
+import de.chaffic.MyTrip.API.GUIs.content.InventoryProvider;
 import de.chaffic.MyTrip.API.Objects.MyDrug;
-import de.chaffic.MyTrip.API.GUIs.*;
-import de.chaffic.MyTrip.API.GUIs.content.*;
-import io.github.chafficui.CrucialAPI.API.CItem;
-import io.github.chafficui.CrucialAPI.API.Stack;
+import de.chaffic.MyTrip.Main;
+import io.github.chafficui.CrucialAPI.Utils.customItems.Stack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,7 +26,7 @@ public class Effects implements InventoryProvider {
                 .id("effectMenu")
                 .provider(new Effects())
                 .size(4, 9)
-                .title(drug.getName() + " - " + plugin.getWord("InvCreation 2"))
+                .title(plugin.getWord("InvCreation 2") + " - " + drug.getKey())
                 .closeable(false)
                 .manager(plugin.GUIAPI)
                 .build();
@@ -33,13 +34,13 @@ public class Effects implements InventoryProvider {
 
     @Override
     public void init(Player player, InventoryContents contents) {
-        myDrug = MyDrug.getByName(contents.inventory().getTitle().split(" - ")[0]);
+        myDrug = MyDrug.getUnregisteredDrugByKey(contents.inventory().getTitle().split(" - ")[1]);
 
-        contents.fill(ClickableItem.empty(Stack.setStack(Material.GRAY_STAINED_GLASS_PANE, "")));
+        contents.fill(ClickableItem.empty(Stack.getStack(Material.GRAY_STAINED_GLASS_PANE, "")));
 
         //navigation
-        contents.set(3, 0, ClickableItem.of(Stack.setStack(Material.RED_STAINED_GLASS_PANE, "BACK"), e -> {
-            if(e.isLeftClick()){
+        contents.set(3, 0, ClickableItem.of(Stack.getStack(Material.RED_STAINED_GLASS_PANE, "BACK"), e -> {
+            if (e.isLeftClick()) {
                 Player p = (Player) e.getWhoClicked();
                 p.playSound(p.getLocation(), Sound.BLOCK_LEVER_CLICK, 10, 29);
                 contents.inventory().close(player);
@@ -50,8 +51,8 @@ public class Effects implements InventoryProvider {
                 p.playSound(p.getLocation(), Sound.BLOCK_LEVER_CLICK, 10, 29);
             }
         }));
-        contents.set(3, 8, ClickableItem.of(Stack.setStack(Material.GREEN_STAINED_GLASS_PANE, "CONTINUE"), e -> {
-            if(e.isLeftClick()){
+        contents.set(3, 8, ClickableItem.of(Stack.getStack(Material.GREEN_STAINED_GLASS_PANE, "CONTINUE"), e -> {
+            if (e.isLeftClick()) {
                 Player p = (Player) e.getWhoClicked();
                 p.playSound(p.getLocation(), Sound.BLOCK_LEVER_CLICK, 10, 29);
                 contents.inventory().close(player);
@@ -59,7 +60,7 @@ public class Effects implements InventoryProvider {
                 fxEffects.createFXEffects(myDrug).open(p);
             }
         }));
-        contents.set(3, 4, ClickableItem.of(Stack.setStack(Material.RED_STAINED_GLASS_PANE, "RESET",
+        contents.set(3, 4, ClickableItem.of(Stack.getStack(Material.RED_STAINED_GLASS_PANE, "RESET",
                 Collections.singletonList("reset all effects")), event -> {
             myDrug.setEffects(new ArrayList<>());
             contents.inventory().close(player);
@@ -101,7 +102,7 @@ public class Effects implements InventoryProvider {
     }
 
     private void addEffect(int row, int column, Material material, String effect, InventoryContents contents){
-        contents.set(row, column, ClickableItem.of(Stack.setStack(material, effect), e -> {
+        contents.set(row, column, ClickableItem.of(Stack.getStack(material, effect), e -> {
             if (e.isLeftClick()) {
                 System.out.println(effect);
                 Player player = (Player) e.getWhoClicked();

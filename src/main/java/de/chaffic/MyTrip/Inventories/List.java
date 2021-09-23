@@ -1,12 +1,13 @@
 package de.chaffic.MyTrip.Inventories;
 
-import de.chaffic.MyTrip.Main;
+import de.chaffic.MyTrip.API.GUIs.ClickableItem;
+import de.chaffic.MyTrip.API.GUIs.SmartInventory;
+import de.chaffic.MyTrip.API.GUIs.content.InventoryContents;
+import de.chaffic.MyTrip.API.GUIs.content.InventoryProvider;
 import de.chaffic.MyTrip.API.Objects.MyDrug;
-import de.chaffic.MyTrip.API.GUIs.*;
-import de.chaffic.MyTrip.API.GUIs.content.*;
-import io.github.chafficui.CrucialAPI.API.CItem;
-import io.github.chafficui.CrucialAPI.API.Stack;
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
+import de.chaffic.MyTrip.Main;
+import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialAPI.Utils.customItems.Stack;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -29,14 +30,14 @@ public class List implements InventoryProvider {
         int o = 0; //inv slot
         int q = 0;
 
-        inventoryContents.fill(ClickableItem.empty(Stack.setStack(Material.GRAY_STAINED_GLASS_PANE, "")));
+        inventoryContents.fill(ClickableItem.empty(Stack.getStack(Material.GRAY_STAINED_GLASS_PANE, "")));
 
-        for (CrucialItem cItem : CrucialItem.getCrucialItems()) {
-            if(cItem.isRegistered() && cItem instanceof MyDrug){
+        for (CrucialItem cItem : CrucialItem.CRUCIAL_ITEMS) {
+            if (cItem.isRegistered() && cItem instanceof MyDrug) {
                 MyDrug drug = (MyDrug) cItem;
 
-                inventoryContents.set(q, o, ClickableItem.of(drug.get(), e -> {
-                    if(e.isLeftClick()){
+                inventoryContents.set(q, o, ClickableItem.of(drug.getItemStack(), e -> {
+                    if (e.isLeftClick()) {
                         //inv öffnen
                         Player p = (Player) e.getWhoClicked();
                         DrugShow drugShow = new DrugShow();

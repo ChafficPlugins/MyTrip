@@ -2,9 +2,11 @@ package de.chaffic.MyTrip.Events;
 
 import de.chaffic.MyTrip.API.DrugAPI;
 import de.chaffic.MyTrip.API.Objects.MyDrug;
-import io.github.chafficui.CrucialAPI.API.Effects;
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
-import org.bukkit.*;
+import de.chaffic.MyTrip.Main;
+import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialAPI.Utils.player.effects.VisualEffects;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,8 +14,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-
-import de.chaffic.MyTrip.Main;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -34,12 +34,12 @@ public class DrugEvents implements Listener {
         Action action = e.getAction();
 
         if((action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK) && stack.getType() != Material.AIR)){
-            CrucialItem cItem = CrucialItem.getByKey(stack);
+            CrucialItem cItem = CrucialItem.getByStack(stack);
             if(cItem instanceof MyDrug && cItem.isRegistered()){
                 e.setCancelled(true);
                 if(p.hasPermission("mytrip.use." + cItem.getName()) || p.hasPermission("mytrip.use.*") || p.hasPermission(master) || !permissionsOn){
                     if(((MyDrug) cItem).isBloody()){
-                        Effects.setBlood(p, 10);
+                        VisualEffects.setBlood(p, 10);
                     }
 
                     //all addiction events
@@ -69,8 +69,8 @@ public class DrugEvents implements Listener {
         Player p = (Player) e.getWhoClicked();
         ItemStack stack = e.getCurrentItem();
         if(stack != null && stack.getItemMeta() != null) {
-            if (CrucialItem.getByKey(stack) instanceof MyDrug) {
-                MyDrug myDrug = (MyDrug) CrucialItem.getByKey(stack);
+            if (CrucialItem.getByStack(stack) instanceof MyDrug) {
+                MyDrug myDrug = (MyDrug) CrucialItem.getByStack(stack);
                 if (!(!permissionsOn || p.hasPermission(master) || p.hasPermission("mytrip.craft.*") || p.hasPermission("mytrip.craft." + myDrug.getName()))) {
                     p.sendMessage(prefix + noPermissions);
                     e.setCancelled(true);

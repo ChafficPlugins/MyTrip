@@ -1,24 +1,29 @@
 package de.chaffic.MyTrip.API.Objects;
 
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
-public class DrugPlayer extends CrucialPlayer {
+public class DrugPlayer {
+    private final UUID uuid;
     ArrayList<Addiction> addictions = new ArrayList<>();
     public double dose;
 
     public DrugPlayer(java.util.UUID uuid) {
-        super(uuid);
+        this.uuid = uuid;
     }
 
     public DrugPlayer(Player player) {
-        super(player);
+        this.uuid = player.getUniqueId();
     }
 
-    public Addiction isAddicted(MyDrug drug){
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public Addiction isAddicted(MyDrug drug) {
         for (Addiction addiction:addictions) {
             if (addiction.getId().equals(drug.getKey())) {
                 return addiction;
@@ -41,7 +46,7 @@ public class DrugPlayer extends CrucialPlayer {
             isAddicted(drug).consumed();
         } else {
             if((new Random().nextInt(100)) <= drug.getAddict()){
-                addictions.add(new Addiction(drug, 1, getUUID()));
+                addictions.add(new Addiction(drug, 1, uuid));
             }
         }
         dose += 1d/((double)drug.getOverdose());

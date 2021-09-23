@@ -2,10 +2,10 @@ package de.chaffic.MyTrip.Events;
 
 import de.chaffic.MyTrip.API.DrugAPI;
 import de.chaffic.MyTrip.API.Objects.DrugTool;
-import io.github.chafficui.CrucialAPI.API.Effects;
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
+import de.chaffic.MyTrip.API.Objects.Key;
+import de.chaffic.MyTrip.Main;
+import io.github.chafficui.CrucialAPI.Utils.player.effects.VisualEffects;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -16,8 +16,6 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import de.chaffic.MyTrip.Main;
 
 public class HighEvents implements Listener {
     public static String prefix = ChatColor.WHITE + "[" + ChatColor.WHITE + "MyTrip" + ChatColor.WHITE + "] " + ChatColor.RESET;
@@ -33,7 +31,7 @@ public class HighEvents implements Listener {
         if(p.getInventory().getItemInMainHand().getItemMeta() != null) {
             p.getInventory().getItemInMainHand().getItemMeta().getDisplayName();
             ItemStack stack = p.getInventory().getItemInMainHand();
-            if (DrugTool.getByKey(stack) != null && DrugTool.getKey(stack).equals("drug_test.STICK.DRUG_TOOL")) {
+            if (DrugTool.getByStack(stack) != null && DrugTool.getKey(stack).equals(Key.DRUTEST.key())) {
                 stack.setAmount(stack.getAmount());
                 p.getInventory().setItemInMainHand(stack);
                 if ((e.getRightClicked().getType().equals(EntityType.PLAYER))) {
@@ -54,16 +52,16 @@ public class HighEvents implements Listener {
         Player p = e.getPlayer();
         ItemStack item = e.getItem();
 
-        if(DrugTool.getByKey(item) != null && DrugTool.getKey(item).equals("anti_toxin.HONEY_BOTTLE.DRUG_TOOL")) {
+        if (DrugTool.getByStack(item) != null && DrugTool.getKey(item).equals(Key.ANTITOXIN.key())) {
             String master = "mytrip.*";
-            if(p.hasPermission("mytrip.use.antitoxin") || p.hasPermission(master) || !permissionsOn) {
-                for(PotionEffect effect : p.getActivePotionEffects()) {
+            if (p.hasPermission("mytrip.use.antitoxin") || p.hasPermission(master) || !permissionsOn) {
+                for (PotionEffect effect : p.getActivePotionEffects()) {
                     p.removePotionEffect(effect.getType());
                 }
                 p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 120, 1));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 120, 1));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 120, 1));
-                Effects.removeBlood(p);
+                VisualEffects.removeBlood(p);
                 DrugAPI.getPlayerData(p.getUniqueId()).clear();
                 DrugAPI.getPlayerData(p.getUniqueId()).dose = 0;
             } else {

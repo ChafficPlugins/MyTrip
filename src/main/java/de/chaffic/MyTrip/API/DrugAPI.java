@@ -1,13 +1,13 @@
 package de.chaffic.MyTrip.API;
 
 import de.chaffic.MyTrip.API.Objects.DrugPlayer;
-import de.chaffic.MyTrip.Main;
 import de.chaffic.MyTrip.API.Objects.MyDrug;
-
-import io.github.chafficui.CrucialAPI.API.CItem;
-import io.github.chafficui.CrucialAPI.API.Effects;
-import io.github.chafficui.CrucialAPI.Interfaces.CrucialItem;
-import org.bukkit.*;
+import de.chaffic.MyTrip.Main;
+import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialAPI.Utils.player.effects.VisualEffects;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -32,7 +32,7 @@ public class DrugAPI {
     }
 
     public static void deleteDrug(MyDrug drug, Player p){
-        if(CrucialItem.getByKey(drug.get()) != null) {
+        if (CrucialItem.getByStack(drug.getItemStack()) != null) {
             drug.delete();
             p.sendMessage(prefix + drug.getName() + " was deleted.");
             return;
@@ -65,16 +65,16 @@ public class DrugAPI {
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             p.playSound(p.getLocation(), Sound.AMBIENT_CAVE, 10, 29);
-            Effects.removeBlood(p);
+            VisualEffects.removeBlood(p);
 
             doEffects(p, myDrug, DURATION);
 
             //bloodfx
             if(myDrug.isBloody()) {
-                Effects.setBlood(p, 100, DURATION);
+                VisualEffects.setBlood(p, 100, DURATION);
             }
 
-            Bukkit.getScheduler().runTaskLater(plugin, () -> Effects.removeBlood(p),DURATION);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> VisualEffects.removeBlood(p), DURATION);
             getPlayerData(p.getUniqueId()).subDose(myDrug);
         },EFFECT_DELAY);
     }
