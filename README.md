@@ -18,11 +18,11 @@ MyTrip is a Spigot plugin that adds drugs to the world of Minecraft. It is devel
 
 # Dependencies
 
-This project requires Java 8+.
+This project requires Java 16+.
 All dependencies are managed automatically by Maven.
 
 * Spigot
-  * Version: 1.17.1-R0.1-SNAPSHOT
+  * Version: 1.18-R0.1-SNAPSHOT
 * CrucialAPI
-  * Version: 2.0
+  * Version: 2.1.0
   * [GitHub](https://github.com/Chafficui/CrucialAPI)
