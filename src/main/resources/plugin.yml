@@ -1,11 +1,11 @@
-name: ${project.artifactId}
-version: ${project.version}
-author:  ${project.name}
+name: MyTrip
+version: '${project.version}'
+main: de.chaffic.mytrip.MyTrip
+api-version: 1.15
 prefix: MyTrip
-main: de.chaffic.MyTrip.Main
-softdepend: [CrucialAPI]
-api-version: 1.13
+softdepend: [ CrucialAPI ]
+authors: [ Chaffic ]
 commands:
   mytrip:
     description: For Drugs
-    aliases: [mt]
+    aliases: [mt,drugs]
