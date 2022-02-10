@@ -4,8 +4,7 @@ import de.chaffic.mytrip.MyTrip;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import static de.chaffic.mytrip.utils.ConfigStrings.PERM_ADMIN;
-import static de.chaffic.mytrip.utils.ConfigStrings.SETTING_PERMISSIONS;
+import static de.chaffic.mytrip.utils.ConfigStrings.*;
 
 public class PlayerUtils {
     private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);

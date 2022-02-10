@@ -4,10 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import de.chaffic.mytrip.MyTrip;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
 import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -63,6 +60,14 @@ public class MyDrug extends CrucialItem {
     public void register() throws CrucialException {
         super.register();
         unregisteredDrugs.remove(this);
+    }
+
+    public void setMaterial(ItemStack stack) {
+        if(stack != null) {
+            this.material = stack.getType().name();
+        } else {
+            this.material = "AIR";
+        }
     }
 
     public ArrayList<String> getCommands() {
@@ -122,6 +127,16 @@ public class MyDrug extends CrucialItem {
 
     public void setParticle(String particle) {
         this.particle = particle;
+    }
+
+    public void setRecipe(ItemStack[] itemStacks) {
+        for (int i = 0; i < 9; i++) {
+            if(itemStacks[i] != null) {
+                recipe[i] = itemStacks[i].getType().name();
+            } else {
+                recipe[i] = "AIR";
+            }
+        }
     }
 
     public int getAddictionProbability() {

@@ -1,8 +1,8 @@
 package de.chaffic.mytrip;
 
-import de.chaffic.mytrip.drugs.commands.CommandHandler;
-import de.chaffic.mytrip.drugs.events.DrugToolEvents;
+import de.chaffic.mytrip.drugs.commands.CommandListener;
 import de.chaffic.mytrip.drugs.events.FeatureEvents;
+import de.chaffic.mytrip.drugs.events.DrugToolEvents;
 import de.chaffic.mytrip.drugs.events.InteractionEvents;
 import de.chaffic.mytrip.io.FileManager;
 import de.chaffic.mytrip.utils.Crucial;
@@ -45,7 +45,7 @@ public final class MyTrip extends JavaPlugin {
                     throw new IOException();
                 }
                 registerEvents(new InteractionEvents(), new DrugToolEvents(), new FeatureEvents());
-                registerCommand("mytrip", new CommandHandler());
+                registerCommand("mytrip", new CommandListener());
                 new Stats(this, BSTATS_ID);
                 log(ChatColor.DARK_GREEN + getDescription().getName() + " is now enabled (Version: " + getDescription().getVersion() + ") made by "
                         + ChatColor.AQUA + getDescription().getAuthors() + ".");

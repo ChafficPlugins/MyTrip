@@ -6,7 +6,7 @@
 
     <groupId>de.chaffic</groupId>
     <artifactId>MyTrip</artifactId>
-    <version>1.0.0</version>
+    <version>0.7.0</version>
     <packaging>jar</packaging>
 
     <name>MyTrip</name>
@@ -54,16 +54,16 @@
 
     <repositories>
         <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -77,7 +77,7 @@
         <dependency>
             <groupId>com.github.Chafficui</groupId>
             <artifactId>CrucialAPI</artifactId>
-            <version>2.1.0</version>
+            <version>4ee5567993</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

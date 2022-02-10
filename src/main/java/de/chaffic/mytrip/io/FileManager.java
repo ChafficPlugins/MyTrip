@@ -1,5 +1,6 @@
 package de.chaffic.mytrip.io;
 
+import com.google.gson.reflect.TypeToken;
 import de.chaffic.mytrip.MyTrip;
 import de.chaffic.mytrip.drugs.objects.DrugPlayer;
 import de.chaffic.mytrip.drugs.objects.DrugTool;
