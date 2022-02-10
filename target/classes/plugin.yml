@@ -1,0 +1,12 @@
+name: MyTrip
+version: '0.7.0'
+main: de.chaffic.mytrip.MyTrip
+api-version: 1.15
+prefix: MyTrip
+softdepend: [ CrucialAPI ]
+authors: [ Chaffic ]
+website: https://www.spigotmc.org/resources/mytrip-amazing-drugs-in-minecraft.76816/
+commands:
+  mytrip:
+    description: For Drugs
+    aliases: [mt]
