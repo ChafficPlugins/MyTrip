@@ -1,10 +1,9 @@
-package de.chaffic.mytrip.io;
+package de.chafficplugins.mytrip.io;
 
-import com.google.gson.reflect.TypeToken;
-import de.chaffic.mytrip.MyTrip;
-import de.chaffic.mytrip.drugs.objects.DrugPlayer;
-import de.chaffic.mytrip.drugs.objects.DrugTool;
-import de.chaffic.mytrip.drugs.objects.MyDrug;
+import de.chafficplugins.mytrip.MyTrip;
+import de.chafficplugins.mytrip.drugs.objects.DrugPlayer;
+import de.chafficplugins.mytrip.drugs.objects.DrugTool;
+import de.chafficplugins.mytrip.drugs.objects.MyDrug;
 import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
 import io.github.chafficui.CrucialAPI.io.Json;
 
@@ -17,7 +16,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 
-import static de.chaffic.mytrip.utils.ConfigStrings.*;
+import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
 
 public class FileManager {
     private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);

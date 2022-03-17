@@ -1,9 +1,8 @@
-package de.chaffic.mytrip.drugs.events;
+package de.chafficplugins.mytrip.drugs.events;
 
-import de.chaffic.mytrip.MyTrip;
-import de.chaffic.mytrip.drugs.objects.DrugTool;
-import de.chaffic.mytrip.drugs.objects.MyDrug;
-import de.chaffic.mytrip.utils.PlayerUtils;
+import de.chafficplugins.mytrip.drugs.objects.DrugTool;
+import de.chafficplugins.mytrip.drugs.objects.MyDrug;
+import de.chafficplugins.mytrip.utils.PlayerUtils;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -16,10 +15,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
-import static de.chaffic.mytrip.utils.ConfigStrings.*;
+import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
 
 public class InteractionEvents implements Listener {
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
 
     @EventHandler
     public void onDrugConsume(PlayerInteractEvent e) {
@@ -32,7 +30,7 @@ public class InteractionEvents implements Listener {
                     CrucialItem crucialItem = CrucialItem.getByStack(item);
                     if (crucialItem instanceof MyDrug && crucialItem.isRegistered()) {
                         e.setCancelled(true);
-                        if (PlayerUtils.hasPermissions(p, PERM_USE_ANY, PERM_USE_ + crucialItem.getName())) {
+                        if (PlayerUtils.hasOnePermissions(p, PERM_USE_ANY, PERM_USE_ + crucialItem.getName())) {
                             MyDrug.doDrug(p, item);
                         } else {
                             p.sendMessage(PREFIX + "§cYou do not have the permission to do this!"); //TODO: Localization
@@ -51,19 +49,19 @@ public class InteractionEvents implements Listener {
                 CrucialItem crucialItem = CrucialItem.getByStack(recipe.getResult());
                 BlockState state = entity.getTargetBlock(null, 5).getState();
                 if (DrugTool.isDrugSet(state)) {
-                    if (!(crucialItem instanceof MyDrug) || !crucialItem.isRegistered()) {
+                    if (!(crucialItem instanceof MyDrug)) {
                         e.getInventory().setResult(new ItemStack(Material.AIR));
-                    } else if (!PlayerUtils.hasPermissions(entity, PERM_CRAFT_ANY, PERM_CRAFT_ + crucialItem.getName())) {
-                        e.getInventory().setResult(new ItemStack(Material.AIR));
-                    } else {
+                    } else if (PlayerUtils.hasOnePermissions(entity, PERM_CRAFT_ANY, PERM_CRAFT_ + crucialItem.getName())) {
                         e.getInventory().setResult(crucialItem.getItemStack());
+                    } else {
+                        e.getInventory().setResult(new ItemStack(Material.AIR));
                     }
                 } else {
                     if (crucialItem instanceof MyDrug) {
                         e.getInventory().setResult(new ItemStack(Material.AIR));
                     } else if (crucialItem instanceof DrugTool) {
                         e.getInventory().setResult(crucialItem.getItemStack());
-                        if (!PlayerUtils.hasPermissions((entity), PERM_CRAFT_ANY, PERM_CRAFT_ + crucialItem.getName())) {
+                        if (!PlayerUtils.hasOnePermissions((entity), PERM_CRAFT_ANY, PERM_CRAFT_ + crucialItem.getName())) {
                             e.getInventory().setResult(new ItemStack(Material.AIR));
                         }
                     }

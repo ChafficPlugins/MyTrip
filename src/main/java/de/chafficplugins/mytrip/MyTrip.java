@@ -1,11 +1,12 @@
-package de.chaffic.mytrip;
+package de.chafficplugins.mytrip;
 
-import de.chaffic.mytrip.drugs.commands.CommandListener;
-import de.chaffic.mytrip.drugs.events.FeatureEvents;
-import de.chaffic.mytrip.drugs.events.DrugToolEvents;
-import de.chaffic.mytrip.drugs.events.InteractionEvents;
-import de.chaffic.mytrip.io.FileManager;
-import de.chaffic.mytrip.utils.Crucial;
+import de.chafficplugins.mytrip.drugs.commands.CommandListener;
+import de.chafficplugins.mytrip.drugs.events.DrugToolEvents;
+import de.chafficplugins.mytrip.drugs.events.FeatureEvents;
+import de.chafficplugins.mytrip.drugs.events.InteractionEvents;
+import de.chafficplugins.mytrip.io.FileManager;
+import de.chafficplugins.mytrip.utils.ConfigStrings;
+import de.chafficplugins.mytrip.utils.Crucial;
 import io.github.chafficui.CrucialAPI.Utils.Server;
 import io.github.chafficui.CrucialAPI.Utils.Stats;
 import org.bukkit.Bukkit;
@@ -17,8 +18,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.util.logging.Logger;
-
-import static de.chaffic.mytrip.utils.ConfigStrings.*;
 
 public final class MyTrip extends JavaPlugin {
     public Logger logger = Logger.getLogger("MyTrip");
@@ -46,7 +45,7 @@ public final class MyTrip extends JavaPlugin {
                 }
                 registerEvents(new InteractionEvents(), new DrugToolEvents(), new FeatureEvents());
                 registerCommand("mytrip", new CommandListener());
-                new Stats(this, BSTATS_ID);
+                new Stats(this, ConfigStrings.BSTATS_ID);
                 log(ChatColor.DARK_GREEN + getDescription().getName() + " is now enabled (Version: " + getDescription().getVersion() + ") made by "
                         + ChatColor.AQUA + getDescription().getAuthors() + ".");
             }
@@ -70,9 +69,9 @@ public final class MyTrip extends JavaPlugin {
     }
 
     public void loadConfig() {
-        getConfig().addDefault(FEATURE_HEAL_ON_DEATH, true);
-        getConfig().addDefault(SETTING_PERMISSIONS, false);
-        getConfig().addDefault(SETTING_ALERTS, true);
+        getConfig().addDefault(ConfigStrings.FEATURE_HEAL_ON_DEATH, true);
+        getConfig().addDefault(ConfigStrings.SETTING_PERMISSIONS, false);
+        getConfig().addDefault(ConfigStrings.SETTING_ALERTS, true);
         getConfig().options().header("MyTrip config file");
         getConfig().set("version", getDescription().getVersion());
         getConfig().options().copyDefaults(true);

@@ -1,10 +1,17 @@
-package de.chaffic.mytrip.drugs.objects;
+package de.chafficplugins.mytrip.drugs.objects;
 
 import com.google.gson.reflect.TypeToken;
-import de.chaffic.mytrip.MyTrip;
+import de.chafficplugins.mytrip.MyTrip;
+import de.chafficplugins.mytrip.utils.ConfigStrings;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialAPI.Utils.player.effects.Interface;
 import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
-import org.bukkit.*;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.io.IOException;
 import java.util.*;
 
-import static de.chaffic.mytrip.utils.ConfigStrings.PREFIX;
+import static de.chafficplugins.mytrip.utils.ConfigStrings.PREFIX;
 
 public class MyDrug extends CrucialItem {
     private ArrayList<String[]> effects = new ArrayList<>();
@@ -180,6 +187,7 @@ public class MyDrug extends CrucialItem {
         long delay = drug.effectDelay * 20;
 
         //instant visuals
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GRAY +  "The drug effects will start in " + ChatColor.GREEN + drug.effectDelay + ChatColor.GRAY + " seconds."));
         int amount = stack.getAmount();
         if (amount > 1) {
             stack.setAmount(amount - 1);

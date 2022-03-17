@@ -1,12 +1,13 @@
-name: MyTrip
+name: '${project.name}'
 version: '${project.version}'
-main: de.chaffic.mytrip.MyTrip
+main: de.chafficplugins.mytrip.MyTrip
 api-version: 1.15
 prefix: MyTrip
 softdepend: [ CrucialAPI ]
-authors: [ Chaffic ]
-website: https://www.spigotmc.org/resources/mytrip-amazing-drugs-in-minecraft.76816/
+authors: [ '${project.organization.name}' ]
+website: '${project.organization.url}'
 commands:
   mytrip:
     description: For Drugs
     aliases: [mt]
+    permission: mytrip.admin

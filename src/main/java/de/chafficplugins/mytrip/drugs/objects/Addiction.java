@@ -1,10 +1,15 @@
-package de.chaffic.mytrip.drugs.objects;
+package de.chafficplugins.mytrip.drugs.objects;
 
-import de.chaffic.mytrip.MyTrip;
-import de.chaffic.mytrip.utils.MathUtils;
+import de.chafficplugins.mytrip.MyTrip;
+import de.chafficplugins.mytrip.utils.MathUtils;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
@@ -35,6 +40,10 @@ public class Addiction {
         }
     }
 
+    public int getIntensity() {
+        return intensity;
+    }
+
     public UUID getDrugId() {
         return drugId;
     }
@@ -48,7 +57,12 @@ public class Addiction {
                 DrugPlayer drugPlayer = DrugPlayer.getPlayer(playerId);
                 if (player != null && drugPlayer != null && drugPlayer.getAddicted(drugId) != null) {
                     if (intensity > 0) {
-                        //TODO: Add addiction effect
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED +  "Your addiction to " + ChatColor.YELLOW + MyDrug.getById(drugId).getName() + ChatColor.RED + " kicks."));
+
+                        player.damage(intensity);
+                        if(intensity > 5) {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 60 * intensity, 0));
+                        }
 
                         player.sendTitle("Addiction", "You are addicted to " + CrucialItem.getById(drugId).getName() + "!", 10, 40, 10);
                         loop();

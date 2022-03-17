@@ -1,4 +1,4 @@
-package de.chaffic.mytrip.utils;
+package de.chafficplugins.mytrip.utils;
 
 public class MathUtils {
     public static int randomInt(int min, int max) {

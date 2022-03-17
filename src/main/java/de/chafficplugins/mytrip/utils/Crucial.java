@@ -1,6 +1,6 @@
-package de.chaffic.mytrip.utils;
+package de.chafficplugins.mytrip.utils;
 
-import de.chaffic.mytrip.MyTrip;
+import de.chafficplugins.mytrip.MyTrip;
 import io.github.chafficui.CrucialAPI.Utils.Server;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,7 +13,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
-import static de.chaffic.mytrip.utils.ConfigStrings.CRUCIAL_API_VERSION;
+import static de.chafficplugins.mytrip.utils.ConfigStrings.CRUCIAL_API_VERSION;
 
 public class Crucial {
     private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);

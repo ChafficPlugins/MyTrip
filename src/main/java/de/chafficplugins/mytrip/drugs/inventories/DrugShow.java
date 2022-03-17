@@ -1,6 +1,6 @@
-package de.chaffic.mytrip.drugs.inventories;
+package de.chafficplugins.mytrip.drugs.inventories;
 
-import de.chaffic.mytrip.drugs.objects.MyDrug;
+import de.chafficplugins.mytrip.drugs.objects.MyDrug;
 import io.github.chafficui.CrucialAPI.Utils.customItems.Stack;
 import io.github.chafficui.CrucialAPI.Utils.player.inventory.InventoryItem;
 import io.github.chafficui.CrucialAPI.Utils.player.inventory.Page;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static de.chaffic.mytrip.utils.ConfigStrings.PREFIX;
+import static de.chafficplugins.mytrip.utils.ConfigStrings.PREFIX;
 
 public class DrugShow extends Page {
     private final MyDrug drug;

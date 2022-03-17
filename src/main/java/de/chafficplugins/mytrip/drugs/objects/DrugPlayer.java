@@ -1,8 +1,8 @@
-package de.chaffic.mytrip.drugs.objects;
+package de.chafficplugins.mytrip.drugs.objects;
 
 import com.google.gson.reflect.TypeToken;
-import de.chaffic.mytrip.MyTrip;
-import de.chaffic.mytrip.utils.MathUtils;
+import de.chafficplugins.mytrip.MyTrip;
+import de.chafficplugins.mytrip.utils.MathUtils;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;

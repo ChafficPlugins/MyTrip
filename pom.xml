@@ -4,12 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.chaffic</groupId>
+    <groupId>de.chafficplugins</groupId>
     <artifactId>MyTrip</artifactId>
     <version>0.7.0</version>
     <packaging>jar</packaging>
 
     <name>MyTrip</name>
+
+    <organization>
+        <name>ChafficPlugins</name>
+        <url>chafficplugins.github.io</url>
+    </organization>
 
     <properties>
         <java.version>16</java.version>
@@ -77,7 +82,7 @@
         <dependency>
             <groupId>com.github.Chafficui</groupId>
             <artifactId>CrucialAPI</artifactId>
-            <version>4ee5567993</version>
+            <version>fcf42809e8</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

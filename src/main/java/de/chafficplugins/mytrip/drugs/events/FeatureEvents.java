@@ -1,13 +1,13 @@
-package de.chaffic.mytrip.drugs.events;
+package de.chafficplugins.mytrip.drugs.events;
 
-import de.chaffic.mytrip.MyTrip;
-import de.chaffic.mytrip.drugs.objects.DrugPlayer;
+import de.chafficplugins.mytrip.MyTrip;
+import de.chafficplugins.mytrip.drugs.objects.DrugPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import static de.chaffic.mytrip.utils.ConfigStrings.FEATURE_HEAL_ON_DEATH;
+import static de.chafficplugins.mytrip.utils.ConfigStrings.FEATURE_HEAL_ON_DEATH;
 
 public class FeatureEvents implements Listener {
     private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);

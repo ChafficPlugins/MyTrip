@@ -1,7 +1,8 @@
-package de.chaffic.mytrip.drugs.objects;
+package de.chafficplugins.mytrip.drugs.objects;
 
 import com.google.gson.reflect.TypeToken;
-import de.chaffic.mytrip.MyTrip;
+import de.chafficplugins.mytrip.MyTrip;
+import de.chafficplugins.mytrip.utils.ConfigStrings;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
 import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
 import org.bukkit.Material;
@@ -15,8 +16,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
-
-import static de.chaffic.mytrip.utils.ConfigStrings.DRUG_SET_UUID;
 
 public class DrugTool extends CrucialItem {
     public static ArrayList<DrugTool> tools = new ArrayList<>();
@@ -76,7 +75,7 @@ public class DrugTool extends CrucialItem {
             OfflinePlayer p = ((Skull) state).getOwningPlayer();
             plugin.log(p.getUniqueId().toString()); //TODO: remove later
             if(p != null) {
-                DrugTool drugSet = getById(DRUG_SET_UUID);
+                DrugTool drugSet = getById(ConfigStrings.DRUG_SET_UUID);
                 return (p.getUniqueId().equals(drugSet.headOwner));
             }
         }

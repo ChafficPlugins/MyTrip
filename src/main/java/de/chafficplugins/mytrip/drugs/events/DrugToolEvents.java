@@ -1,8 +1,8 @@
-package de.chaffic.mytrip.drugs.events;
+package de.chafficplugins.mytrip.drugs.events;
 
-import de.chaffic.mytrip.drugs.objects.DrugPlayer;
-import de.chaffic.mytrip.drugs.objects.DrugTool;
-import de.chaffic.mytrip.utils.PlayerUtils;
+import de.chafficplugins.mytrip.drugs.objects.DrugPlayer;
+import de.chafficplugins.mytrip.drugs.objects.DrugTool;
+import de.chafficplugins.mytrip.utils.PlayerUtils;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
 import io.github.chafficui.CrucialAPI.Utils.player.effects.VisualEffects;
 import org.bukkit.Material;
@@ -23,7 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.UUID;
 
-import static de.chaffic.mytrip.utils.ConfigStrings.*;
+import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
 
 public class DrugToolEvents implements Listener {
 
@@ -35,7 +35,7 @@ public class DrugToolEvents implements Listener {
         if (tool instanceof DrugTool && tool.getId().equals(DRUG_TEST_UUID)) {
             event.setCancelled(true);
             Entity entity = event.getRightClicked();
-            if (PlayerUtils.hasPermissions(entity, PERM_USE_ANY, PERM_USE_DRUG_TEST)) {
+            if (PlayerUtils.hasOnePermissions(entity, PERM_USE_ANY, PERM_USE_DRUG_TEST)) {
                 DrugPlayer player = DrugPlayer.getPlayer(entity.getUniqueId());
                 if (player != null && player.getDose() > 0) {
                     p.sendMessage(PREFIX + ((Player) entity).getDisplayName() + " is high!"); //TODO: Localization
@@ -56,7 +56,7 @@ public class DrugToolEvents implements Listener {
         CrucialItem tool = DrugTool.getByStack(item);
 
         if (tool instanceof DrugTool && tool.getId().equals(ANTITOXIN_UUID)) {
-            if (PlayerUtils.hasPermissions(p, PERM_USE_ANY, PERM_USE_ANTITOXIN)) {
+            if (PlayerUtils.hasOnePermissions(p, PERM_USE_ANY, PERM_USE_ANTITOXIN)) {
                 for (PotionEffect effect : p.getActivePotionEffects()) {
                     p.removePotionEffect(effect.getType());
                 }
@@ -91,7 +91,7 @@ public class DrugToolEvents implements Listener {
         if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && event.getClickedBlock() != null) {
             BlockState state = event.getClickedBlock().getState();
             if(DrugTool.isDrugSet(state)) {
-                if(PlayerUtils.hasPermissions(p, PERM_USE_ANY, PERM_USE_DRUG_SET)) {
+                if(PlayerUtils.hasOnePermissions(p, PERM_USE_ANY, PERM_USE_DRUG_SET)) {
                     p.openWorkbench(event.getClickedBlock().getLocation(), true);
                 } else {
                     p.sendMessage(PREFIX + "§cYou do not have the permission to do this!"); //TODO: Localization
