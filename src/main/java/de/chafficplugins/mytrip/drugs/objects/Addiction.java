@@ -14,6 +14,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
+import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
+import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
+
 public class Addiction {
     private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
 
@@ -50,21 +53,20 @@ public class Addiction {
 
     public void loop() {
         new BukkitRunnable() {
-
             @Override
             public void run() {
                 Player player = Bukkit.getPlayer(playerId);
                 DrugPlayer drugPlayer = DrugPlayer.getPlayer(playerId);
                 if (player != null && drugPlayer != null && drugPlayer.getAddicted(drugId) != null) {
                     if (intensity > 0) {
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED +  "Your addiction to " + ChatColor.YELLOW + MyDrug.getById(drugId).getName() + ChatColor.RED + " kicks."));
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getLocalized(ADDICTION_KICKS, ChatColor.YELLOW + MyDrug.getById(drugId).getName() + ChatColor.RESET)));
 
                         player.damage(intensity);
                         if(intensity > 5) {
                             player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 60 * intensity, 0));
                         }
 
-                        player.sendTitle("Addiction", "You are addicted to " + CrucialItem.getById(drugId).getName() + "!", 10, 40, 10);
+                        player.sendTitle(getLocalized(ADDICTION), getLocalized(ADDICTED_TO, CrucialItem.getById(drugId).getName()), 10, 40, 10);
                         loop();
                     }
                 }
@@ -72,6 +74,4 @@ public class Addiction {
             }
         }.runTaskTimer(plugin, 16000 / intensity, 16000 / intensity);
     }
-
-    //TODO: Effects
 }

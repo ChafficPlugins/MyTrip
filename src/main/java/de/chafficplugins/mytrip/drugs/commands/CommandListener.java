@@ -1,5 +1,6 @@
 package de.chafficplugins.mytrip.drugs.commands;
 
+import de.chafficplugins.mytrip.utils.CustomMessages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -7,7 +8,8 @@ import org.bukkit.entity.Player;
 
 import static de.chafficplugins.mytrip.drugs.commands.Commands.CommandCategory.*;
 import static de.chafficplugins.mytrip.drugs.commands.Commands.callCommand;
-import static de.chafficplugins.mytrip.utils.ConfigStrings.PREFIX;
+import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
+import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
 
 public class CommandListener implements CommandExecutor {
 
@@ -15,7 +17,7 @@ public class CommandListener implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(command.getName().equalsIgnoreCase("mytrip")) {
             if(!(sender instanceof Player)) {
-                sender.sendMessage(PREFIX + "§cOnly players can perform MyTrip commands!");
+                sender.sendMessage(PREFIX + getLocalized(ONLY_PLAYERS_CMD));
                 return true;
             }
             Player player = (Player) sender;
@@ -28,7 +30,7 @@ public class CommandListener implements CommandExecutor {
                     case "info" -> callCommand(player, INFO);
                     case "recover" -> callCommand(player, RECOVER);
                     case "drugs", "list", "ls", "show" -> callCommand(player, LIST);
-                    default -> sender.sendMessage(PREFIX + "Unknown command: " + args[0]);
+                    default -> sender.sendMessage(PREFIX + getLocalized(UNKNOWN_CMD, args[0]));
                 }
             }else if(args.length == 2) {
                 switch (args[0].toLowerCase()) {
@@ -36,19 +38,19 @@ public class CommandListener implements CommandExecutor {
                     case "recover" -> callCommand(player, RECOVER, null, args[1]);
                     case "give" -> callCommand(player, GIVE, args[1]);
                     case "addictions" -> callCommand(player, ADDICTIONS, args[1]);
-                    default -> sender.sendMessage(PREFIX + "Unknown command: " + args[0]);
+                    default -> sender.sendMessage(PREFIX + getLocalized(UNKNOWN_CMD, args[0]));
                 }
             } else if(args.length == 3) {
                 switch (args[0].toLowerCase()) {
                     case "give" -> callCommand(player, GIVE, args[1], args[2]);
                     case "addictions" -> callCommand(player, ADDICTIONS, args[1], args[2]);
-                    default -> sender.sendMessage(PREFIX + "Unknown command: " + args[0]);
+                    default -> sender.sendMessage(PREFIX + getLocalized(UNKNOWN_CMD, args[0]));
                 }
             } else if(args.length == 4) {
                 if ("addictions".equalsIgnoreCase(args[0])) {
                     callCommand(player, ADDICTIONS, args[1], args[2], args[3]);
                 } else {
-                    sender.sendMessage(PREFIX + "Unknown command: " + args[0]);
+                    sender.sendMessage(PREFIX + getLocalized(UNKNOWN_CMD, args[0]));
                 }
             }
         }

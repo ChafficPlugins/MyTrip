@@ -22,7 +22,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.io.IOException;
 import java.util.*;
 
-import static de.chafficplugins.mytrip.utils.ConfigStrings.PREFIX;
+import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
+import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
 
 public class MyDrug extends CrucialItem {
     private ArrayList<String[]> effects = new ArrayList<>();
@@ -187,7 +188,7 @@ public class MyDrug extends CrucialItem {
         long delay = drug.effectDelay * 20;
 
         //instant visuals
-        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GRAY +  "The drug effects will start in " + ChatColor.GREEN + drug.effectDelay + ChatColor.GRAY + " seconds."));
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GRAY +  getLocalized(EFFECTS_START_IN, ChatColor.GREEN + String.valueOf(drug.effectDelay) + ChatColor.GRAY)));
         int amount = stack.getAmount();
         if (amount > 1) {
             stack.setAmount(amount - 1);
@@ -212,10 +213,10 @@ public class MyDrug extends CrucialItem {
 
         if (CrucialItem.getByStack(drug.getItemStack()) != null) {
             drug.delete();
-            sender.sendMessage(PREFIX + drug.name + " was deleted."); //TODO: Localization
+            sender.sendMessage(PREFIX + getLocalized(WAS_DELETED, drug.getName()));
             return;
         }
-        sender.sendMessage(PREFIX + drug.name + " is no existing drug!"); //TODO: Localization
+        sender.sendMessage(PREFIX + getLocalized(DRUG_NOT_EXIST, drug.getName()));
     }
 
     private static void doEffects(Player p, MyDrug drug, long duration, long delay) {
@@ -238,7 +239,7 @@ public class MyDrug extends CrucialItem {
                     p.addPotionEffect(new PotionEffect(type, (int) (currentDuration + duration), strength - 1));
                 } catch (Exception ex) {
                     plugin.error("Error 012: Tryied to run drug " + drug.name +
-                            " but failed. Is PotionEffect " + effect[0] + " legal?"); //TODO: Localization
+                            " but failed. Is PotionEffect " + effect[0] + " legal?");
                 }
             }
             Objects.requireNonNull(DrugPlayer.getPlayer(p.getUniqueId())).subDose(drug);

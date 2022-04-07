@@ -5,8 +5,10 @@ import de.chafficplugins.mytrip.drugs.events.DrugToolEvents;
 import de.chafficplugins.mytrip.drugs.events.FeatureEvents;
 import de.chafficplugins.mytrip.drugs.events.InteractionEvents;
 import de.chafficplugins.mytrip.io.FileManager;
+import de.chafficplugins.mytrip.io.MessagesYaml;
 import de.chafficplugins.mytrip.utils.ConfigStrings;
 import de.chafficplugins.mytrip.utils.Crucial;
+import de.chafficplugins.mytrip.utils.CustomMessages;
 import io.github.chafficui.CrucialAPI.Utils.Server;
 import io.github.chafficui.CrucialAPI.Utils.Stats;
 import org.bukkit.Bukkit;
@@ -22,6 +24,7 @@ import java.util.logging.Logger;
 public final class MyTrip extends JavaPlugin {
     public Logger logger = Logger.getLogger("MyTrip");
     public FileManager fileManager;
+    public CustomMessages customMessages;
 
     @Override
     public void onLoad() {
@@ -43,6 +46,11 @@ public final class MyTrip extends JavaPlugin {
                     error("Failed to load files. Disabling plugin.");
                     throw new IOException();
                 }
+
+                //init localizations
+                customMessages = new CustomMessages();
+                MessagesYaml.create();
+
                 registerEvents(new InteractionEvents(), new DrugToolEvents(), new FeatureEvents());
                 registerCommand("mytrip", new CommandListener());
                 new Stats(this, ConfigStrings.BSTATS_ID);

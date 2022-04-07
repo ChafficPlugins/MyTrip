@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static de.chafficplugins.mytrip.utils.ConfigStrings.COULDNT_SAVE_DRUG;
 import static de.chafficplugins.mytrip.utils.ConfigStrings.PREFIX;
+import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
 
 public class DrugShow extends Page {
     private final MyDrug drug;
@@ -38,7 +40,7 @@ public class DrugShow extends Page {
                     try {
                         MyDrug.saveAll();
                     } catch (IOException e) {
-                        p.sendMessage(PREFIX + ChatColor.RED + "Failed to save drugs!");
+                        p.sendMessage(PREFIX + ChatColor.RED + getLocalized(COULDNT_SAVE_DRUG, drug.getName()));
                     }
                     p.closeInventory();
                     DrugList.drugList.open(click.getPlayer());

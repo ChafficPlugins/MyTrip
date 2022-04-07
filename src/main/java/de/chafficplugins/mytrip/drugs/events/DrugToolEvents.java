@@ -24,6 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.UUID;
 
 import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
+import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
 
 public class DrugToolEvents implements Listener {
 
@@ -38,12 +39,12 @@ public class DrugToolEvents implements Listener {
             if (PlayerUtils.hasOnePermissions(entity, PERM_USE_ANY, PERM_USE_DRUG_TEST)) {
                 DrugPlayer player = DrugPlayer.getPlayer(entity.getUniqueId());
                 if (player != null && player.getDose() > 0) {
-                    p.sendMessage(PREFIX + ((Player) entity).getDisplayName() + " is high!"); //TODO: Localization
+                    p.sendMessage(PREFIX +  getLocalized(IS_HIGH, ((Player) entity).getDisplayName()));
                 } else {
-                    p.sendMessage(PREFIX + ((Player) entity).getDisplayName() + " is not high!"); //TODO: Localization
+                    p.sendMessage(PREFIX + getLocalized(IS_NOT_HIGH, ((Player) entity).getDisplayName()));
                 }
             } else {
-                p.sendMessage(PREFIX + "§cYou do not have the permission to do this!"); //TODO: Localization
+                p.sendMessage(PREFIX + getLocalized(NO_PERMS_TO_DO_THIS));
                 event.setCancelled(true);
             }
         }
@@ -60,7 +61,6 @@ public class DrugToolEvents implements Listener {
                 for (PotionEffect effect : p.getActivePotionEffects()) {
                     p.removePotionEffect(effect.getType());
                 }
-                //TODO: make this configurable
                 p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 120, 1));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 120, 1));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 120, 1));
@@ -71,7 +71,7 @@ public class DrugToolEvents implements Listener {
                     player.setDose(0);
                 }
             } else {
-                p.sendMessage(PREFIX + "§cYou do not have the permission to do this!"); //TODO: Localization
+                p.sendMessage(PREFIX + getLocalized(NO_PERMS_TO_DO_THIS));
                 event.setCancelled(true);
             }
         } else {
@@ -94,7 +94,7 @@ public class DrugToolEvents implements Listener {
                 if(PlayerUtils.hasOnePermissions(p, PERM_USE_ANY, PERM_USE_DRUG_SET)) {
                     p.openWorkbench(event.getClickedBlock().getLocation(), true);
                 } else {
-                    p.sendMessage(PREFIX + "§cYou do not have the permission to do this!"); //TODO: Localization
+                    p.sendMessage(PREFIX + getLocalized(NO_PERMS_TO_DO_THIS));
                 }
                 event.setCancelled(true);
             }

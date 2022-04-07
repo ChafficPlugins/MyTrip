@@ -21,8 +21,6 @@ import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
 public class FileManager {
     private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
 
-    //TODO: LanguageYML
-
     public FileManager() throws IOException {
         setup();
     }
@@ -80,7 +78,7 @@ public class FileManager {
             DrugPlayer.saveAll();
             plugin.log("Saved player data.");
         } catch (IOException e) {
-            e.printStackTrace(); //TODO: remove later
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -92,7 +90,7 @@ public class FileManager {
             DrugTool.loadAll();
             DrugPlayer.loadAll();
         } catch (IOException | CrucialException e) {
-            e.printStackTrace(); //TODO: remove later
+            e.printStackTrace();
             return false;
         }
         return true;

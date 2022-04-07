@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
 import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
+import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
 import static de.chafficplugins.mytrip.utils.PlayerUtils.hasOnePermissions;
 
 public class Commands {
@@ -37,20 +38,18 @@ public class Commands {
     }
 
     public static void callCommand(Player caller, CommandCategory category, String sub, String affected) {
-        if(affected == null) return;
-        Player affectedPlayer = Bukkit.getPlayer(affected);
-        if(affectedPlayer == null) {
-            caller.sendMessage(PREFIX + "§cThis player is not online!");
-            return;
-        }
-        performCommand(caller, category, sub, sub, affectedPlayer);
+        getAffectedPlayer(caller, category, sub, sub, affected);
     }
 
     public static void callCommand(Player caller, CommandCategory category, String sub, String drugName, String affected) {
+        getAffectedPlayer(caller, category, sub, drugName, affected);
+    }
+
+    private static void getAffectedPlayer(Player caller, CommandCategory category, String sub, String drugName, String affected) {
         if(affected == null) return;
         Player affectedPlayer = Bukkit.getPlayer(affected);
         if(affectedPlayer == null) {
-            caller.sendMessage(PREFIX + "§cThis player is not online!");
+            caller.sendMessage(PREFIX + getLocalized(PLAYER_NOT_FOUND, affected));
             return;
         }
         performCommand(caller, category, sub, drugName, affectedPlayer);
@@ -77,31 +76,31 @@ public class Commands {
 
     private static void helpCommand(Player caller) {
         if(!hasOnePermissions(caller, PERM_CMD_HELP)) {
-            caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+            caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
             return;
         }
         caller.sendMessage("§8§m-----------------------------------------------------");
-        caller.sendMessage("§7/mytrip info §8- §7Shows Information about MyTrip");
-        caller.sendMessage("§7/mytrip help §8- §7Lists all MyTrip commands");
-        caller.sendMessage("§7/mytrip list §8- §7Shows all MyTrip items");
-        caller.sendMessage("§7/mytrip create <drug> §8- §7Opens the creation menu");
-        caller.sendMessage("§7/mytrip recover <player> §8- §7Removes all effects");
-        caller.sendMessage("§7/mytrip give <drug> {<player>} §8- §7Gives a MyTrip item");
-        caller.sendMessage("§7/mytrip addictions clear {<player>} §8- §7Removes all addictions");
-        caller.sendMessage("§7/mytrip addictions list {<player>} §8- §7Lists all Addictions");
-        caller.sendMessage("§7/mytrip addictions add <drug> {<player>} §8- §7Adds an addiction to a player");
+        caller.sendMessage("§7/mytrip info");
+        caller.sendMessage("§7/mytrip help");
+        caller.sendMessage("§7/mytrip list");
+        caller.sendMessage("§7/mytrip create <drug>");
+        caller.sendMessage("§7/mytrip recover <player>");
+        caller.sendMessage("§7/mytrip give <drug> {<player>}");
+        caller.sendMessage("§7/mytrip addictions clear {<player>}");
+        caller.sendMessage("§7/mytrip addictions list {<player>}");
+        caller.sendMessage("§7/mytrip addictions add <drug> {<player>}");
         caller.sendMessage("§8§m-----------------------------------------------------");
     }
 
     private static void recoverCommand(Player caller, Player affected) {
         if(affected == null) {
             if(!hasOnePermissions(caller, PERM_CMD_RECOVER, PERM_CMD_RECOVER_SELF)) {
-                caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+                caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
                 return;
             }
             affected = caller;
         } else if(!hasOnePermissions(caller, PERM_CMD_RECOVER, PERM_CMD_RECOVER_OTHERS)) {
-            caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+            caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
             return;
         }
         DrugPlayer drugPlayer = DrugPlayer.getPlayer(affected.getUniqueId());
@@ -110,16 +109,16 @@ public class Commands {
             for (PotionEffect effect : affected.getActivePotionEffects()) {
                 affected.removePotionEffect(effect.getType());
             }
-            affected.sendMessage(PREFIX + "§7You have been recovered!");
+            affected.sendMessage(PREFIX + getLocalized(RECOVERED));
         } else {
-            caller.sendMessage(PREFIX + "§7This player did not consume anything!");
+            caller.sendMessage(PREFIX + getLocalized(PLAYER_DIDNT_CONSUME, affected.getName()));
         }
-        if(affected != caller) caller.sendMessage(PREFIX + "§7You have recovered " + affected.getName() + "!");
+        if(affected != caller) caller.sendMessage(PREFIX + getLocalized(RECOVERED_PLAYER, affected.getName()));
     }
 
     private static void listCommand(Player caller) {
         if(!hasOnePermissions(caller, PERM_CMD_LIST)) {
-            caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+            caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
             return;
         }
 
@@ -133,34 +132,34 @@ public class Commands {
     private static void giveCommand(Player caller, Player affected, String drugName) {
         if(affected == null) {
             if(!hasOnePermissions(caller, PERM_CMD_GIVE, PERM_CMD_GIVE_SELF)) {
-                caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+                caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
                 return;
             }
             affected = caller;
         } else if(!hasOnePermissions(caller, PERM_CMD_GIVE, PERM_CMD_GIVE_OTHERS)) {
-            caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+            caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
             return;
         }
         MyDrug drug = MyDrug.getByName(drugName);
         if(drug == null) {
-            caller.sendMessage(PREFIX + "§cThis drug does not exist!");
+            caller.sendMessage(PREFIX + getLocalized(DRUG_NOT_EXIST, drugName));
             return;
         }
         affected.getInventory().addItem(drug.getItemStack());
-        affected.sendMessage(PREFIX + "§7You have been given a " + drug.getName() + "!");
-        if(affected != caller) caller.sendMessage(PREFIX + "§7You have given " + affected.getName() + " a " + drug.getName() + "!");
+        affected.sendMessage(PREFIX + getLocalized(GIVEN_DRUG, drug.getName()));
+        if(affected != caller) caller.sendMessage(PREFIX + getLocalized(GAVE_DRUG, drug.getName(), affected.getName()));
     }
 
     private static void createCommand(Player caller, String drugName) {
         if(!hasOnePermissions(caller, PERM_CMD_CREATE)) {
-            caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+            caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
             return;
         }
         MyDrug drug = MyDrug.getByName(drugName);
         if(drug == null) {
             drug = new MyDrug(drugName, Material.BARRIER);
         } else {
-            caller.sendMessage(PREFIX + "§cThis drug already exists!");
+            caller.sendMessage(PREFIX + getLocalized(DRUG_ALREADY_EXISTS, drug.getName()));
             return;
         }
         new DrugCraft(drug).open(caller);
@@ -172,78 +171,78 @@ public class Commands {
             case "clear" -> clearAddictionsCommand(caller, affected);
             case "list" -> listAddictionsCommand(caller, affected);
             case "add" -> addAddictionCommand(caller, affected, drugName);
-            default -> caller.sendMessage(PREFIX + "§cUnknown sub command!");
+            default -> caller.sendMessage(PREFIX + getLocalized(UNKNOWN_SUB_COMMAND, sub));
         }
     }
 
     private static void clearAddictionsCommand(Player caller, Player affected) {
         if(affected == null) {
             if(!hasOnePermissions(caller, PERM_CMD_ADDICTIONS, PERM_CMD_ADDICTIONS_CLEAR, PERM_CMD_ADDICTIONS_CLEAR_SELF)) {
-                caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+                caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
                 return;
             }
             affected = caller;
         } else if(!hasOnePermissions(caller, PERM_CMD_ADDICTIONS, PERM_CMD_ADDICTIONS_CLEAR, PERM_CMD_ADDICTIONS_CLEAR_OTHERS)) {
-            caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+            caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
             return;
         }
         DrugPlayer drugPlayer = DrugPlayer.getPlayer(affected.getUniqueId());
         if(drugPlayer != null && drugPlayer.getAddictions().size() > 0) {
             drugPlayer.clear();
-            affected.sendMessage(PREFIX + "§7Your addictions have been cleared!");
+            affected.sendMessage(PREFIX + getLocalized(ADDICTIONS_GOT_CLEARED));
         } else {
-            caller.sendMessage(PREFIX + "§7This player has no addictions!");
+            caller.sendMessage(PREFIX + getLocalized(PLAYER_HAS_NO_ADDICTIONS, affected.getName()));
             return;
         }
-        if(affected != caller) caller.sendMessage(PREFIX + "§7You have cleared all addictions of " + affected.getName() + "!");
+        if(affected != caller) caller.sendMessage(PREFIX + getLocalized(CLEARED_ADDICTIONS_OF_PLAYER, affected.getName()));
     }
 
     private static void listAddictionsCommand(Player caller, Player affected) {
         if(affected == null) {
             if(!hasOnePermissions(caller, PERM_CMD_ADDICTIONS, PERM_CMD_ADDICTIONS_LIST, PERM_CMD_ADDICTIONS_LIST_SELF)) {
-                caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+                caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
                 return;
             }
             affected = caller;
         } else if(!hasOnePermissions(caller, PERM_CMD_ADDICTIONS, PERM_CMD_ADDICTIONS_LIST, PERM_CMD_ADDICTIONS_LIST_OTHERS)) {
-            caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+            caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
             return;
         }
         DrugPlayer drugPlayer = DrugPlayer.getPlayer(affected.getUniqueId());
         if(drugPlayer != null && drugPlayer.getAddictions().size() > 0) {
-            caller.sendMessage(PREFIX + "§7Addictions of " + affected.getName() + ":");
+            caller.sendMessage(PREFIX + getLocalized(ADDICTIONS_OF, affected.getName()));
             for(Addiction addiction : drugPlayer.getAddictions()) {
                 caller.sendMessage("§7- " + MyDrug.getById(addiction.getDrugId()).getName() + " (" + addiction.getIntensity() + ")");
             }
         } else {
-            caller.sendMessage(PREFIX + "§7This player has no addictions!");
+            caller.sendMessage(PREFIX + getLocalized(PLAYER_HAS_NO_ADDICTIONS, affected.getName()));
         }
     }
 
     private static void addAddictionCommand(Player caller, Player affected, String drugName) {
         if(affected == null) {
             if(!hasOnePermissions(caller, PERM_CMD_ADDICTIONS, PERM_CMD_ADDICTIONS_ADD, PERM_CMD_ADDICTIONS_ADD_SELF)) {
-                caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+                caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
                 return;
             }
             affected = caller;
         } else if(!hasOnePermissions(caller, PERM_CMD_ADDICTIONS, PERM_CMD_ADDICTIONS_ADD, PERM_CMD_ADDICTIONS_ADD_OTHERS)) {
-            caller.sendMessage(PREFIX + "§cYou don't have the permission to use this command!");
+            caller.sendMessage(PREFIX + getLocalized(NO_PERMISSION));
             return;
         }
         MyDrug drug = MyDrug.getByName(drugName);
         if(drug == null) {
-            caller.sendMessage(PREFIX + "§cThis drug does not exist!");
+            caller.sendMessage(PREFIX + getLocalized(DRUG_NOT_EXIST, drugName));
             return;
         }
         DrugPlayer drugPlayer = DrugPlayer.getPlayer(affected.getUniqueId());
         if(drugPlayer != null && drugPlayer.getAddicted(drug.getId()) == null) {
             drugPlayer.addAddiction(drug);
-            affected.sendMessage(PREFIX + "§7You have been addicted to " + drug.getName() + "!");
+            affected.sendMessage(PREFIX + getLocalized(ADDICTED_TO, drug.getName()));
         } else {
-            caller.sendMessage(PREFIX + "§7This player does not exist or is already addicted to this drug!");
+            caller.sendMessage(PREFIX + getLocalized(UNKNOWN_PLAYER_OR_ALREADY_ADDICTED, affected.getName(), drug.getName()));
             return;
         }
-        if(affected != caller) caller.sendMessage(PREFIX + "§7You have added " + drug.getName() + " to " + affected.getName() + "'s addictions!");
+        if(affected != caller) caller.sendMessage(PREFIX + getLocalized(ADDED_ADDICTION, drug.getName(), affected.getName()));
     }
 }

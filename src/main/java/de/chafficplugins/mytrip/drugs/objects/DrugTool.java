@@ -62,7 +62,6 @@ public class DrugTool extends CrucialItem {
     //static
     public static DrugTool getById(UUID id) {
         for (DrugTool item : tools) {
-            plugin.log(item.id + " " + id.toString() + " " + item.isRegistered); //TODO: remove later
             if (item.isRegistered() && item.getId().equals(id)) {
                 return item;
             }
@@ -73,7 +72,6 @@ public class DrugTool extends CrucialItem {
     public static boolean isDrugSet(BlockState state) {
         if (state instanceof Skull) {
             OfflinePlayer p = ((Skull) state).getOwningPlayer();
-            plugin.log(p.getUniqueId().toString()); //TODO: remove later
             if(p != null) {
                 DrugTool drugSet = getById(ConfigStrings.DRUG_SET_UUID);
                 return (p.getUniqueId().equals(drugSet.headOwner));
@@ -94,7 +92,7 @@ public class DrugTool extends CrucialItem {
             item.register();
         }
         if (tools == null) {
-            throw new IOException("There were no drug tools recognized!"); //TODO: remove later
+            throw new IOException("There were no drug tools recognized!");
         }
     }
 }

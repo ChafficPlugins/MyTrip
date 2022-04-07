@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
 import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
+import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
 
 public class InteractionEvents implements Listener {
 
@@ -33,7 +34,7 @@ public class InteractionEvents implements Listener {
                         if (PlayerUtils.hasOnePermissions(p, PERM_USE_ANY, PERM_USE_ + crucialItem.getName())) {
                             MyDrug.doDrug(p, item);
                         } else {
-                            p.sendMessage(PREFIX + "§cYou do not have the permission to do this!"); //TODO: Localization
+                            p.sendMessage(PREFIX + getLocalized(NO_PERMS_TO_DO_THIS));
                         }
                     }
                 }
