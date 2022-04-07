@@ -25,7 +25,7 @@ public final class MyTrip extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        Crucial.download();
+        Crucial.init();
     }
 
     @Override

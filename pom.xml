@@ -6,7 +6,7 @@
 
     <groupId>de.chafficplugins</groupId>
     <artifactId>MyTrip</artifactId>
-    <version>0.7.0</version>
+    <version>0.7.1</version>
     <packaging>jar</packaging>
 
     <name>MyTrip</name>
@@ -82,7 +82,7 @@
         <dependency>
             <groupId>com.github.Chafficui</groupId>
             <artifactId>CrucialAPI</artifactId>
-            <version>fcf42809e8</version>
+            <version>2.1.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
