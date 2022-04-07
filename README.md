@@ -1,4 +1,4 @@
-[![User Wiki](https://img.shields.io/badge/Wiki-Users-blue)](https://github.com/Chafficui/MyTrip/wiki) [![Download](https://img.shields.io/badge/Download-v0.6.7-red)](https://github.com/Chafficui/MyTrip/releases/latest) [![Discord](https://img.shields.io/badge/Discord-Join-blue)](https://discord.gg/RYFamQzkcB)
+[![User Wiki](https://img.shields.io/badge/Wiki-Users-blue)](https://github.com/ChafficPlugins/MyTrip/wiki) [![Download](https://img.shields.io/badge/Download-v0.7.0-red)](https://github.com/ChafficPlugins/MyTrip/releases/latest) [![Discord](https://img.shields.io/badge/Discord-Join-blue)](https://discord.gg/RYFamQzkcB)
 
 # MyTrip
 
@@ -24,5 +24,5 @@ All dependencies are managed automatically by Maven.
 * Spigot
   * Version: 1.18-R0.1-SNAPSHOT
 * CrucialAPI
-  * Version: 2.1.0
+  * Version: 2.1.1
   * [GitHub](https://github.com/Chafficui/CrucialAPI)
