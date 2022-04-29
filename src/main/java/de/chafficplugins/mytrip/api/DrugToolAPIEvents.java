@@ -8,10 +8,10 @@ import java.util.Collection;
 
 public abstract class DrugToolAPIEvents extends MyTripEvent {
     public boolean onDrugTest(Player tester, DrugPlayer tested, boolean isPositive) {
-        return true;
+        return false;
     }
 
     public boolean onAntiToxin(Player p, Collection<PotionEffect> activePotionEffects) {
-        return true;
+        return false;
     }
 }
