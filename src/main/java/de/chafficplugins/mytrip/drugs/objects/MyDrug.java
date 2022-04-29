@@ -242,7 +242,7 @@ public class MyDrug extends CrucialItem {
                             " but failed. Is PotionEffect " + effect[0] + " legal?");
                 }
             }
-            Objects.requireNonNull(DrugPlayer.getPlayer(p.getUniqueId())).subDose(drug);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> Objects.requireNonNull(DrugPlayer.getPlayer(p.getUniqueId())).subDose(drug), duration);
         }, delay);
     }
 
