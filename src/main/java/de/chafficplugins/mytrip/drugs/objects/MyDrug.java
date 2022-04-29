@@ -2,9 +2,9 @@ package de.chafficplugins.mytrip.drugs.objects;
 
 import com.google.gson.reflect.TypeToken;
 import de.chafficplugins.mytrip.MyTrip;
-import de.chafficplugins.mytrip.utils.ConfigStrings;
+import de.chafficplugins.mytrip.api.APICaller;
+import de.chafficplugins.mytrip.api.DrugAPIEvents;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
-import io.github.chafficui.CrucialAPI.Utils.player.effects.Interface;
 import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -224,6 +224,17 @@ public class MyDrug extends CrucialItem {
             p.playSound(p.getLocation(), Sound.AMBIENT_CAVE, 10, 29);
             long currentDuration;
 
+            boolean cancelled = false;
+            for (DrugAPIEvents events : APICaller.DRUG_API_EVENTS) {
+                if(events.onDrugStart(p, drug)) {
+                    cancelled = true;
+                }
+            }
+
+            if(cancelled) {
+                Objects.requireNonNull(DrugPlayer.getPlayer(p.getUniqueId())).subDose(drug);
+                return;
+            }
             //effects
             for (String[] effect : drug.effects) {
                 try {
@@ -242,6 +253,11 @@ public class MyDrug extends CrucialItem {
                             " but failed. Is PotionEffect " + effect[0] + " legal?");
                 }
             }
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                for (DrugAPIEvents events : APICaller.DRUG_API_EVENTS) {
+                    events.onDrugEnd(p, drug);
+                }
+            }, duration);
             Objects.requireNonNull(DrugPlayer.getPlayer(p.getUniqueId())).subDose(drug);
         }, delay);
     }
