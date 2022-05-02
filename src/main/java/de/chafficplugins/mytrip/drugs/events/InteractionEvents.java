@@ -1,5 +1,7 @@
 package de.chafficplugins.mytrip.drugs.events;
 
+import de.chafficplugins.mytrip.api.APICaller;
+import de.chafficplugins.mytrip.api.DrugToolAPIEvents;
 import de.chafficplugins.mytrip.drugs.objects.DrugTool;
 import de.chafficplugins.mytrip.drugs.objects.MyDrug;
 import de.chafficplugins.mytrip.utils.PlayerUtils;
@@ -24,7 +26,6 @@ public class InteractionEvents implements Listener {
     public void onDrugConsume(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         ItemStack item = e.getItem();
-
         switch (e.getAction()) {
             case RIGHT_CLICK_BLOCK, RIGHT_CLICK_AIR -> {
                 if (item != null && item.getType() != Material.AIR) {
@@ -53,6 +54,13 @@ public class InteractionEvents implements Listener {
                     if (!(crucialItem instanceof MyDrug)) {
                         e.getInventory().setResult(new ItemStack(Material.AIR));
                     } else if (PlayerUtils.hasOnePermissions(entity, PERM_CRAFT_ANY, PERM_CRAFT_ + crucialItem.getName())) {
+                        boolean cancelled = false;
+                        for (DrugToolAPIEvents events : APICaller.DRUG_TOOL_API_EVENTS) {
+                            if(events.onDrugCraftPrepare(entity, state, crucialItem, e.getInventory())) {
+                                cancelled = true;
+                            }
+                        }
+                        if(cancelled) return;
                         e.getInventory().setResult(crucialItem.getItemStack());
                     } else {
                         e.getInventory().setResult(new ItemStack(Material.AIR));

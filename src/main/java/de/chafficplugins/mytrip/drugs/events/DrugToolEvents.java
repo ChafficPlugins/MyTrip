@@ -1,6 +1,7 @@
 package de.chafficplugins.mytrip.drugs.events;
 
 import de.chafficplugins.mytrip.api.APICaller;
+import de.chafficplugins.mytrip.api.DrugSetAPIEvents;
 import de.chafficplugins.mytrip.api.DrugToolAPIEvents;
 import de.chafficplugins.mytrip.drugs.objects.DrugPlayer;
 import de.chafficplugins.mytrip.drugs.objects.DrugTool;
@@ -113,6 +114,13 @@ public class DrugToolEvents implements Listener {
             BlockState state = event.getClickedBlock().getState();
             if(DrugTool.isDrugSet(state)) {
                 if(PlayerUtils.hasOnePermissions(p, PERM_USE_ANY, PERM_USE_DRUG_SET)) {
+                    boolean cancelled = false;
+                    for (DrugSetAPIEvents events : APICaller.DRUG_SET_API_EVENTS) {
+                        if(events.onDrugSetOpen(p, state)) {
+                            cancelled = true;
+                        }
+                    }
+                    if(cancelled) return;
                     p.openWorkbench(event.getClickedBlock().getLocation(), true);
                 } else {
                     p.sendMessage(PREFIX + getLocalized(NO_PERMS_TO_DO_THIS));
