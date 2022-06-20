@@ -34,10 +34,9 @@ public final class MyTrip extends JavaPlugin {
     @Override
     public void onEnable() {
         try {
-            if (!Server.checkCompatibility("1.18", "1.17", "1.16", "1.15")) {
-                error("Wrong server version. Please use a supported version.");
+            if (!Server.checkCompatibility("1.19", "1.18", "1.17", "1.16", "1.15")) {
+                error("Unsupported server version, there may be some issues with this version. Please use a supported version.");
                 error("This is NOT a bug. Do NOT report this!");
-                throw new IOException();
             }
             if(Crucial.connect()) {
                 loadConfig();
