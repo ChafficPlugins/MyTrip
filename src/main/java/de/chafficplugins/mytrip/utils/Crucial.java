@@ -84,12 +84,6 @@ public class Crucial {
                 plugin.log("Please download it from: https://www.spigotmc.org/resources/crucialapi.86380/");
                 return false;
             }
-            if (!Server.checkCompatibility("1.18", "1.17", "1.16", "1.15")) {
-                plugin.error("Error 3: Wrong server version. Please use a supported version.");
-                plugin.log("This is NOT a bug. Do NOT report this!");
-                Bukkit.getPluginManager().disablePlugin(plugin);
-                return false;
-            }
             return true;
         }
         plugin.error("Error 26: Failed to connect to CrucialAPI.");
