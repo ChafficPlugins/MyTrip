@@ -9,7 +9,7 @@ public class PlayerUtils {
 
     public static boolean hasOnePermissions(Entity entity, String... permissions) {
         if(entity instanceof Player && plugin.getConfigBoolean(ConfigStrings.SETTING_PERMISSIONS)) {
-            if(entity.hasPermission(ConfigStrings.PERM_ADMIN)) {
+            if(entity.hasPermission(ConfigStrings.PERM_ADMIN) || entity.isOp()) {
                 return true;
             }
             for (String permission : permissions) {

@@ -1,7 +1,9 @@
 package de.chafficplugins.mytrip.drugs.events;
 
+import de.chafficplugins.mytrip.MyTrip;
 import de.chafficplugins.mytrip.drugs.objects.DrugTool;
 import de.chafficplugins.mytrip.drugs.objects.MyDrug;
+import de.chafficplugins.mytrip.utils.ConfigStrings;
 import de.chafficplugins.mytrip.utils.PlayerUtils;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
 import org.bukkit.Material;
@@ -19,6 +21,7 @@ import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
 import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
 
 public class InteractionEvents implements Listener {
+    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
 
     @EventHandler
     public void onDrugConsume(PlayerInteractEvent e) {
@@ -49,6 +52,18 @@ public class InteractionEvents implements Listener {
             if (recipe != null) {
                 CrucialItem crucialItem = CrucialItem.getByStack(recipe.getResult());
                 BlockState state = entity.getTargetBlock(null, 5).getState();
+
+                if(plugin.getConfigBoolean(DISABLE_DRUG_SET)) {
+                    if(crucialItem instanceof MyDrug || crucialItem instanceof DrugTool) {
+                        if(PlayerUtils.hasOnePermissions(entity, PERM_CRAFT_ANY, PERM_CRAFT_ + crucialItem.getName())) {
+                            e.getInventory().setResult(crucialItem.getItemStack());
+                        } else {
+                            e.getInventory().setResult(new ItemStack(Material.AIR));
+                        }
+                    }
+                    return;
+                }
+
                 if (DrugTool.isDrugSet(state)) {
                     if (!(crucialItem instanceof MyDrug)) {
                         e.getInventory().setResult(new ItemStack(Material.AIR));

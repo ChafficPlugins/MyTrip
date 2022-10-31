@@ -79,10 +79,17 @@ public final class MyTrip extends JavaPlugin {
         getConfig().addDefault(ConfigStrings.FEATURE_HEAL_ON_DEATH, true);
         getConfig().addDefault(ConfigStrings.SETTING_PERMISSIONS, false);
         getConfig().addDefault(ConfigStrings.SETTING_ALERTS, true);
+        getConfig().addDefault(ConfigStrings.DISABLE_DRUG_SET, false);
         getConfig().options().header("MyTrip config file");
         getConfig().set("version", getDescription().getVersion());
         getConfig().options().copyDefaults(true);
         saveConfig();
+        if(!Bukkit.getServer().getOnlineMode() && !getConfigBoolean(ConfigStrings.DISABLE_DRUG_SET)) {
+            getConfig().set(ConfigStrings.DISABLE_DRUG_SET, true);
+            saveConfig();
+            error("When your server is in offline mode the drug set feature cannot be used.");
+            log("Disabled drug set.");
+        }
     }
 
     public boolean getConfigBoolean(String path) {

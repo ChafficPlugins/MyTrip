@@ -19,6 +19,7 @@ public class ConfigStrings {
 
     //Messages
     public final static String ONLY_PLAYERS_CMD = "only_players_cmd"; //Only players can use this command
+    public final static String DISABLE_DRUG_SET = "disable_drug_set"; //Only players can use this command
     public final static String UNKNOWN_CMD = "unknown_cmd"; //Unknown command: {0}
     public final static String PLAYER_NOT_FOUND = "player_not_found"; //The player {0} was not found
     public final static String NO_PERMISSION = "no_permission"; //You don't have the permission to use this command.
