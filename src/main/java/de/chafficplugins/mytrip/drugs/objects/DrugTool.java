@@ -46,7 +46,6 @@ public class DrugTool extends CrucialItem {
     public ItemStack getItemStack() {
         ItemStack item = super.getItemStack();
         ItemMeta itemMeta = item.getItemMeta();
-        plugin.log(isHead + " " + (itemMeta instanceof SkullMeta) + " " + (headOwner != null));
         if(isHead && itemMeta instanceof SkullMeta && headOwner != null) {
             SkullMeta meta = (SkullMeta) itemMeta;
             meta.setOwningPlayer(plugin.getServer().getOfflinePlayer(headOwner));
