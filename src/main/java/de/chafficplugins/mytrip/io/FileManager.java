@@ -46,24 +46,19 @@ public class FileManager {
             if (!playerData.createNewFile())
                 throw new IOException("Could not create directory");
         }
-        if (!new File(plugin.getDataFolder(), "/do not edit/drugs.json").exists()) {
+        downloadFile("drugs.json", DRUGS_JSON);
+        downloadFile("tools.json", TOOLS_JSON);
+    }
+
+    public void downloadFile(String fileName, String downloadString) throws IOException {
+        if (!new File(plugin.getDataFolder(), "/do not edit/" + fileName).exists()) {
             try {
-                URL website = new URL(DOWNLOAD_URL + DRUGS_JSON);
+                URL website = new URL(DOWNLOAD_URL + downloadString);
                 ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-                FileOutputStream fos = new FileOutputStream(plugin.getDataFolder().getPath() + "/do not edit/drugs.json");
+                FileOutputStream fos = new FileOutputStream(plugin.getDataFolder().getPath() + "/do not edit/" + fileName);
                 fos.getChannel().transferFrom(rbc, 0L, Long.MAX_VALUE);
             } catch (IOException e) {
-                throw new IOException("Could not download drugs.json!");
-            }
-        }
-        if (!new File(plugin.getDataFolder(), "/do not edit/tools.json").exists()) {
-            try {
-                URL website = new URL(DOWNLOAD_URL + TOOLS_JSON);
-                ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-                FileOutputStream fos = new FileOutputStream(plugin.getDataFolder().getPath() + "/do not edit/tools.json");
-                fos.getChannel().transferFrom(rbc, 0L, Long.MAX_VALUE);
-            } catch (IOException e) {
-                throw new IOException("Could not download tools.json!");
+                throw new IOException("Could not download " + fileName + "!");
             }
         }
     }
