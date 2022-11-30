@@ -88,7 +88,8 @@ public class DrugTool extends CrucialItem {
         }.getType());
         for (DrugTool item : tools) {
             item.unregister();
-            if(plugin.getConfigBoolean(ConfigStrings.DISABLE_DRUG_SET) )
+            if(plugin.getConfigBoolean(ConfigStrings.DISABLE_DRUG_SET) && item.getId().equals(ConfigStrings.DRUG_SET_UUID))
+                continue;
             item.register();
         }
         if (tools == null) {

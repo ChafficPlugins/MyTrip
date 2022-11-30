@@ -73,13 +73,13 @@ public class InteractionEvents implements Listener {
                         e.getInventory().setResult(new ItemStack(Material.AIR));
                     }
                 } else {
-                    if (crucialItem instanceof MyDrug) {
-                        e.getInventory().setResult(new ItemStack(Material.AIR));
-                    } else if (crucialItem instanceof DrugTool) {
+                    if (crucialItem instanceof DrugTool) {
                         e.getInventory().setResult(crucialItem.getItemStack());
                         if (!PlayerUtils.hasOnePermissions((entity), PERM_CRAFT_ANY, PERM_CRAFT_ + crucialItem.getName())) {
                             e.getInventory().setResult(new ItemStack(Material.AIR));
                         }
+                    } else if (crucialItem instanceof MyDrug) {
+                        e.getInventory().setResult(new ItemStack(Material.AIR));
                     }
                 }
             }
