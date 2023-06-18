@@ -1,5 +1,8 @@
 package de.chafficplugins.mytrip.drugs.events;
 
+import de.chafficplugins.mytrip.api.APICaller;
+import de.chafficplugins.mytrip.api.DrugSetAPIEvents;
+import de.chafficplugins.mytrip.api.DrugToolAPIEvents;
 import de.chafficplugins.mytrip.drugs.objects.DrugPlayer;
 import de.chafficplugins.mytrip.drugs.objects.DrugTool;
 import de.chafficplugins.mytrip.utils.PlayerUtils;
@@ -38,10 +41,21 @@ public class DrugToolEvents implements Listener {
             Entity entity = event.getRightClicked();
             if (PlayerUtils.hasOnePermissions(entity, PERM_USE_ANY, PERM_USE_DRUG_TEST)) {
                 DrugPlayer player = DrugPlayer.getPlayer(entity.getUniqueId());
-                if (player != null && player.getDose() > 0) {
-                    p.sendMessage(PREFIX +  getLocalized(IS_HIGH, ((Player) entity).getDisplayName()));
-                } else {
-                    p.sendMessage(PREFIX + getLocalized(IS_NOT_HIGH, ((Player) entity).getDisplayName()));
+                if(player != null) {
+                    boolean isPositive = player.getDose() > 0;
+                    boolean cancelled = false;
+                    for (DrugToolAPIEvents events : APICaller.DRUG_TOOL_API_EVENTS) {
+                        if(events.onDrugTest(p, player, isPositive)) {
+                            cancelled = true;
+                        }
+                    }
+                    if(cancelled) return;
+
+                    if (isPositive) {
+                        p.sendMessage(PREFIX +  getLocalized(IS_HIGH, ((Player) entity).getDisplayName()));
+                    } else {
+                        p.sendMessage(PREFIX + getLocalized(IS_NOT_HIGH, ((Player) entity).getDisplayName()));
+                    }
                 }
             } else {
                 p.sendMessage(PREFIX + getLocalized(NO_PERMS_TO_DO_THIS));
@@ -58,6 +72,14 @@ public class DrugToolEvents implements Listener {
 
         if (tool instanceof DrugTool && tool.getId().equals(ANTITOXIN_UUID)) {
             if (PlayerUtils.hasOnePermissions(p, PERM_USE_ANY, PERM_USE_ANTITOXIN)) {
+                boolean cancelled = false;
+                for (DrugToolAPIEvents events : APICaller.DRUG_TOOL_API_EVENTS) {
+                    if(events.onAntiToxin(p, p.getActivePotionEffects())) {
+                        cancelled = true;
+                    }
+                }
+                if(cancelled) return;
+
                 for (PotionEffect effect : p.getActivePotionEffects()) {
                     p.removePotionEffect(effect.getType());
                 }
@@ -92,6 +114,13 @@ public class DrugToolEvents implements Listener {
             BlockState state = event.getClickedBlock().getState();
             if(DrugTool.isDrugSet(state)) {
                 if(PlayerUtils.hasOnePermissions(p, PERM_USE_ANY, PERM_USE_DRUG_SET)) {
+                    boolean cancelled = false;
+                    for (DrugSetAPIEvents events : APICaller.DRUG_SET_API_EVENTS) {
+                        if(events.onDrugSetOpen(p, state)) {
+                            cancelled = true;
+                        }
+                    }
+                    if(cancelled) return;
                     p.openWorkbench(event.getClickedBlock().getLocation(), true);
                 } else {
                     p.sendMessage(PREFIX + getLocalized(NO_PERMS_TO_DO_THIS));
