@@ -34,11 +34,11 @@ public final class MyTrip extends JavaPlugin {
     @Override
     public void onEnable() {
         try {
-            if (!Server.checkCompatibility("1.19", "1.18", "1.17", "1.16", "1.15")) {
-                error("Unsupported server version, there may be some issues with this version. Please use a supported version.");
-                error("This is NOT a bug. Do NOT report this!");
-            }
             if(Crucial.connect()) {
+                if (!Server.checkCompatibility("1.20", "1.19", "1.18", "1.17", "1.16", "1.15")) {
+                    error("Unsupported server version, there may be some issues with this version. Please use a supported version.");
+                    error("This is NOT a bug. Do NOT report this!");
+                }
                 loadConfig();
                 fileManager = new FileManager();
                 if(!fileManager.loadFiles()) {
