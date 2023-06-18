@@ -14,7 +14,7 @@ public class MessagesYaml {
     public static void create() throws IOException {
         File messageFile = new File(plugin.getDataFolder(), "messages.yml");
         if(!messageFile.exists()) {
-            messageFile.getParentFile().mkdirs();
+            if(!messageFile.getParentFile().mkdirs()) plugin.warning("Couldn't create messages.yml");
             plugin.saveResource("messages.yml", false);
         }
         YamlConfiguration messages = YamlConfiguration.loadConfiguration(messageFile);

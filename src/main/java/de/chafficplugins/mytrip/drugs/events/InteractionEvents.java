@@ -1,9 +1,9 @@
 package de.chafficplugins.mytrip.drugs.events;
 
 import de.chafficplugins.mytrip.MyTrip;
+import de.chafficplugins.mytrip.drugs.objects.DrugSet;
 import de.chafficplugins.mytrip.drugs.objects.DrugTool;
 import de.chafficplugins.mytrip.drugs.objects.MyDrug;
-import de.chafficplugins.mytrip.utils.ConfigStrings;
 import de.chafficplugins.mytrip.utils.PlayerUtils;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
 import org.bukkit.Material;
@@ -64,7 +64,7 @@ public class InteractionEvents implements Listener {
                     return;
                 }
 
-                if (DrugTool.isDrugSet(state)) {
+                if (DrugSet.isDrugSet(state)) {
                     if (!(crucialItem instanceof MyDrug)) {
                         e.getInventory().setResult(new ItemStack(Material.AIR));
                     } else if (PlayerUtils.hasOnePermissions(entity, PERM_CRAFT_ANY, PERM_CRAFT_ + crucialItem.getName())) {

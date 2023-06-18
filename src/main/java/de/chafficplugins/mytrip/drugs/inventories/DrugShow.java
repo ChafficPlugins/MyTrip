@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Objects;
 
 import static de.chafficplugins.mytrip.utils.ConfigStrings.COULDNT_SAVE_DRUG;
 import static de.chafficplugins.mytrip.utils.ConfigStrings.PREFIX;
@@ -57,16 +58,28 @@ public class DrugShow extends Page {
         ));
 
         //Drugcrafting
-        String[] ingredients = drug.getRecipe();
-        addItem(new InventoryItem(10, new ItemStack(Material.getMaterial(ingredients[0]))));
-        addItem(new InventoryItem(11, new ItemStack(Material.getMaterial(ingredients[1]))));
-        addItem(new InventoryItem(12, new ItemStack(Material.getMaterial(ingredients[2]))));
-        addItem(new InventoryItem(19, new ItemStack(Material.getMaterial(ingredients[3]))));
-        addItem(new InventoryItem(20, new ItemStack(Material.getMaterial(ingredients[4]))));
-        addItem(new InventoryItem(21, new ItemStack(Material.getMaterial(ingredients[5]))));
-        addItem(new InventoryItem(28, new ItemStack(Material.getMaterial(ingredients[6]))));
-        addItem(new InventoryItem(29, new ItemStack(Material.getMaterial(ingredients[7]))));
-        addItem(new InventoryItem(30, new ItemStack(Material.getMaterial(ingredients[8]))));
+        try {
+            String[] ingredients = drug.getRecipe();
+            addItem(new InventoryItem(10, new ItemStack(Objects.requireNonNull(Material.getMaterial(ingredients[0])))));
+            addItem(new InventoryItem(11, new ItemStack(Objects.requireNonNull(Material.getMaterial(ingredients[1])))));
+            addItem(new InventoryItem(12, new ItemStack(Objects.requireNonNull(Material.getMaterial(ingredients[2])))));
+            addItem(new InventoryItem(19, new ItemStack(Objects.requireNonNull(Material.getMaterial(ingredients[3])))));
+            addItem(new InventoryItem(20, new ItemStack(Objects.requireNonNull(Material.getMaterial(ingredients[4])))));
+            addItem(new InventoryItem(21, new ItemStack(Objects.requireNonNull(Material.getMaterial(ingredients[5])))));
+            addItem(new InventoryItem(28, new ItemStack(Objects.requireNonNull(Material.getMaterial(ingredients[6])))));
+            addItem(new InventoryItem(29, new ItemStack(Objects.requireNonNull(Material.getMaterial(ingredients[7])))));
+            addItem(new InventoryItem(30, new ItemStack(Objects.requireNonNull(Material.getMaterial(ingredients[8])))));
+        } catch (NullPointerException e) {
+            this.getInventory().getViewers().forEach(
+                    (humanEntity -> {
+                        if(humanEntity instanceof Player) {
+                            humanEntity.sendMessage(PREFIX + ChatColor.RED + "The recipe of " + drug.getName() + " is invalid!");
+                        }
+                        humanEntity.closeInventory();
+                    })
+            );
+            return;
+        }
 
         addItem(new InventoryItem(24, drug.getItemStack()));
 

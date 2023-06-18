@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public final class MyTrip extends JavaPlugin {
-    public Logger logger = Logger.getLogger("MyTrip");
+    public final Logger logger = Logger.getLogger("MyTrip");
     public FileManager fileManager;
     public CustomMessages customMessages;
 

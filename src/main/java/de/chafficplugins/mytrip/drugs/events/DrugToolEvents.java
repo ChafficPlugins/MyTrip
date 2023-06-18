@@ -1,6 +1,7 @@
 package de.chafficplugins.mytrip.drugs.events;
 
 import de.chafficplugins.mytrip.drugs.objects.DrugPlayer;
+import de.chafficplugins.mytrip.drugs.objects.DrugSet;
 import de.chafficplugins.mytrip.drugs.objects.DrugTool;
 import de.chafficplugins.mytrip.utils.PlayerUtils;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
@@ -90,7 +91,7 @@ public class DrugToolEvents implements Listener {
 
         if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && event.getClickedBlock() != null) {
             BlockState state = event.getClickedBlock().getState();
-            if(DrugTool.isDrugSet(state)) {
+            if(DrugSet.isDrugSet(state)) {
                 if(PlayerUtils.hasOnePermissions(p, PERM_USE_ANY, PERM_USE_DRUG_SET)) {
                     p.openWorkbench(event.getClickedBlock().getLocation(), true);
                 } else {
@@ -108,8 +109,8 @@ public class DrugToolEvents implements Listener {
             SkullMeta meta  = (SkullMeta) item.getItemMeta();
             if(meta != null && meta.getOwningPlayer() != null) {
                 UUID uuid = meta.getOwningPlayer().getUniqueId();
-                DrugTool drugSet = DrugTool.getById(DRUG_SET_UUID);
-                if(drugSet != null && uuid.equals(drugSet.getHeadOwner())) {
+                CrucialItem drugSet = DrugTool.getById(DRUG_SET_UUID);
+                if(drugSet instanceof DrugSet && uuid.equals(((DrugSet)drugSet).getHeadOwner())) {
                     item.setItemMeta(drugSet.getItemStack().getItemMeta());
                 }
             }
