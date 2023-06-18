@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public final class MyTrip extends JavaPlugin {
-    public Logger logger = Logger.getLogger("MyTrip");
+    public final Logger logger = Logger.getLogger("MyTrip");
     public FileManager fileManager;
     public CustomMessages customMessages;
 
@@ -36,8 +36,8 @@ public final class MyTrip extends JavaPlugin {
         try {
             if(Crucial.connect()) {
                 if (!Server.checkCompatibility("1.20", "1.19", "1.18", "1.17", "1.16", "1.15")) {
-                    error("Unsupported server version, there may be some issues with this version. Please use a supported version.");
-                    error("This is NOT a bug. Do NOT report this!");
+                    warning("Unsupported server version, there may be some issues with this version. Please use a supported version.");
+                    warning("This is NOT a bug. Do NOT report this!");
                 }
                 loadConfig();
                 fileManager = new FileManager();
@@ -106,6 +106,10 @@ public final class MyTrip extends JavaPlugin {
 
     public void error(String message) {
         logger.severe(message);
+    }
+
+    public void warning(String message) {
+        logger.warning(message);
     }
 
     @Override

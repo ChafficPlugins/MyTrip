@@ -1,10 +1,10 @@
 package de.chafficplugins.mytrip.drugs.commands;
 
-import de.chafficplugins.mytrip.utils.CustomMessages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import static de.chafficplugins.mytrip.drugs.commands.Commands.CommandCategory.*;
 import static de.chafficplugins.mytrip.drugs.commands.Commands.callCommand;
@@ -14,7 +14,7 @@ import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
 public class CommandListener implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, @NotNull String[] args) {
         if(command.getName().equalsIgnoreCase("mytrip")) {
             if(!(sender instanceof Player)) {
                 sender.sendMessage(PREFIX + getLocalized(ONLY_PLAYERS_CMD));

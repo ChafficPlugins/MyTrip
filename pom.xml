@@ -6,7 +6,7 @@
 
     <groupId>de.chafficplugins</groupId>
     <artifactId>MyTrip</artifactId>
-    <version>0.7.5</version>
+    <version>0.7.6</version>
     <packaging>jar</packaging>
 
     <name>MyTrip</name>
@@ -90,6 +90,12 @@
             <artifactId>CrucialAPI</artifactId>
             <version>02caf0c41f</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>19.0.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

@@ -2,9 +2,7 @@ package de.chafficplugins.mytrip.drugs.objects;
 
 import com.google.gson.reflect.TypeToken;
 import de.chafficplugins.mytrip.MyTrip;
-import de.chafficplugins.mytrip.utils.ConfigStrings;
 import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
-import io.github.chafficui.CrucialAPI.Utils.player.effects.Interface;
 import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -36,7 +34,6 @@ public class MyDrug extends CrucialItem {
 
     public MyDrug(String name, String head) {
         super("drug");
-        this.isHead = true;
         this.name = name;
         this.material = head;
         unregisteredDrugs.add(this);
