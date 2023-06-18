@@ -187,12 +187,13 @@ public class MyDrug extends CrucialItem {
         //instant visuals
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GRAY +  getLocalized(EFFECTS_START_IN, ChatColor.GREEN + String.valueOf(drug.effectDelay) + ChatColor.GRAY)));
         int amount = stack.getAmount();
-        if (amount > 1) {
+        if (amount >= 1) {
             stack.setAmount(amount - 1);
-            p.getInventory().setItemInMainHand(stack);
-        }
-        if (amount == 1) {
-            p.getInventory().getItemInMainHand().setAmount(0);
+            if(p.getInventory().getItemInMainHand() == stack) {
+                p.getInventory().setItemInMainHand(stack);
+            } else if(p.getInventory().getItemInOffHand() == stack) {
+                p.getInventory().setItemInOffHand(stack);
+            }
         }
         p.playSound(p.getLocation(), Sound.ITEM_HONEY_BOTTLE_DRINK, 10, 29);
         DrugPlayer dp = DrugPlayer.getPlayer(p.getUniqueId());
