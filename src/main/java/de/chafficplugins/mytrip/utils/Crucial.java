@@ -5,8 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 
-import java.io.IOException;
-
 import static de.chafficplugins.mytrip.utils.ConfigStrings.CRUCIAL_API_VERSION;
 
 public class Crucial {
@@ -39,7 +37,7 @@ public class Crucial {
         return false;
     }
 
-    public static boolean connect() throws IOException {
+    public static boolean connect() {
         org.bukkit.plugin.Plugin crucialAPI = plugin.getServer().getPluginManager().getPlugin("CrucialAPI");
         if (crucialAPI != null) {
             if (!crucialAPI.isEnabled()) {
