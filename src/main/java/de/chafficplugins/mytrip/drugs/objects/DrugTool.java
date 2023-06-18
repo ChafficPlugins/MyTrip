@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class DrugTool extends CrucialItem {
-    public static ArrayList<CrucialItem> tools = new ArrayList<>();
+    public static ArrayList<DrugTool> tools = new ArrayList<>();
     private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
 
     public DrugTool(String type) {
@@ -19,13 +19,17 @@ public class DrugTool extends CrucialItem {
     }
 
     //static
-    public static CrucialItem getById(UUID id) {
-        for (CrucialItem item : tools) {
+    public static DrugTool getById(UUID id) {
+        for (DrugTool item : tools) {
             if (item.isRegistered() && item.getId().equals(id)) {
                 return item;
             }
         }
         return null;
+    }
+
+    public static boolean isDrugSet(DrugTool tool) {
+        return tool.getId().equals(ConfigStrings.DRUG_SET_UUID);
     }
 
     public static void saveAll() throws IOException {
@@ -35,7 +39,7 @@ public class DrugTool extends CrucialItem {
     public static void loadAll() throws IOException, CrucialException {
         tools = plugin.fileManager.loadFromJson("tools.json", new TypeToken<ArrayList<DrugTool>>() {
         }.getType());
-        for (CrucialItem item : tools) {
+        for (DrugTool item : tools) {
             item.unregister();
             if(plugin.getConfigBoolean(ConfigStrings.DISABLE_DRUG_SET) && item.getId().equals(ConfigStrings.DRUG_SET_UUID))
                 continue;
