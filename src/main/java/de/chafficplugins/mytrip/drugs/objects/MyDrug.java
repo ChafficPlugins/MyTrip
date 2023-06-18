@@ -202,7 +202,10 @@ public class MyDrug extends CrucialItem {
             DrugPlayer.addPlayer(dp);
         }
         if(dp.consume(drug)) {
-            p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100*20, 0));
+            for (String effect : plugin.getConfigStringList(OVERDOSE_EFFECTS)) {
+                String[] split = effect.split(":");
+                p.addPotionEffect(new PotionEffect(Objects.requireNonNull(PotionEffectType.getByName(split[0])), 100*20, Integer.parseInt(split[1])));
+            }
         }
         doEffects(p, drug, duration, delay);
     }

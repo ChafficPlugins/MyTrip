@@ -12,6 +12,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
@@ -63,7 +64,10 @@ public class Addiction {
 
                         player.damage(intensity);
                         if(intensity > 5) {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 60 * intensity, 0));
+                            for(String type: plugin.getConfigStringList(ADDICTION_EFFECTS)) {
+                                String[] split = type.split(":");
+                                player.addPotionEffect(new PotionEffect(Objects.requireNonNull(PotionEffectType.getByName(split[0])), 60 * intensity, Integer.parseInt(split[2])));
+                            }
                         }
 
                         player.sendTitle(getLocalized(ADDICTION), getLocalized(ADDICTED_TO, CrucialItem.getById(drugId).getName()), 10, 40, 10);

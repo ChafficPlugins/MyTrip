@@ -19,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
 
 public final class MyTrip extends JavaPlugin {
@@ -80,6 +81,8 @@ public final class MyTrip extends JavaPlugin {
         getConfig().addDefault(ConfigStrings.SETTING_PERMISSIONS, false);
         getConfig().addDefault(ConfigStrings.SETTING_ALERTS, true);
         getConfig().addDefault(ConfigStrings.DISABLE_DRUG_SET, false);
+        getConfig().addDefault(ConfigStrings.ADDICTION_EFFECTS, List.of("CONFUSION:0"));
+        getConfig().addDefault(ConfigStrings.OVERDOSE_EFFECTS, List.of("BLINDNESS:0", "NAUSEA:0", "SLOW:0", "SLOW_DIGGING:0", "WEAKNESS:0"));
         getConfig().options().header("MyTrip config file");
         getConfig().set("version", getDescription().getVersion());
         getConfig().options().copyDefaults(true);
@@ -98,6 +101,10 @@ public final class MyTrip extends JavaPlugin {
 
     public String getConfigString(String path) {
         return getConfig().getString(path);
+    }
+
+    public List<String> getConfigStringList(String path) {
+        return getConfig().getStringList(path);
     }
 
     public void log(String message) {
