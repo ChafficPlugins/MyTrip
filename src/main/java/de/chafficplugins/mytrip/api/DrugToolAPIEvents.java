@@ -1,7 +1,7 @@
 package de.chafficplugins.mytrip.api;
 
 import de.chafficplugins.mytrip.drugs.objects.DrugPlayer;
-import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialLib.Utils.customItems.CrucialItem;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

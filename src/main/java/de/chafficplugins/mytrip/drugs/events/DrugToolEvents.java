@@ -3,8 +3,8 @@ package de.chafficplugins.mytrip.drugs.events;
 import de.chafficplugins.mytrip.drugs.objects.DrugPlayer;
 import de.chafficplugins.mytrip.drugs.objects.DrugTool;
 import de.chafficplugins.mytrip.utils.PlayerUtils;
-import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
-import io.github.chafficui.CrucialAPI.Utils.player.effects.VisualEffects;
+import io.github.chafficui.CrucialLib.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialLib.Utils.player.effects.VisualEffects;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -77,7 +77,7 @@ public class DrugToolEvents implements Listener {
                 for (PotionEffect effect : p.getActivePotionEffects()) {
                     p.removePotionEffect(effect.getType());
                 }
-                p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 120, 1));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 120, 1));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 120, 1));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 120, 1));
                 VisualEffects.removeBlood(p);

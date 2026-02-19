@@ -1,9 +1,9 @@
 package de.chafficplugins.mytrip.drugs.inventories;
 
 import de.chafficplugins.mytrip.drugs.objects.MyDrug;
-import io.github.chafficui.CrucialAPI.Utils.customItems.Stack;
-import io.github.chafficui.CrucialAPI.Utils.player.inventory.InventoryItem;
-import io.github.chafficui.CrucialAPI.Utils.player.inventory.Page;
+import io.github.chafficui.CrucialLib.Utils.customItems.Stack;
+import io.github.chafficui.CrucialLib.Utils.player.inventory.InventoryItem;
+import io.github.chafficui.CrucialLib.Utils.player.inventory.Page;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;

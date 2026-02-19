@@ -2,7 +2,7 @@ package de.chafficplugins.mytrip.drugs.objects;
 
 import de.chafficplugins.mytrip.MyTrip;
 import de.chafficplugins.mytrip.utils.MathUtils;
-import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialLib.Utils.customItems.CrucialItem;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;

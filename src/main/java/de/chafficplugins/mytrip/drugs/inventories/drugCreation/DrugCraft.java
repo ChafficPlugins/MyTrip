@@ -1,8 +1,8 @@
 package de.chafficplugins.mytrip.drugs.inventories.drugCreation;
 
 import de.chafficplugins.mytrip.drugs.objects.MyDrug;
-import io.github.chafficui.CrucialAPI.Utils.player.inventory.InventoryItem;
-import io.github.chafficui.CrucialAPI.Utils.player.inventory.Page;
+import io.github.chafficui.CrucialLib.Utils.player.inventory.InventoryItem;
+import io.github.chafficui.CrucialLib.Utils.player.inventory.Page;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
