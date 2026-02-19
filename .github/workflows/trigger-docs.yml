@@ -1,0 +1,19 @@
+name: Trigger Docs Rebuild
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'docs/**'
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger docs build in website repo
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.DOCS_DISPATCH_TOKEN }}" \
+            https://api.github.com/repos/ChafficPlugins/chafficplugins.github.io/dispatches \
+            -d '{"event_type":"docs-updated","client_payload":{"repo":"${{ github.repository }}","ref":"${{ github.sha }}"}}'
