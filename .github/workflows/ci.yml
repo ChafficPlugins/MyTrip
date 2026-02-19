@@ -29,3 +29,11 @@ jobs:
           name: Unit Tests
           path: target/surefire-reports/*.xml
           reporter: java-junit
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: MyTrip-${{ github.sha }}
+          path: target/MyTrip-v*.jar
+          if-no-files-found: error
