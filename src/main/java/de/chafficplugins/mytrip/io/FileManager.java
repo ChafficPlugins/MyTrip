@@ -4,8 +4,8 @@ import de.chafficplugins.mytrip.MyTrip;
 import de.chafficplugins.mytrip.drugs.objects.DrugPlayer;
 import de.chafficplugins.mytrip.drugs.objects.DrugTool;
 import de.chafficplugins.mytrip.drugs.objects.MyDrug;
-import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
-import io.github.chafficui.CrucialAPI.io.Json;
+import io.github.chafficui.CrucialLib.exceptions.CrucialException;
+import io.github.chafficui.CrucialLib.io.Json;
 
 import java.io.File;
 import java.io.FileOutputStream;

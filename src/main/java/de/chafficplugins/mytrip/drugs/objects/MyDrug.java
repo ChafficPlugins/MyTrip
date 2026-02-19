@@ -2,8 +2,8 @@ package de.chafficplugins.mytrip.drugs.objects;
 
 import com.google.gson.reflect.TypeToken;
 import de.chafficplugins.mytrip.MyTrip;
-import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
-import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
+import io.github.chafficui.CrucialLib.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialLib.exceptions.CrucialException;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;

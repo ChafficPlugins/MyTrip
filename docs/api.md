@@ -26,9 +26,18 @@ MyTrip is available via [JitPack](https://jitpack.io/). Add the following to you
 </dependency>
 ```
 
-Replace `VERSION` with the desired release tag (e.g., `0.7.6`). Check [JitPack](https://jitpack.io/#ChafficPlugins/MyTrip) for available versions.
+Replace `VERSION` with the desired release tag (e.g., `0.8.0`). Check [JitPack](https://jitpack.io/#ChafficPlugins/MyTrip) for available versions.
 
-> **Note:** MyTrip also depends on [CrucialAPI](https://github.com/Chafficui/CrucialAPI). If your plugin interacts with MyTrip's API, you may need CrucialAPI as a dependency as well.
+> **Note:** MyTrip depends on [CrucialLib](https://github.com/ChafficPlugins/CrucialLib) v3.0.0+. If your plugin interacts with MyTrip's custom item types, you may need CrucialLib as a dependency as well:
+>
+> ```xml
+> <dependency>
+>     <groupId>com.github.ChafficPlugins</groupId>
+>     <artifactId>CrucialLib</artifactId>
+>     <version>v3.0.0</version>
+>     <scope>provided</scope>
+> </dependency>
+> ```
 
 ---
 
@@ -69,7 +78,7 @@ Hook into drug tool interactions (drug tests, anti-toxin, drug set crafting).
 ```java
 import de.chafficplugins.mytrip.api.DrugToolAPIEvents;
 import de.chafficplugins.mytrip.drugs.objects.DrugPlayer;
-import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialLib.Utils.customItems.CrucialItem;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -124,25 +133,41 @@ public class MyDrugSetListener extends DrugSetAPIEvents {
 
 ### Registering Events
 
-Use `APICaller.registerEvent()` to register your event listener:
+Use `APICaller.registerEvent()` to register your event listener, and `APICaller.unregisterEvent()` to remove it:
 
 ```java
 import de.chafficplugins.mytrip.api.APICaller;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class MyPlugin extends JavaPlugin {
+    private MyDrugListener drugListener;
+
     @Override
     public void onEnable() {
-        APICaller.registerEvent(new MyDrugListener());
+        drugListener = new MyDrugListener();
+        APICaller.registerEvent(drugListener);
         APICaller.registerEvent(new MyToolListener());
         APICaller.registerEvent(new MyDrugSetListener());
+    }
+
+    @Override
+    public void onDisable() {
+        APICaller.unregisterEvent(drugListener);
     }
 }
 ```
 
-To unregister an event:
+> **Important:** Make sure MyTrip is listed as a `depend` or `softdepend` in your plugin's `plugin.yml` so it loads before your plugin.
 
-```java
-APICaller.unregisterEvent(myEventInstance);
+---
+
+## plugin.yml Example
+
+```yaml
+name: MyAddon
+version: 1.0
+main: com.example.myaddon.MyPlugin
+depend: [MyTrip]
 ```
 
 ---

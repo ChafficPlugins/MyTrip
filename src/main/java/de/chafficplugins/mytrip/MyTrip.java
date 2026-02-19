@@ -9,8 +9,8 @@ import de.chafficplugins.mytrip.io.MessagesYaml;
 import de.chafficplugins.mytrip.utils.ConfigStrings;
 import de.chafficplugins.mytrip.utils.Crucial;
 import de.chafficplugins.mytrip.utils.CustomMessages;
-import io.github.chafficui.CrucialAPI.Utils.Server;
-import io.github.chafficui.CrucialAPI.Utils.Stats;
+import io.github.chafficui.CrucialLib.Utils.Server;
+import io.github.chafficui.CrucialLib.Utils.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -36,7 +36,7 @@ public final class MyTrip extends JavaPlugin {
     public void onEnable() {
         try {
             if(Crucial.connect()) {
-                if (!Server.checkCompatibility("1.20", "1.19", "1.18", "1.17", "1.16", "1.15")) {
+                if (!Server.checkCompatibility("1.21", "1.20", "1.19", "1.18", "1.17", "1.16", "1.15")) {
                     warning("Unsupported server version, there may be some issues with this version. Please use a supported version.");
                     warning("This is NOT a bug. Do NOT report this!");
                 }

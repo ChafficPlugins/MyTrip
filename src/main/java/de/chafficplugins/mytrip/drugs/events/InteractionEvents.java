@@ -4,7 +4,7 @@ import de.chafficplugins.mytrip.MyTrip;
 import de.chafficplugins.mytrip.drugs.objects.DrugTool;
 import de.chafficplugins.mytrip.drugs.objects.MyDrug;
 import de.chafficplugins.mytrip.utils.PlayerUtils;
-import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialLib.Utils.customItems.CrucialItem;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

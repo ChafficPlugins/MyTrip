@@ -1,8 +1,8 @@
 package de.chafficplugins.mytrip.utils;
 
 import de.chafficplugins.mytrip.MyTrip;
-import io.github.chafficui.CrucialAPI.Utils.localization.LocalizedFromYaml;
-import io.github.chafficui.CrucialAPI.Utils.localization.Localizer;
+import io.github.chafficui.CrucialLib.Utils.localization.LocalizedFromYaml;
+import io.github.chafficui.CrucialLib.Utils.localization.Localizer;
 
 import java.io.IOException;
 

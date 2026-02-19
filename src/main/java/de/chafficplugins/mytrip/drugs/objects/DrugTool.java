@@ -3,8 +3,8 @@ package de.chafficplugins.mytrip.drugs.objects;
 import com.google.gson.reflect.TypeToken;
 import de.chafficplugins.mytrip.MyTrip;
 import de.chafficplugins.mytrip.utils.ConfigStrings;
-import io.github.chafficui.CrucialAPI.Utils.customItems.CrucialItem;
-import io.github.chafficui.CrucialAPI.exceptions.CrucialException;
+import io.github.chafficui.CrucialLib.Utils.customItems.CrucialItem;
+import io.github.chafficui.CrucialLib.exceptions.CrucialException;
 
 import java.io.IOException;
 import java.util.ArrayList;
