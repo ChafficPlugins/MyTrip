@@ -47,7 +47,7 @@ A video tutorial is available: [Watch on YouTube](https://youtu.be/aSUYqZ5cUVY)
 4. Restart the server.
 5. Check the changelog for any configuration changes that may be required.
 
-> **Note:** When updating from versions that used CrucialAPI (pre-v0.7.6), you must replace CrucialAPI with [CrucialLib v3.0.0+](https://github.com/ChafficPlugins/CrucialLib/releases). Existing drug data, player data, and configs are compatible.
+> **Note:** When updating from versions that used CrucialAPI (pre-v0.8.0), you must replace CrucialAPI with [CrucialLib v3.0.0+](https://github.com/ChafficPlugins/CrucialLib/releases). Existing drug data, player data, and configs are compatible.
 
 ## Troubleshooting
 

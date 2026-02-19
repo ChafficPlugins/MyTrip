@@ -16,7 +16,7 @@ cd MyTrip
 mvn clean package
 ```
 
-The plugin JAR will be at `target/MyTrip-v0.7.6.jar`.
+The plugin JAR will be at `target/MyTrip-v0.8.0.jar`.
 
 ### Running Tests
 
@@ -56,14 +56,10 @@ See [ARCHITECTURE.md](https://github.com/ChafficPlugins/MyTrip/blob/master/ARCHI
 
 ## CI/CD
 
-The project uses GitHub Actions for continuous integration. The workflow (`.github/workflows/ci.yml`) runs on every push and pull request to `master`/`main`:
+CI and docs deployment are handled by GitHub Actions workflows in `.github/workflows/`:
 
-1. Sets up Java 21 (Temurin)
-2. Runs `mvn -B verify` (compile, test, package)
-3. Generates a test report
-4. Uploads the built JAR as a workflow artifact
-
-All tests must pass before merging.
+- **`ci.yml`** — Runs `mvn -B verify` on every push and PR to `master`/`main`. Generates a test report and uploads the built JAR as an artifact. All tests must pass before merging.
+- **`trigger-docs.yml`** — Triggers a rebuild of the [docs website](https://chafficplugins.github.io) whenever files in `docs/` change on `master`.
 
 ## Contributing
 

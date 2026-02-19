@@ -44,7 +44,7 @@ overdose_effects:
 
 ```yaml
 # MyTrip config file
-version: 0.7.6
+version: 0.8.0
 features:
   heal_on_death: true
 settings:

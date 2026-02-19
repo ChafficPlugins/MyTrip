@@ -19,7 +19,7 @@ mvn test             # Run unit tests
 mvn clean verify     # Full build + test cycle
 ```
 
-Output JAR: `target/MyTrip-v0.7.6.jar`
+Output JAR: `target/MyTrip-v0.8.0.jar`
 
 ## Project Structure
 

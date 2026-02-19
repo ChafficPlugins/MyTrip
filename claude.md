@@ -6,8 +6,8 @@ MyTrip is a Spigot/Bukkit plugin for Minecraft that adds a custom drug system to
 
 MyTrip allows server administrators to create custom drugs with configurable potion effects, crafting recipes, addiction mechanics, and overdose thresholds. Players can consume drugs, become addicted, overdose, and use tools like drug tests and antitoxins. The plugin provides both in-game GUI interfaces and chat commands for drug management.
 
-**Version:** 0.7.6
-**API Version:** Spigot 1.15+ (compatible with 1.15 through 1.20)
+**Version:** 0.8.0
+**API Version:** Spigot 1.21+ (requires 1.21 or higher)
 **Java:** 16+
 **License:** GPL-3.0
 **Build System:** Maven
@@ -35,7 +35,7 @@ CrucialAPI is a required runtime dependency that provides:
 mvn clean package
 ```
 
-Output: `target/MyTrip-v0.7.6.jar`
+Output: `target/MyTrip-v0.8.0.jar`
 
 The build uses maven-shade-plugin to bundle compile-scope dependencies and maven-compiler-plugin targeting Java 14. JitPack CI is configured via `jitpack.yml` using OpenJDK 17.
 
