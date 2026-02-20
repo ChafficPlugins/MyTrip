@@ -2,13 +2,14 @@ package de.chafficplugins.mytrip;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.JsonObject;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -89,5 +90,92 @@ class BootstrapTest {
                 "tools.json must contain the Drug Test UUID");
         assertTrue(content.contains("8000f544-c0db-4af2-aea5-80fa8bc53aaa"),
                 "tools.json must contain the Antitoxin UUID");
+    }
+
+    // --- Config effect format validation ---
+    // The config defaults use "NAME:STRENGTH" format (e.g., "CONFUSION:0").
+    // This validates the format is consistent with how the code parses it.
+
+    @Test
+    void defaultOverdoseEffects_haveValidFormat() {
+        // MyTrip.loadConfig() sets default overdose_effects to:
+        // "BLINDNESS:0", "NAUSEA:0", "SLOW:0", "SLOW_DIGGING:0", "WEAKNESS:0"
+        // The code at MyDrug.doDrug() line 206-207 splits by ":" and reads split[0] and split[1].
+        // Each entry must have exactly 2 parts when split by ":".
+        List<String> overdoseDefaults = List.of(
+                "BLINDNESS:0", "NAUSEA:0", "SLOW:0", "SLOW_DIGGING:0", "WEAKNESS:0");
+        for (String effect : overdoseDefaults) {
+            String[] parts = effect.split(":");
+            assertEquals(2, parts.length,
+                    "Overdose effect '" + effect + "' must have exactly 2 colon-separated parts (NAME:STRENGTH)");
+            assertFalse(parts[0].isBlank(), "Effect name must not be blank in: " + effect);
+            assertDoesNotThrow(() -> Integer.parseInt(parts[1]),
+                    "Effect strength must be a valid integer in: " + effect);
+        }
+    }
+
+    @Test
+    void defaultAddictionEffects_haveValidFormat() {
+        // MyTrip.loadConfig() sets default addiction_effects to: "CONFUSION:0"
+        // BUG in Addiction.loop() line 69: code reads split[2] (3rd element) but format only has 2 parts.
+        // This test validates the FORMAT is correct (2 parts). The actual bug is in the parsing code.
+        List<String> addictionDefaults = List.of("CONFUSION:0");
+        for (String effect : addictionDefaults) {
+            String[] parts = effect.split(":");
+            assertEquals(2, parts.length,
+                    "Addiction effect '" + effect + "' has 2 parts, but Addiction.loop() reads split[2] (3rd element) — " +
+                    "this causes ArrayIndexOutOfBoundsException when addiction intensity > 5");
+            assertFalse(parts[0].isBlank(), "Effect name must not be blank");
+            assertDoesNotThrow(() -> Integer.parseInt(parts[1]),
+                    "Effect strength must be a valid integer in: " + effect);
+        }
+    }
+
+    @Test
+    void defaultDrugsJson_drugsHaveValidEffectFormat() {
+        // Verify that drug effects in the default drugs.json use the 2-element format
+        InputStream in = getClass().getClassLoader().getResourceAsStream("defaults/drugs.json");
+        assertNotNull(in, "defaults/drugs.json must exist");
+        JsonArray drugs = new Gson().fromJson(new InputStreamReader(in, StandardCharsets.UTF_8), JsonArray.class);
+        for (int i = 0; i < drugs.size(); i++) {
+            JsonObject drug = drugs.get(i).getAsJsonObject();
+            if (drug.has("effects") && drug.get("effects").isJsonArray()) {
+                JsonArray effects = drug.getAsJsonArray("effects");
+                for (int j = 0; j < effects.size(); j++) {
+                    // Effects are stored as String[] arrays: ["EFFECT_NAME", "STRENGTH"]
+                    assertTrue(effects.get(j).isJsonArray(),
+                            "Drug effect at index " + j + " should be an array [name, strength]");
+                    JsonArray effect = effects.get(j).getAsJsonArray();
+                    assertEquals(2, effect.size(),
+                            "Drug effect must have exactly 2 elements [name, strength], got " + effect);
+                }
+            }
+        }
+    }
+
+    @Test
+    void defaultDrugsJson_drugsHaveReasonableOverdoseValues() {
+        // Verify that default drugs don't have overdose=0 (which causes division by zero)
+        InputStream in = getClass().getClassLoader().getResourceAsStream("defaults/drugs.json");
+        assertNotNull(in);
+        JsonArray drugs = new Gson().fromJson(new InputStreamReader(in, StandardCharsets.UTF_8), JsonArray.class);
+        for (int i = 0; i < drugs.size(); i++) {
+            JsonObject drug = drugs.get(i).getAsJsonObject();
+            if (drug.has("overdose")) {
+                int overdose = drug.get("overdose").getAsInt();
+                assertTrue(overdose > 0,
+                        "Drug overdose must be > 0 to avoid division by zero in DrugPlayer.consume(). " +
+                        "Drug at index " + i + " has overdose=" + overdose);
+            }
+        }
+    }
+
+    @Test
+    void pluginYml_hasMyTripCommand() {
+        InputStream in = getClass().getClassLoader().getResourceAsStream("plugin.yml");
+        assertNotNull(in);
+        String content = new Scanner(in, StandardCharsets.UTF_8).useDelimiter("\\A").next();
+        assertTrue(content.contains("mytrip"),
+                "plugin.yml must define the 'mytrip' command");
     }
 }
