@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "💬 Discord Support"
+    url: https://discord.gg/RYFamQzkcB
+    about: Get help or chat with the community
+  - name: "📖 Documentation"
+    url: https://chafficplugins.github.io
+    about: Check the docs before filing an issue
