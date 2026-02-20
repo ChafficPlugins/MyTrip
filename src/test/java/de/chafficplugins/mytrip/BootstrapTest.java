@@ -171,6 +171,50 @@ class BootstrapTest {
     }
 
     @Test
+    void defaultDrugsJson_hasSampleDrugs() {
+        InputStream in = getClass().getClassLoader().getResourceAsStream("defaults/drugs.json");
+        assertNotNull(in, "defaults/drugs.json must exist");
+        JsonArray drugs = new Gson().fromJson(new InputStreamReader(in, StandardCharsets.UTF_8), JsonArray.class);
+        assertTrue(drugs.size() >= 1, "drugs.json should contain at least 1 sample drug");
+        for (int i = 0; i < drugs.size(); i++) {
+            JsonObject drug = drugs.get(i).getAsJsonObject();
+            assertTrue(drug.has("id"), "Drug at index " + i + " must have an 'id'");
+            assertTrue(drug.has("name"), "Drug at index " + i + " must have a 'name'");
+            assertTrue(drug.has("material"), "Drug at index " + i + " must have a 'material'");
+            assertTrue(drug.has("type"), "Drug at index " + i + " must have a 'type'");
+            assertEquals("drug", drug.get("type").getAsString(),
+                    "Drug at index " + i + " must have type='drug'");
+            assertTrue(drug.has("recipe"), "Drug at index " + i + " must have a 'recipe'");
+            assertEquals(9, drug.getAsJsonArray("recipe").size(),
+                    "Drug at index " + i + " recipe must have exactly 9 slots");
+            assertTrue(drug.has("duration"), "Drug at index " + i + " must have 'duration'");
+            assertTrue(drug.get("duration").getAsLong() > 0,
+                    "Drug at index " + i + " duration must be positive");
+            assertTrue(drug.has("addict"), "Drug at index " + i + " must have 'addict'");
+            int addict = drug.get("addict").getAsInt();
+            assertTrue(addict >= 0 && addict <= 100,
+                    "Drug at index " + i + " addict must be 0-100, got " + addict);
+        }
+    }
+
+    @Test
+    void defaultToolsJson_toolsHaveRequiredFields() {
+        InputStream in = getClass().getClassLoader().getResourceAsStream("defaults/tools.json");
+        assertNotNull(in);
+        JsonArray tools = new Gson().fromJson(new InputStreamReader(in, StandardCharsets.UTF_8), JsonArray.class);
+        for (int i = 0; i < tools.size(); i++) {
+            JsonObject tool = tools.get(i).getAsJsonObject();
+            assertTrue(tool.has("id"), "Tool at index " + i + " must have 'id'");
+            assertTrue(tool.has("name"), "Tool at index " + i + " must have 'name'");
+            assertTrue(tool.has("type"), "Tool at index " + i + " must have 'type'");
+            assertTrue(tool.has("material"), "Tool at index " + i + " must have 'material'");
+            assertTrue(tool.has("recipe"), "Tool at index " + i + " must have 'recipe'");
+            assertEquals(9, tool.getAsJsonArray("recipe").size(),
+                    "Tool at index " + i + " recipe must have exactly 9 slots");
+        }
+    }
+
+    @Test
     void pluginYml_hasMyTripCommand() {
         InputStream in = getClass().getClassLoader().getResourceAsStream("plugin.yml");
         assertNotNull(in);
