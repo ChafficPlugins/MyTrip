@@ -8,12 +8,11 @@ import io.github.chafficui.CrucialLib.exceptions.CrucialException;
 import io.github.chafficui.CrucialLib.io.Json;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
@@ -38,28 +37,34 @@ public class FileManager {
     }
 
     private void setup() throws IOException {
-        File playerData = new File(plugin.getDataFolder(), "/do not edit/playerdata.json");
         File dir = new File(plugin.getDataFolder(), "/do not edit/");
         if (!dir.exists() && !dir.mkdirs())
             throw new IOException("Could not create directory");
+
+        File playerData = new File(dir, "playerdata.json");
         if (!playerData.exists()) {
             if (!playerData.createNewFile())
-                throw new IOException("Could not create directory");
+                throw new IOException("Could not create playerdata.json");
         }
-        downloadFile("drugs.json", DRUGS_JSON);
-        downloadFile("tools.json", TOOLS_JSON);
+
+        copyDefaultIfMissing("drugs.json");
+        copyDefaultIfMissing("tools.json");
     }
 
-    public void downloadFile(String fileName, String downloadString) throws IOException {
-        if (!new File(plugin.getDataFolder(), "/do not edit/" + fileName).exists()) {
-            try {
-                URL website = new URL(DOWNLOAD_URL + downloadString);
-                ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-                FileOutputStream fos = new FileOutputStream(plugin.getDataFolder().getPath() + "/do not edit/" + fileName);
-                fos.getChannel().transferFrom(rbc, 0L, Long.MAX_VALUE);
-            } catch (IOException e) {
-                throw new IOException("Could not download " + fileName + "!");
+    /**
+     * Copies a default JSON file from the bundled resources to the data folder
+     * if it does not already exist.
+     */
+    private void copyDefaultIfMissing(String fileName) throws IOException {
+        File target = new File(plugin.getDataFolder(), "/do not edit/" + fileName);
+        if (!target.exists()) {
+            try (InputStream in = plugin.getResource("defaults/" + fileName)) {
+                if (in == null) {
+                    throw new IOException("Default resource not found: defaults/" + fileName);
+                }
+                Files.copy(in, target.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
+            plugin.log("Created default " + fileName);
         }
     }
 

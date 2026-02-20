@@ -3,7 +3,7 @@ version: '${project.version}'
 main: de.chafficplugins.mytrip.MyTrip
 api-version: '1.21'
 prefix: MyTrip
-softdepend: [ CrucialAPI ]
+softdepend: [ CrucialLib ]
 authors: [ '${project.organization.name}' ]
 website: '${project.organization.url}'
 commands:

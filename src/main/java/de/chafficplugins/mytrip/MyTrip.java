@@ -122,8 +122,10 @@ public final class MyTrip extends JavaPlugin {
     @Override
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
-        if(!Crucial.isIsConnected() || !fileManager.saveFiles()) {
-            error("Failed to save files. Disabling plugin.");
+        if(fileManager != null && Crucial.isIsConnected()) {
+            if(!fileManager.saveFiles()) {
+                error("Failed to save files.");
+            }
         }
     }
 }
