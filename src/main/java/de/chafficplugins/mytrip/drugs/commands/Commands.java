@@ -17,7 +17,7 @@ import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
 import static de.chafficplugins.mytrip.utils.PlayerUtils.hasOnePermissions;
 
 public class Commands {
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
 
     public enum CommandCategory {
         INFO,

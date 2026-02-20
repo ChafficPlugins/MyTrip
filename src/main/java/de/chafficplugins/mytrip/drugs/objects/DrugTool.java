@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class DrugTool extends CrucialItem {
     public static ArrayList<DrugTool> tools = new ArrayList<>();
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
 
     public DrugTool(String type) {
         super(type);

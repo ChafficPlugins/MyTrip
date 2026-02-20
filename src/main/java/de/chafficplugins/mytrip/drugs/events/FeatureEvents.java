@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import static de.chafficplugins.mytrip.utils.ConfigStrings.FEATURE_HEAL_ON_DEATH;
 
 public class FeatureEvents implements Listener {
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {

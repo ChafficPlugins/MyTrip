@@ -13,7 +13,7 @@ public class DrugPlayer {
     private final UUID uuid;
     private final ArrayList<Addiction> addictions = new ArrayList<>();
     private double dose;
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
 
     public DrugPlayer(Player player) {
         this.uuid = player.getUniqueId();

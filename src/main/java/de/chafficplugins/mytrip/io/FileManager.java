@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
 
 public class FileManager {
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
 
     public FileManager() throws IOException {
         setup();

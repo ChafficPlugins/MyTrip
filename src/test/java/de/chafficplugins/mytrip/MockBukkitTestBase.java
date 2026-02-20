@@ -9,10 +9,10 @@ import org.mockbukkit.mockbukkit.ServerMock;
  * Base class for tests that require a MockBukkit server.
  * Sets up the mock server and loads the MyTrip plugin.
  *
- * Note: CrucialLib is not available as a plugin in tests, so MyTrip will be
- * disabled during onLoad(). However, the plugin instance is still registered
- * and MyTrip.getPlugin(MyTrip.class) returns a valid reference, allowing
- * domain object instantiation and logic testing.
+ * Note: CrucialLib is not available as a plugin in tests, so Crucial.connect()
+ * returns false and onEnable() skips most initialization. However, the plugin
+ * instance is registered and MyTrip.getInstance() returns a valid reference,
+ * allowing domain object instantiation and logic testing.
  *
  * If MockBukkit cannot initialize (e.g., missing transitive dependencies),
  * all tests in subclasses are gracefully skipped via assumeTrue(pluginLoaded).
@@ -43,6 +43,8 @@ public abstract class MockBukkitTestBase {
         } catch (Throwable e) {
             // Plugin loading or MockBukkit initialization failed
             // Tests will be skipped via assumeTrue(pluginLoaded) in each test method
+            System.err.println("MockBukkitTestBase setup failed: " + e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace(System.err);
             pluginLoaded = false;
         }
     }

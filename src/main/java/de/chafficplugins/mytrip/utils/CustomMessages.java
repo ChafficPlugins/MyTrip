@@ -9,7 +9,7 @@ import java.io.IOException;
 import static de.chafficplugins.mytrip.utils.ConfigStrings.LOCALIZED_IDENTIFIER;
 
 public class CustomMessages extends LocalizedFromYaml {
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
 
     public CustomMessages() throws IOException {
         super(LOCALIZED_IDENTIFIER, plugin.getDataFolder(), "messages.yml");

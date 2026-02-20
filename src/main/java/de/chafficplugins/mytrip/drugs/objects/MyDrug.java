@@ -155,7 +155,7 @@ public class MyDrug extends CrucialItem {
 
     // Static
     private static final Set<MyDrug> unregisteredDrugs = new HashSet<>();
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
 
     public static MyDrug getUnregisteredDrugById(UUID id) {
         for (MyDrug drug : unregisteredDrugs) {
