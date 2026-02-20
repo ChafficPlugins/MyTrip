@@ -34,6 +34,12 @@
                     <include>plugin.yml</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources/</directory>
+                <includes>
+                    <include>defaults/**</include>
+                </includes>
+            </resource>
         </resources>
         <plugins>
             <plugin>
@@ -88,9 +94,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.21.11-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

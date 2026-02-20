@@ -1,0 +1,38 @@
+[
+  {
+    "id": "2e116c45-8bd6-4297-a8c1-98041c08d39c",
+    "type": "drug_set",
+    "name": "Drug Set",
+    "material": "CRAFTING_TABLE",
+    "lore": ["A portable crafting station", "for creating drugs."],
+    "recipe": ["IRON_INGOT", "IRON_INGOT", "IRON_INGOT", "AIR", "CRAFTING_TABLE", "AIR", "IRON_INGOT", "IRON_INGOT", "IRON_INGOT"],
+    "isRegistered": true,
+    "isCraftable": true,
+    "isUsable": true,
+    "isAllowedForCrafting": false
+  },
+  {
+    "id": "8000f544-c0db-4af2-aea5-80fa8bc53aaa",
+    "type": "antitoxin",
+    "name": "Antitoxin",
+    "material": "MILK_BUCKET",
+    "lore": ["Removes all drug effects", "and clears addictions."],
+    "recipe": ["NETHER_WART", "NETHER_WART", "NETHER_WART", "NETHER_WART", "MILK_BUCKET", "NETHER_WART", "NETHER_WART", "NETHER_WART", "NETHER_WART"],
+    "isRegistered": true,
+    "isCraftable": true,
+    "isUsable": true,
+    "isAllowedForCrafting": false
+  },
+  {
+    "id": "764d1358-32d9-4f8b-af6c-c5d64de2bfd0",
+    "type": "drug_test",
+    "name": "Drug Test",
+    "material": "PAPER",
+    "lore": ["Right-click a player to", "test if they are high."],
+    "recipe": ["AIR", "AIR", "AIR", "AIR", "PAPER", "AIR", "AIR", "REDSTONE", "AIR"],
+    "isRegistered": true,
+    "isCraftable": true,
+    "isUsable": true,
+    "isAllowedForCrafting": false
+  }
+]

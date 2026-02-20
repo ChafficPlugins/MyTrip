@@ -5,7 +5,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class PlayerUtils {
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
 
     public static boolean hasOnePermissions(Entity entity, String... permissions) {
         if(entity instanceof Player && plugin.getConfigBoolean(ConfigStrings.SETTING_PERMISSIONS)) {

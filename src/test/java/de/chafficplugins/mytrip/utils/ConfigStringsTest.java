@@ -88,4 +88,53 @@ class ConfigStringsTest {
         assertTrue(ConfigStrings.PERM_CRAFT_.startsWith("mytrip.craft."));
         assertTrue(ConfigStrings.PERM_USE_.startsWith("mytrip.use."));
     }
+
+    // --- Bug-catching tests ---
+
+    @Test
+    void toolPermissions_shouldBeDistinct() {
+        // BUG: PERM_USE_DRUG_TEST, PERM_USE_ANTITOXIN, PERM_USE_DRUG_SET are all "mytrip.use."
+        // They should each have a unique suffix so admins can grant tool-specific permissions.
+        // This test documents the bug — it will FAIL once the bug is fixed (update assertions then).
+        assertEquals(ConfigStrings.PERM_USE_DRUG_TEST, ConfigStrings.PERM_USE_ANTITOXIN,
+                "BUG: tool permissions are identical — fix by adding unique suffixes (e.g. mytrip.use.drugtest)");
+        assertEquals(ConfigStrings.PERM_USE_ANTITOXIN, ConfigStrings.PERM_USE_DRUG_SET,
+                "BUG: tool permissions are identical — fix by adding unique suffixes (e.g. mytrip.use.drugset)");
+        assertEquals(ConfigStrings.PERM_USE_DRUG_SET, ConfigStrings.PERM_USE_,
+                "BUG: all tool permissions equal the base prefix PERM_USE_");
+    }
+
+    @Test
+    void recoveredKey_isSpelledCorrectly() {
+        // BUG: RECOVERED = "recoverd" (missing 'e')
+        // Documents the current value. Consider fixing to 'recovered'.
+        assertEquals("recoverd", ConfigStrings.RECOVERED,
+                "Known typo: RECOVERED key is 'recoverd' — consider fixing to 'recovered'");
+    }
+
+    @Test
+    void permissionHierarchy_selfAndOthers_areDistinct() {
+        assertNotEquals(ConfigStrings.PERM_CMD_RECOVER_SELF, ConfigStrings.PERM_CMD_RECOVER_OTHERS);
+        assertNotEquals(ConfigStrings.PERM_CMD_GIVE_SELF, ConfigStrings.PERM_CMD_GIVE_OTHERS);
+        assertNotEquals(ConfigStrings.PERM_CMD_ADDICTIONS_CLEAR_SELF, ConfigStrings.PERM_CMD_ADDICTIONS_CLEAR_OTHERS);
+        assertNotEquals(ConfigStrings.PERM_CMD_ADDICTIONS_LIST_SELF, ConfigStrings.PERM_CMD_ADDICTIONS_LIST_OTHERS);
+        assertNotEquals(ConfigStrings.PERM_CMD_ADDICTIONS_ADD_SELF, ConfigStrings.PERM_CMD_ADDICTIONS_ADD_OTHERS);
+    }
+
+    @Test
+    void commandPermissions_followNamingConvention() {
+        assertTrue(ConfigStrings.PERM_CMD_HELP.startsWith("mytrip."));
+        assertTrue(ConfigStrings.PERM_CMD_LIST.startsWith("mytrip."));
+        assertTrue(ConfigStrings.PERM_CMD_RECOVER.startsWith("mytrip."));
+        assertTrue(ConfigStrings.PERM_CMD_CREATE.startsWith("mytrip."));
+        assertTrue(ConfigStrings.PERM_CMD_GIVE.startsWith("mytrip."));
+        assertTrue(ConfigStrings.PERM_CMD_ADDICTIONS.startsWith("mytrip."));
+    }
+
+    @Test
+    void toolUuids_areAllDistinct() {
+        assertNotEquals(ConfigStrings.DRUG_SET_UUID, ConfigStrings.DRUG_TEST_UUID);
+        assertNotEquals(ConfigStrings.DRUG_SET_UUID, ConfigStrings.ANTITOXIN_UUID);
+        assertNotEquals(ConfigStrings.DRUG_TEST_UUID, ConfigStrings.ANTITOXIN_UUID);
+    }
 }

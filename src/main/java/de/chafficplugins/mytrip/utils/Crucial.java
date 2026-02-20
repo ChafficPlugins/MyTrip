@@ -8,11 +8,11 @@ import org.bukkit.plugin.Plugin;
 import static de.chafficplugins.mytrip.utils.ConfigStrings.CRUCIAL_LIB_VERSION;
 
 public class Crucial {
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
     private static boolean isConnected = false;
 
     public static void init() {
-        Plugin crucialLib = plugin.getServer().getPluginManager().getPlugin("CrucialAPI");
+        Plugin crucialLib = plugin.getServer().getPluginManager().getPlugin("CrucialLib");
         if (crucialLib == null) {
             plugin.log("CrucialLib not found.");
             plugin.log("Please download version " + CRUCIAL_LIB_VERSION + " or higher from: https://github.com/ChafficPlugins/CrucialLib");
@@ -38,7 +38,7 @@ public class Crucial {
     }
 
     public static boolean connect() {
-        org.bukkit.plugin.Plugin crucialLib = plugin.getServer().getPluginManager().getPlugin("CrucialAPI");
+        org.bukkit.plugin.Plugin crucialLib = plugin.getServer().getPluginManager().getPlugin("CrucialLib");
         if (crucialLib != null) {
             if (!crucialLib.isEnabled()) {
                 Bukkit.getPluginManager().enablePlugin(crucialLib);

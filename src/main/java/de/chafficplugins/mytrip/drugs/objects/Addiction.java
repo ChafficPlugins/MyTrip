@@ -19,7 +19,7 @@ import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
 import static de.chafficplugins.mytrip.utils.CustomMessages.getLocalized;
 
 public class Addiction {
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
 
     final UUID drugId;
     private int intensity;

@@ -9,7 +9,7 @@ import java.io.IOException;
 import static de.chafficplugins.mytrip.utils.ConfigStrings.*;
 
 public class MessagesYaml {
-    private static final MyTrip plugin = MyTrip.getPlugin(MyTrip.class);
+    private static final MyTrip plugin = MyTrip.getInstance();
 
     public static void create() throws IOException {
         File messageFile = new File(plugin.getDataFolder(), "messages.yml");

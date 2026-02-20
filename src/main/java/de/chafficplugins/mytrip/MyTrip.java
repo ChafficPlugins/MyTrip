@@ -22,13 +22,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
-public final class MyTrip extends JavaPlugin {
+public class MyTrip extends JavaPlugin {
+    private static MyTrip instance;
     public final Logger logger = Logger.getLogger("MyTrip");
     public FileManager fileManager;
     public CustomMessages customMessages;
 
+    public static MyTrip getInstance() {
+        return instance;
+    }
+
     @Override
     public void onLoad() {
+        instance = this;
         Crucial.init();
     }
 
@@ -122,8 +128,10 @@ public final class MyTrip extends JavaPlugin {
     @Override
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
-        if(!Crucial.isIsConnected() || !fileManager.saveFiles()) {
-            error("Failed to save files. Disabling plugin.");
+        if(fileManager != null && Crucial.isIsConnected()) {
+            if(!fileManager.saveFiles()) {
+                error("Failed to save files.");
+            }
         }
     }
 }
