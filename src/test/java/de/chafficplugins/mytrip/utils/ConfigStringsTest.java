@@ -10,7 +10,7 @@ class ConfigStringsTest {
 
     @Test
     void crucialLibVersion_is3_0_0() {
-        assertEquals("3.0.0", ConfigStrings.CRUCIAL_LIB_VERSION);
+        assertEquals("3.0.1", ConfigStrings.CRUCIAL_LIB_VERSION);
     }
 
     @Test

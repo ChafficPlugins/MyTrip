@@ -44,7 +44,7 @@ overdose_effects:
 
 ```yaml
 # MyTrip config file
-version: 0.8.0
+version: 0.8.1
 features:
   heal_on_death: true
 settings:
@@ -85,19 +85,33 @@ The Drug Set is a custom crafting station block where drugs are crafted. Players
 
 The Drug Set can be disabled by setting `disable_drug_set` to `true` in `config.yml`. It is also automatically disabled on offline-mode servers.
 
-**Crafting recipe:**
+- **Material:** Crafting Table
+- **Lore:** "A portable crafting station for creating drugs."
 
-![Drug Set Recipe](https://i.ibb.co/FHRfZtD/Drugset.png)
+**Default crafting recipe:**
+
+```
+[Iron Ingot] [Iron Ingot]    [Iron Ingot]
+[   AIR    ] [Crafting Table] [   AIR    ]
+[Iron Ingot] [Iron Ingot]    [Iron Ingot]
+```
 
 ---
 
 ## Anti-Toxin
 
-Anti-toxin is a consumable item that removes all active drug effects from a player. It also grants temporary resistance, saturation, and luck effects.
+Anti-Toxin is a consumable item that removes all active drug effects from a player. It also grants temporary Resistance, Saturation, and Luck effects and removes visual blood effects.
 
-**Crafting recipe:**
+- **Material:** Milk Bucket
+- **Lore:** "Removes all drug effects and clears addictions."
 
-![Anti-Toxin Recipe](https://i.ibb.co/G01CVv5/Antitoxin.png)
+**Default crafting recipe:**
+
+```
+[Nether Wart] [Nether Wart] [Nether Wart]
+[Nether Wart] [Milk Bucket] [Nether Wart]
+[Nether Wart] [Nether Wart] [Nether Wart]
+```
 
 ---
 
@@ -105,9 +119,16 @@ Anti-toxin is a consumable item that removes all active drug effects from a play
 
 The Drug Test is an item used to test whether a player currently has drugs in their system. Right-click on a player to test them.
 
-**Crafting recipe:**
+- **Material:** Paper
+- **Lore:** "Right-click a player to test if they are high."
 
-![Drug Test Recipe](https://i.ibb.co/N7cG27p/drug-test.png)
+**Default crafting recipe:**
+
+```
+[  AIR  ] [  AIR  ] [  AIR  ]
+[  AIR  ] [ Paper ] [  AIR  ]
+[  AIR  ] [Redstone] [  AIR  ]
+```
 
 ---
 

@@ -26,15 +26,15 @@ MyTrip is available via [JitPack](https://jitpack.io/). Add the following to you
 </dependency>
 ```
 
-Replace `VERSION` with the desired release tag (e.g., `0.8.0`). Check [JitPack](https://jitpack.io/#ChafficPlugins/MyTrip) for available versions.
+Replace `VERSION` with the desired release tag (e.g., `0.8.1`). Check [JitPack](https://jitpack.io/#ChafficPlugins/MyTrip) for available versions.
 
-> **Note:** MyTrip depends on [CrucialLib](https://github.com/ChafficPlugins/CrucialLib) v3.0.0+. If your plugin interacts with MyTrip's custom item types, you may need CrucialLib as a dependency as well:
+> **Note:** MyTrip depends on [CrucialLib](https://github.com/ChafficPlugins/CrucialLib) v3.0.1+. If your plugin interacts with MyTrip's custom item types, you may need CrucialLib as a dependency as well:
 >
 > ```xml
 > <dependency>
 >     <groupId>com.github.ChafficPlugins</groupId>
 >     <artifactId>CrucialLib</artifactId>
->     <version>v3.0.0</version>
+>     <version>v3.0.1</version>
 >     <scope>provided</scope>
 > </dependency>
 > ```
