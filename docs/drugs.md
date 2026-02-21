@@ -17,6 +17,97 @@ Drugs are custom consumable items that apply potion effects to players. Each dru
 | **Overdose** | Number of concurrent doses before overdose triggers | 0–99 |
 | **Addiction Probability** | Percent chance of developing/increasing addiction per use | 0–100 |
 
+## Default Drugs
+
+MyTrip ships with 5 pre-configured drugs. These are created automatically on first startup.
+
+### Weed
+
+| Property | Value |
+|---|---|
+| Material | Kelp |
+| Effects | Slowness I, Hunger I, Regeneration I |
+| Duration | 120s |
+| Effect Delay | 3s |
+| Overdose | 8 doses |
+| Addiction | 10% |
+
+```
+[   AIR    ] [   AIR    ] [   AIR    ]
+[Wheat Seeds] [   Kelp   ] [Wheat Seeds]
+[   AIR    ] [  Paper   ] [   AIR    ]
+```
+
+### Cocaine
+
+| Property | Value |
+|---|---|
+| Material | Sugar |
+| Effects | Speed III, Haste II, Jump Boost II |
+| Duration | 60s |
+| Effect Delay | 1s |
+| Overdose | 4 doses |
+| Addiction | 35% |
+
+```
+[  AIR  ] [ Sugar ] [  AIR  ]
+[ Sugar ] [Glass Bottle] [ Sugar ]
+[  AIR  ] [ Sugar ] [  AIR  ]
+```
+
+### LSD
+
+| Property | Value |
+|---|---|
+| Material | Paper |
+| Effects | Night Vision I, Nausea I, Slowness I |
+| Duration | 180s |
+| Effect Delay | 5s |
+| Overdose | 3 doses |
+| Addiction | 15% |
+
+```
+[   AIR    ] [   AIR    ] [   AIR    ]
+[Nether Wart] [  Paper   ] [Nether Wart]
+[   AIR    ] [Spider Eye] [   AIR    ]
+```
+
+### Heroin
+
+| Property | Value |
+|---|---|
+| Material | Blaze Powder |
+| Effects | Strength II, Resistance II, Slowness II, Blindness I |
+| Duration | 90s |
+| Effect Delay | 2s |
+| Overdose | 2 doses |
+| Addiction | 60% |
+
+```
+[   AIR    ] [Blaze Powder] [   AIR    ]
+[Nether Wart] [Glass Bottle] [Nether Wart]
+[   AIR    ] [Blaze Powder] [   AIR    ]
+```
+
+### Ecstasy
+
+| Property | Value |
+|---|---|
+| Material | Glowstone Dust |
+| Effects | Speed II, Jump Boost III, Night Vision I, Regeneration I |
+| Duration | 150s |
+| Effect Delay | 4s |
+| Overdose | 5 doses |
+| Addiction | 25% |
+
+```
+[   AIR    ] [Glowstone Dust] [   AIR    ]
+[ Redstone ] [   Diamond   ] [ Redstone ]
+[   AIR    ] [Glowstone Dust] [   AIR    ]
+```
+
+---
+
 ## Creating Drugs
 
 ### In-Game GUI (Recommended)
@@ -165,17 +256,37 @@ Permission required: `mytrip.craft.<drugname>` (if permissions enabled)
 
 ## Tools
 
+MyTrip includes 3 tools that are created on first startup. Their recipes can be customized by editing `tools.json` while the server is stopped.
+
 ### Drug Set
 
 A portable crafting station for drugs. Place as a block and right-click to open.
 
-- Identified by a hardcoded UUID
+- **Material:** Crafting Table
 - Automatically disabled on offline-mode servers
 - Can be toggled via `disable_drug_set` config option
+
+**Default recipe:**
+
+```
+[Iron Ingot] [Iron Ingot]    [Iron Ingot]
+[   AIR    ] [Crafting Table] [   AIR    ]
+[Iron Ingot] [Iron Ingot]    [Iron Ingot]
+```
 
 ### Drug Test
 
 Right-click on another player to test if they have drugs in their system (dose > 0). The result is displayed as a chat message.
+
+- **Material:** Paper
+
+**Default recipe:**
+
+```
+[  AIR  ] [  AIR  ] [  AIR  ]
+[  AIR  ] [ Paper ] [  AIR  ]
+[  AIR  ] [Redstone] [  AIR  ]
+```
 
 ### Anti-Toxin
 
@@ -183,3 +294,13 @@ A consumable item that:
 - Removes all active potion effects from the player
 - Grants temporary Resistance, Saturation, and Luck
 - Removes any visual blood effects (via CrucialLib VisualEffects)
+
+- **Material:** Milk Bucket
+
+**Default recipe:**
+
+```
+[Nether Wart] [Nether Wart] [Nether Wart]
+[Nether Wart] [Milk Bucket] [Nether Wart]
+[Nether Wart] [Nether Wart] [Nether Wart]
+```

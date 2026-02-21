@@ -33,12 +33,12 @@ public class Commands {
         performCommand(caller, category, null, null, null);
     }
 
-    public static void callCommand(Player caller, CommandCategory category, String sub) {
-        performCommand(caller, category, sub, sub, null);
+    public static void callCommand(Player caller, CommandCategory category, String drugNameOrSub) {
+        performCommand(caller, category, drugNameOrSub, drugNameOrSub, null);
     }
 
-    public static void callCommand(Player caller, CommandCategory category, String sub, String affected) {
-        getAffectedPlayer(caller, category, sub, sub, affected);
+    public static void callCommand(Player caller, CommandCategory category, String drugNameOrSub, String affected) {
+        getAffectedPlayer(caller, category, drugNameOrSub, drugNameOrSub, affected);
     }
 
     public static void callCommand(Player caller, CommandCategory category, String sub, String drugName, String affected) {
@@ -104,7 +104,7 @@ public class Commands {
             return;
         }
         DrugPlayer drugPlayer = DrugPlayer.getPlayer(affected.getUniqueId());
-        if(drugPlayer != null && drugPlayer.getDose() <= 0) {
+        if(drugPlayer != null && drugPlayer.getDose() > 0) {
             drugPlayer.setDose(0);
             for (PotionEffect effect : affected.getActivePotionEffects()) {
                 affected.removePotionEffect(effect.getType());

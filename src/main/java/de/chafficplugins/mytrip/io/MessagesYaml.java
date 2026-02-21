@@ -36,7 +36,7 @@ public class MessagesYaml {
         messages.addDefault(CLEARED_ADDICTIONS_OF_PLAYER, "You cleared the addictions of {0}!");
         messages.addDefault(ADDICTIONS_OF, "Addictions of {0}: ");
         messages.addDefault(ADDICTED_TO, "You are addicted to {0}!");
-        messages.addDefault(UNKNOWN_PLAYER_OR_ALREADY_ADDICTED, "The player {0} was not found or he is already addicted to {0}!");
+        messages.addDefault(UNKNOWN_PLAYER_OR_ALREADY_ADDICTED, "The player {0} was not found or is already addicted to {1}!");
         messages.addDefault(ADDED_ADDICTION, "You added {0} to {1}'s addictions!");
         messages.addDefault(NO_PERMS_TO_DO_THIS, "You don't have the permission to do this!");
         messages.addDefault(IS_HIGH, "{0} is high!");

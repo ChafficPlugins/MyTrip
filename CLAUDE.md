@@ -7,7 +7,7 @@ MyTrip is a Spigot plugin that adds drugs to Minecraft. Players can craft custom
 ## Dependencies
 
 - **Spigot API**: 1.21.4-R0.1-SNAPSHOT
-- **CrucialLib** (plugin.yml softdepend: `CrucialAPI`): v3.0.0 — provides custom items (`CrucialItem`), GUI pages, localization, JSON I/O, and visual effects
+- **CrucialLib** (plugin.yml softdepend: `CrucialLib`): v3.0.1 — provides custom items (`CrucialItem`), GUI pages, localization, JSON I/O, and visual effects
 - **Java**: 21
 - **Gson** (transitive via CrucialLib): JSON serialization for drug/tool/player data
 
@@ -19,7 +19,7 @@ mvn test             # Run unit tests
 mvn clean verify     # Full build + test cycle
 ```
 
-Output JAR: `target/MyTrip-v0.8.0.jar`
+Output JAR: `target/MyTrip-v0.8.1.jar`
 
 ## Project Structure
 

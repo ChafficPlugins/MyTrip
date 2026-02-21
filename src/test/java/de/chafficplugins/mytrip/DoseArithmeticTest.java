@@ -101,23 +101,17 @@ class DoseArithmeticTest {
     }
 
     @Test
-    void doseFormula_overdoseSeven_floatingPointBug() {
-        // BUG: 7 * (1.0/7.0) does NOT reach 1.0 due to IEEE 754 floating point.
-        // dose = 0.9999999999999998 after 7 consumes, so overdose NEVER triggers.
-        // This means drugs with overdose=7 (and other values where 1/n is not
-        // exactly representable) never trigger overdose no matter how many times consumed.
+    void doseFormula_overdoseSeven_triggersWithEpsilon() {
+        // With epsilon comparison (dose >= 1 - 1e-9), floating-point imprecision
+        // no longer prevents overdose=7 from triggering.
         double dose = 0;
         int overdose = 7;
         for (int i = 0; i < 7; i++) {
             dose += 1d / (double) overdose;
         }
-        // This documents the bug: dose is 0.9999999999999998, NOT >= 1.0
-        assertFalse(dose >= 1,
-                "BUG CONFIRMED: 7 consumes with overdose=7 yields dose=" + dose +
-                " which is NOT >= 1.0. Overdose never triggers for overdose=7. " +
-                "Fix: use integer dose tracking or epsilon comparison");
-        assertTrue(dose > 0.999,
-                "Dose should be very close to 1.0 (floating point rounding issue)");
+        // dose is 0.9999999999999998, which passes >= 1 - 1e-9
+        assertTrue(dose >= 1 - 1e-9,
+                "7 consumes with overdose=7 should trigger overdose with epsilon comparison, dose=" + dose);
     }
 
     @Test
@@ -142,12 +136,12 @@ class DoseArithmeticTest {
     // --- Setter boundary validation (matching MyDrug.setOverdose logic) ---
 
     @Test
-    void overdoseSetter_boundary_zeroIsAllowed() {
-        // MyDrug.setOverdose: if(overdose < 0 || overdose > 99) return;
-        // 0 passes the guard, which enables the division-by-zero bug.
+    void overdoseSetter_boundary_zeroIsRejected() {
+        // MyDrug.setOverdose: if(overdose < 1 || overdose > 99) return;
+        // 0 is now rejected, preventing division-by-zero.
         int overdose = 0;
-        boolean rejected = (overdose < 0 || overdose > 99);
-        assertFalse(rejected, "BUG: overdose=0 passes validation but causes division by zero in consume()");
+        boolean rejected = (overdose < 1 || overdose > 99);
+        assertTrue(rejected, "overdose=0 should be rejected to prevent division by zero in consume()");
     }
 
     @Test
@@ -218,16 +212,16 @@ class DoseArithmeticTest {
     }
 
     @Test
-    void alterIntensity_noFloor_goesNegative() {
-        // BUG: No floor guard — intensity can go negative
+    void alterIntensity_floorGuard_preventsNegative() {
+        // Floor guard: result must be >= 1 and <= 8
         int intensity = 1;
         int alter = -10;
-        if (intensity + alter < 9) { // 1 + (-10) = -9 < 9, passes
-            intensity += alter;
+        int result = intensity + alter;
+        if (result >= 1 && result <= 8) {
+            intensity = result;
         }
-        assertEquals(-9, intensity,
-                "BUG: alterIntensity allows negative values — intensity becomes -9. " +
-                "This causes 16000 / -9 = -1777 in loop(), and player.damage(-9) heals the player");
+        assertEquals(1, intensity,
+                "alterIntensity should block negative results — intensity stays at 1");
     }
 
     @Test

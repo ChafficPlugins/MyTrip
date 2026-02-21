@@ -86,22 +86,19 @@ class AddictionTest extends MockBukkitTestBase {
     }
 
     @Test
-    void alterIntensity_noFloor_goesNegative() {
-        // BUG: No floor guard — intensity can go below 0
+    void alterIntensity_floorGuard_preventsNegative() {
         Addiction addiction = new Addiction(testDrug.getId(), 1, player.getUniqueId());
-        addiction.alterIntensity(-5); // 1 + (-5) = -4 < 9, passes guard
-        assertEquals(-4, addiction.getIntensity(),
-                "BUG: alterIntensity has no floor — intensity goes negative, causing " +
-                "negative damage and division issues in loop()");
+        addiction.alterIntensity(-5); // 1 + (-5) = -4, blocked by floor guard
+        assertEquals(1, addiction.getIntensity(),
+                "alterIntensity should block negative results — intensity stays at 1");
     }
 
     @Test
-    void alterIntensity_toZero_allowedButDangerous() {
-        // BUG: intensity=0 causes ArithmeticException in loop() (16000 / 0)
+    void alterIntensity_floorGuard_preventsZero() {
         Addiction addiction = new Addiction(testDrug.getId(), 1, player.getUniqueId());
-        addiction.alterIntensity(-1); // 1 + (-1) = 0 < 9, passes guard
-        assertEquals(0, addiction.getIntensity(),
-                "BUG: intensity=0 is allowed but causes division by zero in loop()");
+        addiction.alterIntensity(-1); // 1 + (-1) = 0, blocked by floor guard (must be >= 1)
+        assertEquals(1, addiction.getIntensity(),
+                "alterIntensity should block result=0 to prevent division by zero in loop()");
     }
 
     // --- Intensity at boundaries ---

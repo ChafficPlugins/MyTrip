@@ -16,7 +16,7 @@ cd MyTrip
 mvn clean package
 ```
 
-The plugin JAR will be at `target/MyTrip-v0.8.0.jar`.
+The plugin JAR will be at `target/MyTrip-v0.8.1.jar`.
 
 ### Running Tests
 
@@ -48,8 +48,8 @@ See [ARCHITECTURE.md](https://github.com/ChafficPlugins/MyTrip/blob/master/ARCHI
 
 | Dependency | Version | Scope | Purpose |
 |---|---|---|---|
-| [Spigot API](https://hub.spigotmc.org/) | 1.21.4-R0.1-SNAPSHOT | provided | Minecraft server API |
-| [CrucialLib](https://github.com/ChafficPlugins/CrucialLib) | v3.0.0 | provided | Custom items, GUI, localization, JSON I/O |
+| [Paper API](https://papermc.io/) | 1.21.4-R0.1-SNAPSHOT | provided | Minecraft server API |
+| [CrucialLib](https://github.com/ChafficPlugins/CrucialLib) | v3.0.1 | provided | Custom items, GUI, localization, JSON I/O |
 | [JetBrains Annotations](https://github.com/JetBrains/java-annotations) | 19.0.0 | compile | Nullability annotations |
 | [JUnit 5](https://junit.org/junit5/) | 5.11.0 | test | Unit testing framework |
 | [MockBukkit](https://github.com/MockBukkit/MockBukkit) | 4.101.0 | test | Bukkit API mocking |
@@ -87,7 +87,7 @@ CI and docs deployment are handled by GitHub Actions workflows in `.github/workf
 ### Manual Testing
 
 1. Set up a Spigot/Paper 1.21+ test server
-2. Install CrucialLib v3.0.0 in `plugins/`
+2. Install CrucialLib v3.0.1 in `plugins/`
 3. Build MyTrip (`mvn clean package`) and copy the JAR to `plugins/`
 4. Start the server and verify:
    - Plugin loads without errors

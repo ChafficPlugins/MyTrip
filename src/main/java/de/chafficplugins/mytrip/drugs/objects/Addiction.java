@@ -39,8 +39,9 @@ public class Addiction {
     }
 
     public void alterIntensity(int alter) {
-        if (intensity + alter < 9) {
-            intensity += alter;
+        int result = intensity + alter;
+        if (result >= 1 && result <= 8) {
+            intensity = result;
         }
     }
 
@@ -53,6 +54,7 @@ public class Addiction {
     }
 
     public void loop() {
+        if (intensity <= 0) return;
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -66,7 +68,7 @@ public class Addiction {
                         if(intensity > 5) {
                             for(String type: plugin.getConfigStringList(ADDICTION_EFFECTS)) {
                                 String[] split = type.split(":");
-                                player.addPotionEffect(new PotionEffect(Objects.requireNonNull(PotionEffectType.getByName(split[0])), 60 * intensity, Integer.parseInt(split[2])));
+                                player.addPotionEffect(new PotionEffect(Objects.requireNonNull(PotionEffectType.getByName(split[0])), 60 * intensity, Integer.parseInt(split[1])));
                             }
                         }
 

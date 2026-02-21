@@ -10,7 +10,7 @@ class ConfigStringsTest {
 
     @Test
     void crucialLibVersion_is3_0_0() {
-        assertEquals("3.0.0", ConfigStrings.CRUCIAL_LIB_VERSION);
+        assertEquals("3.0.1", ConfigStrings.CRUCIAL_LIB_VERSION);
     }
 
     @Test
@@ -92,24 +92,24 @@ class ConfigStringsTest {
     // --- Bug-catching tests ---
 
     @Test
-    void toolPermissions_shouldBeDistinct() {
-        // BUG: PERM_USE_DRUG_TEST, PERM_USE_ANTITOXIN, PERM_USE_DRUG_SET are all "mytrip.use."
-        // They should each have a unique suffix so admins can grant tool-specific permissions.
-        // This test documents the bug — it will FAIL once the bug is fixed (update assertions then).
-        assertEquals(ConfigStrings.PERM_USE_DRUG_TEST, ConfigStrings.PERM_USE_ANTITOXIN,
-                "BUG: tool permissions are identical — fix by adding unique suffixes (e.g. mytrip.use.drugtest)");
-        assertEquals(ConfigStrings.PERM_USE_ANTITOXIN, ConfigStrings.PERM_USE_DRUG_SET,
-                "BUG: tool permissions are identical — fix by adding unique suffixes (e.g. mytrip.use.drugset)");
-        assertEquals(ConfigStrings.PERM_USE_DRUG_SET, ConfigStrings.PERM_USE_,
-                "BUG: all tool permissions equal the base prefix PERM_USE_");
+    void toolPermissions_areDistinct() {
+        // Each tool should have a unique permission suffix
+        assertNotEquals(ConfigStrings.PERM_USE_DRUG_TEST, ConfigStrings.PERM_USE_ANTITOXIN,
+                "PERM_USE_DRUG_TEST and PERM_USE_ANTITOXIN should be distinct");
+        assertNotEquals(ConfigStrings.PERM_USE_ANTITOXIN, ConfigStrings.PERM_USE_DRUG_SET,
+                "PERM_USE_ANTITOXIN and PERM_USE_DRUG_SET should be distinct");
+        assertNotEquals(ConfigStrings.PERM_USE_DRUG_SET, ConfigStrings.PERM_USE_DRUG_TEST,
+                "PERM_USE_DRUG_SET and PERM_USE_DRUG_TEST should be distinct");
+        // All should start with the base prefix
+        assertTrue(ConfigStrings.PERM_USE_DRUG_TEST.startsWith(ConfigStrings.PERM_USE_));
+        assertTrue(ConfigStrings.PERM_USE_ANTITOXIN.startsWith(ConfigStrings.PERM_USE_));
+        assertTrue(ConfigStrings.PERM_USE_DRUG_SET.startsWith(ConfigStrings.PERM_USE_));
     }
 
     @Test
     void recoveredKey_isSpelledCorrectly() {
-        // BUG: RECOVERED = "recoverd" (missing 'e')
-        // Documents the current value. Consider fixing to 'recovered'.
-        assertEquals("recoverd", ConfigStrings.RECOVERED,
-                "Known typo: RECOVERED key is 'recoverd' — consider fixing to 'recovered'");
+        assertEquals("recovered", ConfigStrings.RECOVERED);
+        assertEquals("recovered_player", ConfigStrings.RECOVERED_PLAYER);
     }
 
     @Test

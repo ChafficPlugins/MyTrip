@@ -112,3 +112,6 @@ buildNumber.properties
 
 # Common working directory
 run/
+
+# Docker server plugins directory
+plugins/

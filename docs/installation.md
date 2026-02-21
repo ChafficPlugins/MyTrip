@@ -15,11 +15,11 @@ A video tutorial is available: [Watch on YouTube](https://youtu.be/aSUYqZ5cUVY)
 |---|---|
 | Java | 21+ |
 | Server | Spigot, Paper, or compatible Bukkit fork 1.21+ |
-| CrucialLib | v3.0.0+ ([download](https://github.com/ChafficPlugins/CrucialLib/releases)) |
+| CrucialLib | v3.0.1+ ([download](https://github.com/ChafficPlugins/CrucialLib/releases)) |
 
 ## Step-by-Step Setup
 
-1. **Install CrucialLib** — Download [CrucialLib v3.0.0+](https://github.com/ChafficPlugins/CrucialLib/releases) and place it in your server's `plugins/` folder. MyTrip requires this dependency to function.
+1. **Install CrucialLib** — Download [CrucialLib v3.0.1+](https://github.com/ChafficPlugins/CrucialLib/releases) and place it in your server's `plugins/` folder. MyTrip requires this dependency to function.
 
 2. **Install MyTrip** — Place the MyTrip `.jar` file into your server's `plugins/` folder.
 
@@ -47,13 +47,13 @@ A video tutorial is available: [Watch on YouTube](https://youtu.be/aSUYqZ5cUVY)
 4. Restart the server.
 5. Check the changelog for any configuration changes that may be required.
 
-> **Note:** When updating from versions that used CrucialAPI (pre-v0.8.0), you must replace CrucialAPI with [CrucialLib v3.0.0+](https://github.com/ChafficPlugins/CrucialLib/releases). Existing drug data, player data, and configs are compatible.
+> **Note:** When updating from versions that used CrucialAPI (pre-v0.8.0), you must replace CrucialAPI with [CrucialLib v3.0.1+](https://github.com/ChafficPlugins/CrucialLib/releases). Existing drug data, player data, and configs are compatible.
 
 ## Troubleshooting
 
 ### Plugin fails to enable
 
-- Check that CrucialLib v3.0.0+ is installed in `plugins/`
+- Check that CrucialLib v3.0.1+ is installed in `plugins/`
 - Ensure you are running Java 21 or higher (`java -version`)
 - Ensure your server is Spigot/Paper 1.21 or higher
 
@@ -63,7 +63,7 @@ Download CrucialLib from [GitHub](https://github.com/ChafficPlugins/CrucialLib/r
 
 ### "Wrong version of CrucialLib" error
 
-You have an outdated CrucialLib. Download v3.0.0 or higher.
+You have an outdated CrucialLib. Download v3.0.1 or higher.
 
 ### Drug Set automatically disabled
 

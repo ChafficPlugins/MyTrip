@@ -28,11 +28,11 @@ MyTrip is a Spigot plugin that adds craftable drugs to Minecraft. Players can co
 |---|---|
 | Java | 21+ |
 | Server | Spigot, Paper, or compatible Bukkit fork 1.21+ |
-| CrucialLib | v3.0.0+ — required dependency ([GitHub](https://github.com/ChafficPlugins/CrucialLib)) |
+| CrucialLib | v3.0.1+ — required dependency ([GitHub](https://github.com/ChafficPlugins/CrucialLib)) |
 
 ## Quick Start
 
-1. Download [CrucialLib v3.0.0+](https://github.com/ChafficPlugins/CrucialLib/releases) and place it in `plugins/`
+1. Download [CrucialLib v3.0.1+](https://github.com/ChafficPlugins/CrucialLib/releases) and place it in `plugins/`
 2. Download [MyTrip](https://github.com/ChafficPlugins/MyTrip/releases/latest) and place it in `plugins/`
 3. Restart the server
 4. Use `/mt create <name>` to create your first drug, or `/mt list` to see the defaults
