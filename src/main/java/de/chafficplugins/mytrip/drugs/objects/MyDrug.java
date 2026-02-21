@@ -122,7 +122,7 @@ public class MyDrug extends CrucialItem {
     }
 
     public void setOverdose(int overdose) {
-        if(overdose < 0 || overdose > 99) return;
+        if(overdose < 1 || overdose > 99) return;
         this.overdose = overdose;
     }
 
@@ -260,7 +260,10 @@ public class MyDrug extends CrucialItem {
     public static void loadAll() throws IOException, CrucialException {
         for (Object drug : plugin.fileManager.loadFromJson("drugs.json", new TypeToken<ArrayList<MyDrug>>(){}.getType())) {
             if (drug instanceof MyDrug) {
-                ((MyDrug) drug).unregister();
+                // namespacedKey is not persisted in JSON, so after deserialization
+                // isRegistered=true but namespacedKey=null — reset to avoid
+                // Bukkit.getRecipe(null) crash in unregister()
+                ((MyDrug) drug).isRegistered = false;
                 ((MyDrug) drug).register();
             }
         }

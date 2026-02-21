@@ -22,6 +22,10 @@ public class APICaller {
     public static void unregisterEvent(MyTripEvent event) {
         if(event instanceof DrugToolAPIEvents) {
             DRUG_TOOL_API_EVENTS.remove(event);
+        } else if(event instanceof DrugAPIEvents) {
+            DRUG_API_EVENTS.remove(event);
+        } else if(event instanceof DrugSetAPIEvents) {
+            DRUG_SET_API_EVENTS.remove(event);
         }
     }
 }

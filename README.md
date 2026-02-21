@@ -1,4 +1,4 @@
-[![User Wiki](https://img.shields.io/badge/Wiki-Users-blue)](https://github.com/ChafficPlugins/MyTrip/wiki) [![Download](https://img.shields.io/badge/Download-v0.7.0-red)](https://github.com/ChafficPlugins/MyTrip/releases/latest) [![Discord](https://img.shields.io/badge/Discord-Join-blue)](https://discord.gg/RYFamQzkcB)
+[![User Wiki](https://img.shields.io/badge/Wiki-Users-blue)](https://chafficplugins.github.io/docs/mytrip/) [![](https://jitpack.io/v/ChafficPlugins/MyTrip.svg)](https://jitpack.io/#ChafficPlugins/MyTrip) [![Discord](https://img.shields.io/badge/Discord-Join-blue)](https://discord.gg/RYFamQzkcB)
 
 # MyTrip
 

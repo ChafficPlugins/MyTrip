@@ -29,7 +29,7 @@ public class DrugPlayer {
             }
         }
         dose += (1d / (double) drug.getOverdose());
-        return dose >= 1;
+        return dose >= 1 - 1e-9;
     }
 
     public void addAddiction(MyDrug drug) {
@@ -94,7 +94,9 @@ public class DrugPlayer {
     }
 
     public static void addPlayer(DrugPlayer player) {
-        playerData.add(player);
+        if (getPlayer(player.getUuid()) == null) {
+            playerData.add(player);
+        }
     }
 
     public static void saveAll() throws IOException {

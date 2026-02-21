@@ -39,14 +39,17 @@ public class DrugTool extends CrucialItem {
     public static void loadAll() throws IOException, CrucialException {
         tools = plugin.fileManager.loadFromJson("tools.json", new TypeToken<ArrayList<DrugTool>>() {
         }.getType());
+        if (tools == null) {
+            throw new IOException("There were no drug tools recognized!");
+        }
         for (DrugTool item : tools) {
-            item.unregister();
+            // namespacedKey is not persisted in JSON, so after deserialization
+            // isRegistered=true but namespacedKey=null — reset to avoid
+            // Bukkit.getRecipe(null) crash in unregister()
+            item.isRegistered = false;
             if(plugin.getConfigBoolean(ConfigStrings.DISABLE_DRUG_SET) && item.getId().equals(ConfigStrings.DRUG_SET_UUID))
                 continue;
             item.register();
-        }
-        if (tools == null) {
-            throw new IOException("There were no drug tools recognized!");
         }
     }
 }

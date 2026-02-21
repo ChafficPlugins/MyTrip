@@ -101,16 +101,13 @@ class DrugPlayerTest extends MockBukkitTestBase {
     }
 
     @Test
-    void consume_overdoseZero_divisionByZero() {
-        // BUG: overdose=0 causes dose to become Infinity
+    void setOverdose_zero_isRejected() {
+        // overdose=0 is now rejected by the setter to prevent division by zero
         MyDrug zeroDrug = new MyDrug("ZeroDose", Material.REDSTONE);
+        int originalOverdose = zeroDrug.getOverdose();
         zeroDrug.setOverdose(0);
-        zeroDrug.setAddictionProbability(0);
-
-        boolean overdosed = drugPlayer.consume(zeroDrug);
-        assertTrue(overdosed, "BUG: overdose=0 produces Infinity, which >= 1 → immediate overdose");
-        assertTrue(Double.isInfinite(drugPlayer.getDose()),
-                "BUG: dose is Infinity after consuming with overdose=0");
+        assertEquals(originalOverdose, zeroDrug.getOverdose(),
+                "setOverdose(0) should be rejected to prevent division by zero");
     }
 
     // --- subDose ---
@@ -124,16 +121,14 @@ class DrugPlayerTest extends MockBukkitTestBase {
     }
 
     @Test
-    void subDose_afterOverdoseZero_producesNaN() {
-        // BUG: Infinity - Infinity = NaN
-        MyDrug zeroDrug = new MyDrug("ZeroDose2", Material.REDSTONE);
-        zeroDrug.setOverdose(0);
-        zeroDrug.setAddictionProbability(0);
-
-        drugPlayer.consume(zeroDrug);
-        drugPlayer.subDose(zeroDrug);
-        assertTrue(Double.isNaN(drugPlayer.getDose()),
-                "BUG: subDose after overdose=0 produces NaN (Infinity - Infinity)");
+    void subDose_normalDrug_reducesCorrectly() {
+        // With overdose=0 rejected, test normal subDose behavior
+        drugPlayer.consume(testDrug);
+        drugPlayer.consume(testDrug);
+        double doseAfterTwo = drugPlayer.getDose();
+        drugPlayer.subDose(testDrug);
+        assertEquals(doseAfterTwo - (1.0 / 3.0), drugPlayer.getDose(), 1e-10,
+                "subDose should reduce dose by 1/overdose");
     }
 
     // --- Static player data management ---
@@ -158,26 +153,21 @@ class DrugPlayerTest extends MockBukkitTestBase {
     }
 
     @Test
-    void addPlayer_duplicateUuid_addsBoth() {
-        // BUG: No deduplication — calling addPlayer twice for the same player adds duplicates
+    void addPlayer_duplicateUuid_preventsDouble() {
         DrugPlayer.addPlayer(drugPlayer);
         DrugPlayer.addPlayer(drugPlayer);
-        assertEquals(2, DrugPlayer.playerData.size(),
-                "addPlayer has no deduplication — same player added twice");
+        assertEquals(1, DrugPlayer.playerData.size(),
+                "addPlayer should prevent duplicate entries for the same UUID");
     }
 
     @Test
-    void getPlayer_withDuplicates_returnsFirst() {
-        DrugPlayer dp1 = new DrugPlayer(player);
-        DrugPlayer dp2 = new DrugPlayer(player);
-        dp1.setDose(0.5);
-        dp2.setDose(0.9);
-        DrugPlayer.addPlayer(dp1);
+    void addPlayer_differentUuids_addsBoth() {
+        PlayerMock player2 = server.addPlayer();
+        DrugPlayer dp2 = new DrugPlayer(player2);
+        DrugPlayer.addPlayer(drugPlayer);
         DrugPlayer.addPlayer(dp2);
-
-        DrugPlayer found = DrugPlayer.getPlayer(player.getUniqueId());
-        assertEquals(0.5, found.getDose(),
-                "getPlayer returns the first match when duplicates exist");
+        assertEquals(2, DrugPlayer.playerData.size(),
+                "addPlayer should allow different UUIDs");
     }
 
     // --- Addiction management ---

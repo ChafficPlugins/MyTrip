@@ -21,9 +21,9 @@ public class ConfigStrings {
     public final static String UNKNOWN_CMD = "unknown_cmd"; //Unknown command: {0}
     public final static String PLAYER_NOT_FOUND = "player_not_found"; //The player {0} was not found
     public final static String NO_PERMISSION = "no_permission"; //You don't have the permission to use this command.
-    public final static String RECOVERED = "recoverd"; //You have been recovered!
+    public final static String RECOVERED = "recovered"; //You have been recovered!
     public final static String PLAYER_DIDNT_CONSUME = "player_didnt_consume"; //The player {0} didn't consume any drug
-    public final static String RECOVERED_PLAYER = "recoverd_player"; //You have recovered {0}!
+    public final static String RECOVERED_PLAYER = "recovered_player"; //You have recovered {0}!
     public final static String DRUG_NOT_EXIST = "drug_not_exist"; //The drug {0} does not exist
     public final static String GIVEN_DRUG = "given_drug"; //You have been given {0}!
     public final static String GAVE_DRUG = "gave_drug"; //You gave {0} {1}!
@@ -48,9 +48,9 @@ public class ConfigStrings {
     //Permissions
     public final static String PERM_ADMIN = "mytrip.*";
     public final static String PERM_USE_ANY = "mytrip.use.*";
-    public final static String PERM_USE_DRUG_TEST = "mytrip.use.";
-    public final static String PERM_USE_ANTITOXIN = "mytrip.use.";
-    public final static String PERM_USE_DRUG_SET = "mytrip.use.";
+    public final static String PERM_USE_DRUG_TEST = "mytrip.use.drugtest";
+    public final static String PERM_USE_ANTITOXIN = "mytrip.use.antitoxin";
+    public final static String PERM_USE_DRUG_SET = "mytrip.use.drugset";
     public final static String PERM_USE_ = "mytrip.use.";
     public final static String PERM_CRAFT_ANY = "mytrip.craft.*";
     public final static String PERM_CRAFT_ = "mytrip.craft.";

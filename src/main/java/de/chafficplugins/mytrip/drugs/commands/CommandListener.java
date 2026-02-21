@@ -52,6 +52,8 @@ public class CommandListener implements CommandExecutor {
                 } else {
                     sender.sendMessage(PREFIX + getLocalized(UNKNOWN_CMD, args[0]));
                 }
+            } else {
+                sender.sendMessage(PREFIX + getLocalized(UNKNOWN_CMD, args[0]));
             }
         }
         return true;

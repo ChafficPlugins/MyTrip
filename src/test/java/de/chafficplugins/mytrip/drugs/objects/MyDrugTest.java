@@ -25,11 +25,11 @@ class MyDrugTest extends MockBukkitTestBase {
     // --- setOverdose boundary tests ---
 
     @Test
-    void setOverdose_zero_isAccepted() {
-        // BUG: overdose=0 is accepted but causes division by zero in DrugPlayer.consume()
-        drug.setOverdose(0);
-        assertEquals(0, drug.getOverdose(),
-                "BUG: overdose=0 passes validation but causes division by zero in consume()");
+    void setOverdose_zero_isRejected() {
+        drug.setOverdose(5); // set a known value first
+        drug.setOverdose(0); // should be rejected
+        assertEquals(5, drug.getOverdose(),
+                "overdose=0 should be rejected (< 1) to prevent division by zero in consume()");
     }
 
     @Test
